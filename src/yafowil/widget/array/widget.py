@@ -73,12 +73,18 @@ def array_wrapper_renderer(widget, data):
 
 
 def array_edit_renderer(widget, data):
-    if len(widget) == 1 and not widget.has_key('TEMPLATE'):
+    if len(widget) == 1 and not widget.has_key('TEMPLATE_CONTAINER'):
         raise Exception(u"Empty array widget defined")
     
-    if not widget.has_key('TEMPLATE'):
+    if not widget.has_key('TEMPLATE_CONTAINER'):
+        container = widget['container'] = factory(
+            'div',
+            props={
+                'structural': True,
+                'class': 'arraytemplate',
+            })
         template = widget.detach(widget.keys()[1])
-        widget['TEMPLATE'] = template
+        container['TEMPLATE'] = template
     
     # XXX: value extraction
     

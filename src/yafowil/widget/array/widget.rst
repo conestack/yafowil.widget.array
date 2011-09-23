@@ -35,9 +35,11 @@ Create empty Array widget::
           </thead>
           <tbody/>
         </table>
-        <div class="field" id="field-myform-myarray-TEMPLATE">
-          <label for="input-myform-myarray-TEMPLATE">My Field</label>
-          <input class="text" id="input-myform-myarray-TEMPLATE" name="myform.myarray.TEMPLATE" type="text" value=""/>
+        <div class="arraytemplate">
+          <div class="field" id="field-myform-myarray-TEMPLATE">
+            <label for="input-myform-myarray-TEMPLATE">My Field</label>
+            <input class="text" id="input-myform-myarray-TEMPLATE" name="myform.myarray.TEMPLATE" type="text" value=""/>
+          </div>
         </div>
       </div>
     </form>
