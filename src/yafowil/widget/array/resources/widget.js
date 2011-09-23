@@ -51,7 +51,6 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                 row += '</tr>';
                 row = $(row);
                 var template = yafowil.array.array_template(context);
-                // XXX: array index
                 $('.widget', row).append(template.children());
                 return row;
             },
@@ -60,28 +59,56 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                 return $(action).parent().parent().parent();
             },
             
-            base_name: function(context) {
-                return context.parents('.arraywidget').attr('id');
+            base_id: function(context) {
+                var id = context.parents('.array').attr('id');
+                return id.substring(6, id.length);
             },
             
             reset_indices: function(context) {
                 var index = 0;
-                var base_name = yafowil.array.base_name(context);
-                base_name = base_name.substring(11, base_name.length);
-                var base_id = base_name.replace(/\./g, '-');
+                var container = yafowil.array.array_container(context);
+                var base_id = yafowil.array.base_id(context);
                 $('tr', context).each(function() {
-                    row = $(this);
-                    key = $('td.key input', row);
-                    key_id = base_id + index + '-key';
-                    key_name = base_name + index + '.key';
-                    key.attr('id', key_id).attr('name', key_name);
-                    value = $('td.value input', row);
-                    value_id = base_id + index + '-value';
-                    value_name = base_name + index + '.value';
-                    value.attr('id', value_id).attr('name', value_name);
-                    index++;
+                    yafowil.array.set_row_index(base_id, this, index++);
                 });
                 yafowil.array.binder(context);
+            },
+            
+            set_row_index: function(base_id, row, index) {
+                var base_name = base_id.replace(/\-/g, '.');
+                var node, id, name, for_;
+                var set_index = yafowil.array.set_attr_index;
+                $('*', $(row)).each(function() {
+                    node = $(this);
+                    id = node.attr('id');
+                    for_ = node.attr('for');
+                    name = node.attr('name');
+                    if (id && id.indexOf(base_id) > -1) {
+                        set_index(node, 'id', base_id, id, index, '-');
+                    }
+                    if (for_ && for_.indexOf(base_id) > -1) {
+                        set_index(node, 'for', base_id, for_, index, '-');
+                    }
+                    if (name && name.indexOf(base_name) > -1) {
+                        set_index(node, 'name', base_name, name, index, '.');
+                    }
+                    
+                    if (node.hasClass('array')) {
+                        // XXX: continue, sub array, not mine.
+                    }
+                    
+                });
+            },
+            
+            set_attr_index: function(node, attr, base, value, index, delim) {
+                var idx_0 = value.indexOf(base) + base.length + 1;
+                var idx_1 = value.indexOf(delim, idx_0);
+                var pre = value.substring(0, idx_0);
+                var post = '';
+                if (idx_1 > -1) {
+                    var post = value.substring(idx_1, value.length);
+                }
+                node.attr(attr, pre + index + post);
             },
             
             mark_disabled: function(context) {
@@ -97,7 +124,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
             },
             
             binder: function(context) {
-                //yafowil.array.mark_disabled(context);
+                yafowil.array.mark_disabled(context);
                 $('a.array_row_add', context)
                     .unbind()
                     .bind('click', function(event) {
@@ -118,7 +145,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                             container = body;
                             container.prepend(new_row);
                         }
-                        //yafowil.array.reset_indices(container);
+                        yafowil.array.reset_indices(container);
                     });
                 
                 $('a.array_row_remove', context)
@@ -128,7 +155,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                         var row = yafowil.array.get_row(this);
                         var container = row.parent();
                         row.remove();
-                        //yafowil.array.reset_indices(container);
+                        yafowil.array.reset_indices(container);
                     });
                 
                 $('a.array_row_up', context)
@@ -137,7 +164,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                         event.preventDefault();
                         var row = yafowil.array.get_row(this);
                         row.insertBefore(row.prev());
-                        //yafowil.array.reset_indices(row.parent());
+                        yafowil.array.reset_indices(row.parent());
                     });
                 
                 $('a.array_row_down', context)
@@ -146,7 +173,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                         event.preventDefault();
                         var row = yafowil.array.get_row(this);
                         row.insertAfter(row.next());
-                        //yafowil.array.reset_indices(row.parent());
+                        yafowil.array.reset_indices(row.parent());
                     });
             }
         }

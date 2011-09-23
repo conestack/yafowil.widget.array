@@ -18,8 +18,6 @@ from yafowil.compound import (
 
 
 def actions_renderer(widget, data):
-    """XXX: duplicate of ``yafowil.widget.dict.widget.actions_renderer``.
-    """
     tag = data.tag
     actions = list()
     for key in ['add', 'remove', 'up', 'down']:
@@ -27,7 +25,6 @@ def actions_renderer(widget, data):
             class_ = 'array_row_%s' % key
             action = tag('a', '&#160;', href='#', class_=class_)
             actions.append(action)
-    # XXX: bypass for py24 (and py25?). py26 can deal with kw after *actions
     kw = dict(class_='array_actions')
     return tag('div', *actions, **kw)
 
