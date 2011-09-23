@@ -1,3 +1,12 @@
 *.pyc
 *.pyo
 src/yafowil.widget.array.egg-info/
+.project
+.pydevproject
+.installed.cfg
+.mr.developer.cfg
+bin/
+develop-eggs/
+devsrc/
+eggs/
+parts/
