@@ -22,16 +22,25 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
         
         array: {
             
-            create_row: function() {
+            array_container: function(context) {
+                return $(context).parents('.array');
+            },
+            
+            array_data: function(context) {
+                return yafowil.array.array_container(context).data('array');
+            },
+            
+            array_template: function(context) {
+                var array_container = yafowil.array.array_container(context);
+                return $('.arraytemplate', array_container).clone();
+            },
+            
+            create_row: function(context) {
                 var row = '';
                 row += '<tr>';
-                row +=   '<td class="key">';
-                row +=     '<input type="text" value="" />';
+                row +=   '<td class="widget">';
                 row +=   '</td>';
-                row +=   '<td class="value">';
-                row +=     '<input type="text" value="" />';
-                row +=   '</td>';
-                row +=   '<td>';
+                row +=   '<td class="actions">';
                 row +=     '<div class="array_actions">';
                 row +=       '<a class="array_row_add" href="#">&nbsp;</a>';
                 row +=       '<a class="array_row_remove" href="#">&nbsp</a>';
@@ -40,6 +49,10 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                 row +=     '</div>';
                 row +=   '</td>';
                 row += '</tr>';
+                row = $(row);
+                var template = yafowil.array.array_template(context);
+                // XXX: array index
+                $('.widget', row).append(template.children());
                 return row;
             },
             
@@ -84,13 +97,13 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
             },
             
             binder: function(context) {
-                yafowil.array.mark_disabled(context);
+                //yafowil.array.mark_disabled(context);
                 $('a.array_row_add', context)
                     .unbind()
                     .bind('click', function(event) {
                         event.preventDefault();
                         var row = yafowil.array.get_row(this);
-                        var new_row = yafowil.array.create_row();
+                        var new_row = yafowil.array.create_row(this);
                         var container = row.parent();
                         if (container.get(0).tagName.toLowerCase() == 'tbody') {
                             row.after(new_row);
@@ -105,7 +118,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                             container = body;
                             container.prepend(new_row);
                         }
-                        yafowil.array.reset_indices(container);
+                        //yafowil.array.reset_indices(container);
                     });
                 
                 $('a.array_row_remove', context)
@@ -115,7 +128,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                         var row = yafowil.array.get_row(this);
                         var container = row.parent();
                         row.remove();
-                        yafowil.array.reset_indices(container);
+                        //yafowil.array.reset_indices(container);
                     });
                 
                 $('a.array_row_up', context)
@@ -124,7 +137,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                         event.preventDefault();
                         var row = yafowil.array.get_row(this);
                         row.insertBefore(row.prev());
-                        yafowil.array.reset_indices(row.parent());
+                        //yafowil.array.reset_indices(row.parent());
                     });
                 
                 $('a.array_row_down', context)
@@ -133,7 +146,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                         event.preventDefault();
                         var row = yafowil.array.get_row(this);
                         row.insertAfter(row.next());
-                        yafowil.array.reset_indices(row.parent());
+                        //yafowil.array.reset_indices(row.parent());
                     });
             }
         }
