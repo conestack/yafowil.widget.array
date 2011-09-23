@@ -37,7 +37,7 @@ setup(name='yafowil.widget.array',
       extras_require = dict(
           test=tests_require,
       ),
-      test_suite="yafowil.widget.dict.tests.test_suite",
+      test_suite="yafowil.widget.array.tests.test_suite",
       entry_points="""
       # plone specific, ignore if not available
       [z3c.autoinclude.plugin]
