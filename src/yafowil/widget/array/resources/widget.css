@@ -1,8 +1,8 @@
 .arraywidget {
     border-collapse:collapse;
 }
-.arraywidget input {
-    width:150px;
+.arraytemplate {
+    display:none;
 }
 .arraywidget th {
     width:150px;

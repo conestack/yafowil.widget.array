@@ -24,11 +24,11 @@ def actions_renderer(widget, data):
     actions = list()
     for key in ['add', 'remove', 'up', 'down']:
         if widget.attrs.get(key):
-            class_ = 'dict_row_%s' % key
+            class_ = 'array_row_%s' % key
             action = tag('a', '&#160;', href='#', class_=class_)
             actions.append(action)
     # XXX: bypass for py24 (and py25?). py26 can deal with kw after *actions
-    kw = dict(class_='dict_actions')
+    kw = dict(class_='array_actions')
     return tag('div', *actions, **kw)
 
 
@@ -48,7 +48,7 @@ def array_builder(widget, factory):
         'th',
         props = {
             'structural': True,
-            'label': u'',
+            'label': u' ',
         }
     )
     if not widget.attrs['static']:
@@ -75,7 +75,6 @@ def array_wrapper_renderer(widget, data):
 def array_edit_renderer(widget, data):
     if len(widget) == 1 and not widget.has_key('TEMPLATE_CONTAINER'):
         raise Exception(u"Empty array widget defined")
-    
     if not widget.has_key('TEMPLATE_CONTAINER'):
         container = widget['container'] = factory(
             'div',
@@ -84,6 +83,9 @@ def array_edit_renderer(widget, data):
                 'class': 'arraytemplate',
             })
         template = widget.detach(widget.keys()[1])
+        if template.attrs.get('structural'):
+            raise Exception(u"Compound templates for arrays must not be "
+                            u"structural.")
         container['TEMPLATE'] = template
     
     # XXX: value extraction

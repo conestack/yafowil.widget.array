@@ -46,8 +46,19 @@ def app(environ, start_response):
     form = factory(
         u'form',
         name='example',
-        props={
-            'action': url})
+        props={'action': url})
+    form['myarray'] = factory('array')
+    form['myarray']['myfield'] = factory(
+        'field:label:text',
+        props={'label': 'My Field'})
+    form['mycompoundarray'] = factory('array')
+    form['mycompoundarray']['mycompound'] = factory('compound')
+    form['mycompoundarray']['mycompound']['f1'] = factory(
+        'field:label:text',
+        props={'label': 'F1'})
+    form['mycompoundarray']['mycompound']['f2'] = factory(
+        'field:label:text',
+        props={'label': 'F2'})
     form['submit'] = factory(
         'field:submit',
         props={        

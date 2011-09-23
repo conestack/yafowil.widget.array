@@ -10,22 +10,17 @@ Create empty Array widget::
     ...     'form',
     ...     name='myform',
     ...     props={'action': 'myaction'})
-    
-    >>> form['myarray'] = factory(
-    ...     'array',
-    ...     props={})
-    
+    >>> form['myarray'] = factory('array')
     >>> form['myarray']['myfield'] = factory(
     ...     'field:label:text',
     ...     props={'label': 'My Field'})
-    
     >>> pxml(form())
     <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array" id="array-myform-myarray">
         <table>
           <thead>
             <tr>
-              <th>None</th>
+              <th> </th>
               <th>
                 <div class="dict_actions">
                   <a class="dict_row_add" href="#">&#160;</a>
@@ -45,26 +40,65 @@ Create empty Array widget::
     </form>
     <BLANKLINE>
 
-###############################################################################
+Create empty Array widget with compound as template widget. If compound is
+used as array template, this must not be structural::
 
-Create empty Dict widget::
-    
-#    >>> form = factory('form',
-#    ...                name='myform',
-#    ...                props={'action': 'myaction'})
-#    >>> form['mydict'] = factory('dict',
-#    ...                          props={
-#    ...                              'head': {
-#    ...                                  'key': 'Key',
-#    ...                                  'value': 'Value',
-#    ...                              }
-#    ...                          })
-#    >>> form()
-    u'<form action="myaction" enctype="multipart/form-data" id="form-myform" 
-    method="post" novalidate="novalidate"><table class="dictwidget" 
-    id="dictwidget_myform.mydict.entry"><thead><tr><th>Key</th><th>Value</th><th><div 
-    class="dict_actions"><a class="dict_row_add" 
-    href="#">&#160;</a></div></th></tr></thead><tbody></tbody></table></form>'
+    >>> form = factory(
+    ...     'form',
+    ...     name='myform',
+    ...     props={'action': 'myaction'})
+    >>> form['myarray'] = factory('array')
+    >>> form['myarray']['mycompound'] = factory(
+    ...     'compound',
+    ...     props={'structural': True})
+    >>> pxml(form())
+    Traceback (most recent call last):
+      ...
+    Exception: Compound templates for arrays must not be structural.
+
+Now with valid conpound template::
+
+    >>> form = factory(
+    ...     'form',
+    ...     name='myform',
+    ...     props={'action': 'myaction'})
+    >>> form['myarray'] = factory('array')
+    >>> form['myarray']['mycompound'] = factory('compound')
+    >>> form['myarray']['mycompound']['f1'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'F1'})
+    >>> form['myarray']['mycompound']['f2'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'F2'})
+    >>> pxml(form())
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+      <div class="array" id="array-myform-myarray">
+        <table>
+          <thead>
+            <tr>
+              <th> </th>
+              <th>
+                <div class="dict_actions">
+                  <a class="dict_row_add" href="#">&#160;</a>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody/>
+        </table>
+        <div class="arraytemplate">
+          <div class="field" id="field-myform-myarray-TEMPLATE-f1">
+            <label for="input-myform-myarray-TEMPLATE-f1">F1</label>
+            <input class="text" id="input-myform-myarray-TEMPLATE-f1" name="myform.myarray.TEMPLATE.f1" type="text" value=""/>
+          </div>
+          <div class="field" id="field-myform-myarray-TEMPLATE-f2">
+            <label for="input-myform-myarray-TEMPLATE-f2">F2</label>
+            <input class="text" id="input-myform-myarray-TEMPLATE-f2" name="myform.myarray.TEMPLATE.f2" type="text" value=""/>
+          </div>
+        </div>
+      </div>
+    </form>
+    <BLANKLINE>
 
 Create dict widget with preset values::
 
