@@ -41,11 +41,11 @@ def array_builder(widget, factory):
     table = widget['table'] = factory('table', props={'structural': True})
     head = table['head'] = factory('thead', props={'structural': True})
     row = head['row'] = factory('tr', props={'structural': True})
-    row['_'] = factory(
+    row['label'] = factory(
         'th',
         props = {
             'structural': True,
-            'label': u' ',
+            'label': widget.attrs.get('label', u' '),
         }
     )
     if not widget.attrs['static']:
@@ -73,7 +73,7 @@ def array_edit_renderer(widget, data):
     if len(widget) == 1 and not widget.has_key('TEMPLATE_CONTAINER'):
         raise Exception(u"Empty array widget defined")
     if not widget.has_key('TEMPLATE_CONTAINER'):
-        container = widget['container'] = factory(
+        container = widget['TEMPLATE_CONTAINER'] = factory(
             'div',
             props={
                 'structural': True,

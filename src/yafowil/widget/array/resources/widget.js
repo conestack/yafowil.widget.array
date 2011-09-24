@@ -23,7 +23,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
         array: {
             
             array_container: function(context) {
-                return $(context).parents('.array');
+                return $(context).parents('.array').first();
             },
             
             array_data: function(context) {
@@ -32,7 +32,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
             
             array_template: function(context) {
                 var array_container = yafowil.array.array_container(context);
-                return $('.arraytemplate', array_container).clone();
+                return $('.arraytemplate', array_container).first().clone();
             },
             
             create_row: function(context) {
@@ -60,7 +60,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
             },
             
             base_id: function(context) {
-                var id = context.parents('.array').attr('id');
+                var id = context.parents('.array').first().attr('id');
                 return id.substring(6, id.length);
             },
             
@@ -68,6 +68,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                 var index = 0;
                 var container = yafowil.array.array_container(context);
                 var base_id = yafowil.array.base_id(context);
+                // XXX: only one level of tr's (array in array) 
                 $('tr', context).each(function() {
                     yafowil.array.set_row_index(base_id, this, index++);
                 });
@@ -75,28 +76,41 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
             },
             
             set_row_index: function(base_id, row, index) {
+                yafowil.array.recursiv_set_row_index(row, base_id, index);
+            },
+            
+            recursiv_set_row_index: function(node, base_id, index) {
                 var base_name = base_id.replace(/\-/g, '.');
-                var node, id, name, for_;
                 var set_index = yafowil.array.set_attr_index;
-                $('*', $(row)).each(function() {
-                    node = $(this);
-                    id = node.attr('id');
-                    for_ = node.attr('for');
-                    name = node.attr('name');
+                var child, id, name, for_;
+                $(node).children().each(function() {
+                    child = $(this);
+                    id = child.attr('id');
+                    for_ = child.attr('for');
+                    name = child.attr('name');
                     if (id && id.indexOf(base_id) > -1) {
-                        set_index(node, 'id', base_id, id, index, '-');
+                        set_index(child, 'id', base_id, id, index, '-');
                     }
                     if (for_ && for_.indexOf(base_id) > -1) {
-                        set_index(node, 'for', base_id, for_, index, '-');
+                        set_index(child, 'for', base_id, for_, index, '-');
                     }
                     if (name && name.indexOf(base_name) > -1) {
-                        set_index(node, 'name', base_name, name, index, '.');
+                        set_index(child, 'name', base_name, name, index, '.');
                     }
                     
-                    if (node.hasClass('array')) {
-                        // XXX: continue, sub array, not mine.
+                    // XXX: recursiv set array template index and array widget
+                    // index.
+                    if (child.hasClass('array')) {
+                        alert('array');
+                        return;
+                    }
+                    if (child.hasClass('arraytemplate')) {
+                        alert('array template');
+                        return;
                     }
                     
+                    yafowil.array.recursiv_set_row_index(
+                        child, base_id, index);
                 });
             },
             

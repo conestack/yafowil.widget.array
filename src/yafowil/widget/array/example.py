@@ -47,18 +47,34 @@ def app(environ, start_response):
         u'form',
         name='example',
         props={'action': url})
-    form['myarray'] = factory('array')
+    # array with leaf widgets
+    form['myarray'] = factory(
+        'array',
+        props={'label': 'My Array'})
     form['myarray']['myfield'] = factory(
         'field:label:text',
         props={'label': 'My Field'})
-    form['mycompoundarray'] = factory('array')
+    # array with compound widgets
+    form['mycompoundarray'] = factory(
+        'array',
+        props={'label': 'My Compound Array'})
     form['mycompoundarray']['mycompound'] = factory('compound')
     form['mycompoundarray']['mycompound']['f1'] = factory(
         'field:label:text',
-        props={'label': 'F1'})
+        props={'label': 'Field 1'})
     form['mycompoundarray']['mycompound']['f2'] = factory(
         'field:label:text',
-        props={'label': 'F2'})
+        props={'label': 'Field 2'})
+    # array with array widgets
+    form['myarrayarray'] = factory(
+        'array',
+        props={'label': 'My Array Array'})
+    form['myarrayarray']['myarray'] = factory(
+        'array',
+        props={'label': 'My Array'})
+    form['myarrayarray']['myarray']['myfield'] = factory(
+        'field:label:text',
+        props={'label': 'My Field'})
     form['submit'] = factory(
         'field:submit',
         props={        

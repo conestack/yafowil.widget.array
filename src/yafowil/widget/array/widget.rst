@@ -10,7 +10,9 @@ Create empty Array widget::
     ...     'form',
     ...     name='myform',
     ...     props={'action': 'myaction'})
-    >>> form['myarray'] = factory('array')
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     props={'label': 'My Array'})
     >>> form['myarray']['myfield'] = factory(
     ...     'field:label:text',
     ...     props={'label': 'My Field'})
@@ -20,10 +22,10 @@ Create empty Array widget::
         <table>
           <thead>
             <tr>
-              <th> </th>
+              <th>My Array</th>
               <th>
-                <div class="dict_actions">
-                  <a class="dict_row_add" href="#">&#160;</a>
+                <div class="array_actions">
+                  <a class="array_row_add" href="#">&#160;</a>
                 </div>
               </th>
             </tr>
@@ -47,7 +49,9 @@ used as array template, this must not be structural::
     ...     'form',
     ...     name='myform',
     ...     props={'action': 'myaction'})
-    >>> form['myarray'] = factory('array')
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     props={'label': 'My Compound Array'})
     >>> form['myarray']['mycompound'] = factory(
     ...     'compound',
     ...     props={'structural': True})
@@ -56,13 +60,15 @@ used as array template, this must not be structural::
       ...
     Exception: Compound templates for arrays must not be structural.
 
-Now with valid conpound template::
+Now with valid compound template::
 
     >>> form = factory(
     ...     'form',
     ...     name='myform',
     ...     props={'action': 'myaction'})
-    >>> form['myarray'] = factory('array')
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     props={'label': 'My Compound Array'})
     >>> form['myarray']['mycompound'] = factory('compound')
     >>> form['myarray']['mycompound']['f1'] = factory(
     ...     'field:label:text',
@@ -76,10 +82,10 @@ Now with valid conpound template::
         <table>
           <thead>
             <tr>
-              <th> </th>
+              <th>My Compound Array</th>
               <th>
-                <div class="dict_actions">
-                  <a class="dict_row_add" href="#">&#160;</a>
+                <div class="array_actions">
+                  <a class="array_row_add" href="#">&#160;</a>
                 </div>
               </th>
             </tr>
@@ -99,6 +105,65 @@ Now with valid conpound template::
       </div>
     </form>
     <BLANKLINE>
+
+Create empty Array widget with another array as template widget::
+
+    >>> form = factory(
+    ...     'form',
+    ...     name='myform',
+    ...     props={'action': 'myaction'})
+    >>> form['myarrayarray'] = factory(
+    ...     'array',
+    ...     props={'label': 'My Array Array'})
+    >>> form['myarrayarray']['myarray'] = factory(
+    ...     'array',
+    ...     props={'label': 'My Array'})
+    >>> form['myarrayarray']['myarray']['myfield'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'My Field'})
+    >>> pxml(form())
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+      <div class="array" id="array-myform-myarrayarray">
+        <table>
+          <thead>
+            <tr>
+              <th>My Array Array</th>
+              <th>
+                <div class="array_actions">
+                  <a class="array_row_add" href="#">&#160;</a>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody/>
+        </table>
+        <div class="arraytemplate">
+          <div class="array" id="array-myform-myarrayarray-TEMPLATE">
+            <table>
+              <thead>
+                <tr>
+                  <th>My Array</th>
+                  <th>
+                    <div class="array_actions">
+                      <a class="array_row_add" href="#">&#160;</a>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody/>
+            </table>
+            <div class="arraytemplate">
+              <div class="field" id="field-myform-myarrayarray-TEMPLATE-TEMPLATE">
+                <label for="input-myform-myarrayarray-TEMPLATE-TEMPLATE">My Field</label>
+                <input class="text" id="input-myform-myarrayarray-TEMPLATE-TEMPLATE" name="myform.myarrayarray.TEMPLATE.TEMPLATE" type="text" value=""/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <BLANKLINE>
+    
 
 Create dict widget with preset values::
 
