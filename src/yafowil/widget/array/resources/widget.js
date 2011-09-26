@@ -81,32 +81,26 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                 var child, id, name, for_;
                 $(node).children().each(function() {
                     child = $(this);
-                    id = child.attr('id');
-                    for_ = child.attr('for');
-                    name = child.attr('name');
-                    if (id && id.indexOf(base_id) > -1) {
-                        set_index(child, 'id', base_id, id, index, '-');
-                    }
-                    if (for_ && for_.indexOf(base_id) > -1) {
-                        set_index(child, 'for', base_id, for_, index, '-');
-                    }
-                    if (name && name.indexOf(base_name) > -1) {
-                        set_index(child, 'name', base_name, name, index, '.');
-                    }
+                    set_index(child, 'id', base_id, index, '-');
+                    set_index(child, 'for', base_id, index, '-');
+                    set_index(child, 'name', base_name, index, '.');
                     yafowil.array.recursiv_set_row_index(
                         child, base_id, index);
                 });
             },
             
-            set_attr_index: function(node, attr, base, value, index, delim) {
-                var idx_0 = value.indexOf(base) + base.length + 1;
-                var idx_1 = value.indexOf(delim, idx_0);
-                var pre = value.substring(0, idx_0);
-                var post = '';
-                if (idx_1 > -1) {
-                    var post = value.substring(idx_1, value.length);
+            set_attr_index: function(node, attr, base, index, delim) {
+                var value = node.attr(attr);
+                if (value && value.indexOf(base) > -1) {
+                    var idx_0 = value.indexOf(base) + base.length + 1;
+                    var idx_1 = value.indexOf(delim, idx_0);
+                    var pre = value.substring(0, idx_0);
+                    var post = '';
+                    if (idx_1 > -1) {
+                        var post = value.substring(idx_1, value.length);
+                    }
+                    node.attr(attr, pre + index + post);
                 }
-                node.attr(attr, pre + index + post);
             },
             
             mark_disabled: function(context) {
