@@ -22,13 +22,13 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
         
         array: {
             
-            array_container: function(context) {
+            container: function(context) {
                 return $(context).parents('.array').first();
             },
             
-            array_template: function(context) {
-                var array_container = yafowil.array.array_container(context);
-                var tmpl = array_container.children('.arraytemplate').clone();
+            template: function(context) {
+                var container = yafowil.array.container(context);
+                var tmpl = container.children('.arraytemplate').clone();
                 return tmpl;
             },
             
@@ -47,7 +47,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                 row +=   '</td>';
                 row += '</tr>';
                 row = $(row);
-                var template = yafowil.array.array_template(context);
+                var template = yafowil.array.template(context);
                 $('.widget', row).append(template.children());
                 return row;
             },
@@ -63,7 +63,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
             
             reset_indices: function(context) {
                 var index = 0;
-                var container = yafowil.array.array_container(context);
+                var container = yafowil.array.container(context);
                 var base_id = yafowil.array.base_id(context);
                 context.children().each(function() {
                     yafowil.array.set_row_index(this, base_id, index++);
