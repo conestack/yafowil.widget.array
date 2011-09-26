@@ -26,13 +26,10 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                 return $(context).parents('.array').first();
             },
             
-            array_data: function(context) {
-                return yafowil.array.array_container(context).data('array');
-            },
-            
             array_template: function(context) {
                 var array_container = yafowil.array.array_container(context);
-                return $('.arraytemplate', array_container).first().clone();
+                var tmpl = array_container.children('.arraytemplate').clone();
+                return tmpl;
             },
             
             create_row: function(context) {
@@ -68,8 +65,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                 var index = 0;
                 var container = yafowil.array.array_container(context);
                 var base_id = yafowil.array.base_id(context);
-                // XXX: only one level of tr's (array in array) 
-                $('tr', context).each(function() {
+                context.children().each(function() {
                     yafowil.array.set_row_index(base_id, this, index++);
                 });
                 yafowil.array.binder(context);
@@ -101,11 +97,11 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                     // XXX: recursiv set array template index and array widget
                     // index.
                     if (child.hasClass('array')) {
-                        alert('array');
+                        //alert('array');
                         return;
                     }
                     if (child.hasClass('arraytemplate')) {
-                        alert('array template');
+                        //alert('array template');
                         return;
                     }
                     
@@ -150,7 +146,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                             row.after(new_row);
                         } else {
                             var table = container.parent();
-                            var body = $('tbody', table);
+                            var body = $('tbody', table).first();
                             // jq 1.4.4 fails atm
                             //if (!body.length) {
                             //    body = $('<tbody />');
