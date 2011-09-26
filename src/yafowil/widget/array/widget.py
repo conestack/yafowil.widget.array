@@ -73,6 +73,7 @@ def array_wrapper_renderer(widget, data):
 CONTAINER = 'TEMPLATE_CONTAINER'
 TEMPLATE = 'TEMPLATE'
 
+
 def array_edit_renderer(widget, data):
     if len(widget) == 1 and not widget.has_key(CONTAINER):
         raise Exception(u"Empty array widget defined")
@@ -112,19 +113,18 @@ def create_array_children(widget, template, value):
 
 
 def create_array_entry(name, widget, template, value):
-    if 'array' in template.blueprints:
-        # XXX: recursiv array resolution
-        return
-    child_widget = factory(
+    tbody = widget['table']['body']
+    row = tbody['row_%s' % name] = factory('tr', props={'structural': True})
+    child_widget = row[name] = factory(
         template.blueprints,
         value=value,
         props=template.properties,
         custom=template.custom,
         mode=template.mode,
     )
-    tbody = widget['table']['body']
-    row = tbody['row_%s' % name] = factory('tr', props={'structural': True})
-    row[name] = child_widget
+    if 'array' in template.blueprints:
+        template = widget[CONTAINER][TEMPLATE]
+        create_array_children(child_widget, template, value[name])
 
 #    static = widget.attrs['static']
 #    table = widget['table']

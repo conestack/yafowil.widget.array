@@ -301,6 +301,30 @@ Valid dict value::
     </form>
     <BLANKLINE>
 
+Create array widget with compound entries, default values set::
+
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     value=[
+    ...         {
+    ...             'f1': 'Value 1.1 F1',
+    ...             'f2': 'Value 1.2 F2',
+    ...         },
+    ...         {
+    ...             'f1': 'Value 2.1 F1',
+    ...             'f2': 'Value 2.2 F2',
+    ...         }
+    ...     ],
+    ...     props={'label': 'My Compound Array'})
+    >>> form['myarray']['mycompound'] = factory('compound')
+    >>> form['myarray']['mycompound']['f1'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'F1'})
+    >>> form['myarray']['mycompound']['f2'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'F2'})
+    >>> pxml(form())
+
 Create dict widget with preset values::
 
 #    >>> from odict import odict
