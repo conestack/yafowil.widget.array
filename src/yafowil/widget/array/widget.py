@@ -1,4 +1,3 @@
-#from odict import odict
 import types
 from yafowil.base import (
     UNSET,
@@ -95,7 +94,7 @@ def array_edit_renderer(widget, data):
 
 
 def create_array_children(widget, template, value):
-    if isinstance(type, dict):
+    if isinstance(value, dict):
         try:
             indices = [int(_) for _ in value.keys()]
         except ValueError, e:
@@ -114,13 +113,19 @@ def create_array_children(widget, template, value):
 
 def create_array_entry(name, widget, template, value):
     kw = extract_template_defs(template)
-    
-    import pdb;pdb.set_trace()
-    
-    #def __init__(self, extractors, edit_renderers, display_renderers, 
-    #             preprocessors, uniquename=None, value_or_getter=UNSET, 
-    #             properties=dict(), defaults=dict(), mode='edit'
-    #             )
+    for renderer in kw['edit_renderers']:
+        if renderer is array_edit_renderer:
+            # XXX: recursiv array resolution
+            return
+    kw['value_or_getter'] = value
+    child_widget = Widget(**kw)
+    #for part_name, builder_func in builders:
+    #    widget.current_prefix = part_name
+    #    builder_func(widget, self)
+    #    widget.current_prefix = None
+    tbody = widget['table']['body']
+    row = tbody['row_%s' % name] = factory('tr', props={'structural': True})
+    row[name] = child_widget
 
 
 def extract_template_defs(template):
@@ -129,7 +134,6 @@ def extract_template_defs(template):
         'edit_renderers': template.edit_renderers,
         'display_renderers': template.display_renderers,
         'preprocessors': template.preprocessors,
-        'value_or_getter': template.getter,
         'properties': template._properties,
         'defaults': template.defaults,
         'mode': template.mode,

@@ -170,7 +170,9 @@ Create Array widget with invalid preset value::
       ...
     ValueError: Expected list or dict as value. Got '<type 'object'>'
 
-Create Array widget with preset values::
+Create Array widget with preset values.
+
+Value as list::
     
     >>> form['myarray'] = factory(
     ...     'array',
@@ -180,7 +182,69 @@ Create Array widget with preset values::
     ...     'field:label:text',
     ...     props={'label': 'My Field'})
     >>> pxml(form())
-    
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+      <div class="array" id="array-myform-myarray">
+        <table>
+          <thead>
+            <tr>
+              <th>My Array</th>
+              <th>
+                <div class="array_actions">
+                  <a class="array_row_add" href="#">&#160;</a>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <div class="field" id="field-myform-myarray-0">
+                <label for="input-myform-myarray-0">My Field</label>
+                <input class="text" id="input-myform-myarray-0" name="myform.myarray.0" type="text" value="1"/>
+              </div>
+            </tr>
+            <tr>
+              <div class="field" id="field-myform-myarray-1">
+                <label for="input-myform-myarray-1">My Field</label>
+                <input class="text" id="input-myform-myarray-1" name="myform.myarray.1" type="text" value="2"/>
+              </div>
+            </tr>
+            <tr>
+              <div class="field" id="field-myform-myarray-2">
+                <label for="input-myform-myarray-2">My Field</label>
+                <input class="text" id="input-myform-myarray-2" name="myform.myarray.2" type="text" value="3"/>
+              </div>
+            </tr>
+          </tbody>
+        </table>
+        <div class="arraytemplate">
+          <div class="field" id="field-myform-myarray-TEMPLATE">
+            <label for="input-myform-myarray-TEMPLATE">My Field</label>
+            <input class="text" id="input-myform-myarray-TEMPLATE" name="myform.myarray.TEMPLATE" type="text" value=""/>
+          </div>
+        </div>
+      </div>
+    </form>
+    <BLANKLINE>
+
+Value as dict, must contain indices as keys::
+
+    >>> from odict import odict
+    >>> value = odict()
+    >>> value['a'] = '1'
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     value=value,
+    ...     props={'label': 'My Array'})
+    >>> form['myarray']['myfield'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'My Field'})
+    >>> pxml(form())
+    Traceback (most recent call last):
+      ...
+    Exception: Array value error. invalid literal for int() with base 10: 'a'
+
+Valid dict value::
+
     >>> value = odict()
     >>> value['1'] = '1'
     >>> value['2'] = '2'
@@ -193,6 +257,49 @@ Create Array widget with preset values::
     ...     'field:label:text',
     ...     props={'label': 'My Field'})
     >>> pxml(form())
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+      <div class="array" id="array-myform-myarray">
+        <table>
+          <thead>
+            <tr>
+              <th>My Array</th>
+              <th>
+                <div class="array_actions">
+                  <a class="array_row_add" href="#">&#160;</a>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <div class="field" id="field-myform-myarray-1">
+                <label for="input-myform-myarray-1">My Field</label>
+                <input class="text" id="input-myform-myarray-1" name="myform.myarray.1" type="text" value="1"/>
+              </div>
+            </tr>
+            <tr>
+              <div class="field" id="field-myform-myarray-2">
+                <label for="input-myform-myarray-2">My Field</label>
+                <input class="text" id="input-myform-myarray-2" name="myform.myarray.2" type="text" value="2"/>
+              </div>
+            </tr>
+            <tr>
+              <div class="field" id="field-myform-myarray-3">
+                <label for="input-myform-myarray-3">My Field</label>
+                <input class="text" id="input-myform-myarray-3" name="myform.myarray.3" type="text" value="3"/>
+              </div>
+            </tr>
+          </tbody>
+        </table>
+        <div class="arraytemplate">
+          <div class="field" id="field-myform-myarray-TEMPLATE">
+            <label for="input-myform-myarray-TEMPLATE">My Field</label>
+            <input class="text" id="input-myform-myarray-TEMPLATE" name="myform.myarray.TEMPLATE" type="text" value=""/>
+          </div>
+        </div>
+      </div>
+    </form>
+    <BLANKLINE>
 
 Create dict widget with preset values::
 
