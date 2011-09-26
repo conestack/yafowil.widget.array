@@ -93,18 +93,6 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                     if (name && name.indexOf(base_name) > -1) {
                         set_index(child, 'name', base_name, name, index, '.');
                     }
-                    
-                    // XXX: recursiv set array template index and array widget
-                    // index.
-                    if (child.hasClass('array')) {
-                        //alert('array');
-                        return;
-                    }
-                    if (child.hasClass('arraytemplate')) {
-                        //alert('array template');
-                        return;
-                    }
-                    
                     yafowil.array.recursiv_set_row_index(
                         child, base_id, index);
                 });
@@ -147,11 +135,6 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                         } else {
                             var table = container.parent();
                             var body = $('tbody', table).first();
-                            // jq 1.4.4 fails atm
-                            //if (!body.length) {
-                            //    body = $('<tbody />');
-                            //    table.append(body);
-                            //}
                             container = body;
                             container.prepend(new_row);
                         }
