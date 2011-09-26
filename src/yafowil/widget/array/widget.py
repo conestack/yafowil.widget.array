@@ -112,34 +112,19 @@ def create_array_children(widget, template, value):
 
 
 def create_array_entry(name, widget, template, value):
-    kw = extract_template_defs(template)
-    for renderer in kw['edit_renderers']:
-        if renderer is array_edit_renderer:
-            # XXX: recursiv array resolution
-            return
-    kw['value_or_getter'] = value
-    child_widget = Widget(**kw)
-    #for part_name, builder_func in builders:
-    #    widget.current_prefix = part_name
-    #    builder_func(widget, self)
-    #    widget.current_prefix = None
+    if 'array' in template.blueprints:
+        # XXX: recursiv array resolution
+        return
+    child_widget = factory(
+        template.blueprints,
+        value=value,
+        props=template.properties,
+        custom=template.custom,
+        mode=template.mode,
+    )
     tbody = widget['table']['body']
     row = tbody['row_%s' % name] = factory('tr', props={'structural': True})
     row[name] = child_widget
-
-
-def extract_template_defs(template):
-    return {
-        'extractors': template.extractors,
-        'edit_renderers': template.edit_renderers,
-        'display_renderers': template.display_renderers,
-        'preprocessors': template.preprocessors,
-        'properties': template._properties,
-        'defaults': template.defaults,
-        'mode': template.mode,
-    }
-
-    #import pdb;pdb.set_trace()
 
 #    static = widget.attrs['static']
 #    table = widget['table']
