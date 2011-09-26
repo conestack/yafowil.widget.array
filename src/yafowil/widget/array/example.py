@@ -43,38 +43,38 @@ def app(environ, start_response):
     elif environ['PATH_INFO'] != '/':
         response = Response(status=404)
         return response(environ, start_response)
-    form = factory(
-        u'form',
-        name='example',
-        props={'action': url})
+    
+    # create form
+    form = factory(u'form', name='example', props={'action': url})
+    
     # array with leaf widgets
-    form['myarray'] = factory(
-        'array',
-        props={'label': 'My Array'})
-    form['myarray']['myfield'] = factory(
-        'field:label:text',
-        props={'label': 'My Field'})
+    arr = form['myarray'] = factory('array', props={'label': 'My Array'})
+    arr['myfield'] = factory('field:label:text', props={'label': 'My Field'})
+    
     # array with compound widgets
-    form['mycompoundarray'] = factory(
-        'array',
-        props={'label': 'My Compound Array'})
-    form['mycompoundarray']['mycompound'] = factory('compound')
-    form['mycompoundarray']['mycompound']['f1'] = factory(
-        'field:label:text',
-        props={'label': 'Field 1'})
-    form['mycompoundarray']['mycompound']['f2'] = factory(
-        'field:label:text',
-        props={'label': 'Field 2'})
+    cparr = form['mycompoundarray'] = factory(
+        'array', props={'label': 'My Compound Array'})
+    comp = cparr['mycompound'] = factory('compound')
+    comp['f1'] = factory('field:label:text', props={'label': 'Field 1'})
+    comp['f2'] = factory('field:label:text', props={'label': 'Field 2'})
+    
     # array with array widgets
-    form['myarrayarray'] = factory(
-        'array',
-        props={'label': 'My Array Array'})
-    form['myarrayarray']['myarray'] = factory(
-        'array',
-        props={'label': 'My Array'})
-    form['myarrayarray']['myarray']['myfield'] = factory(
-        'field:label:text',
-        props={'label': 'My Field'})
+    arrarr = form['myarrayarray'] = factory(
+        'array', props={'label': 'My Array Array'})
+    arr = arrarr['myarray'] = factory('array', props={'label': 'My Array'})
+    arr['myfield'] = factory('field:label:text', props={'label': 'My Field'})
+    
+    # 3-dimensional array
+    _3darr = form['my3dimensional'] = factory(
+        'array', props={'label': 'My 3 Dimensional Array'})
+    arrarr = _3darr['myarrayarray'] = factory(
+        'array', props={'label': 'My Array Array'})
+    arr = arrarr['myarray'] = factory('array', props={'label': 'My Array'})
+    comp = arr['mycompound'] = factory('compound')
+    comp['f1'] = factory('field:label:text', props={'label': 'Field 1'})
+    comp['f2'] = factory('field:label:text', props={'label': 'Field 2'})
+    
+    # submit action
     form['submit'] = factory(
         'field:submit',
         props={        
@@ -82,6 +82,7 @@ def app(environ, start_response):
             'action': 'save',
             'handler': lambda widget, data: None,
             'next': lambda request: url})
+    
     controller = Controller(form, Request(environ))
     tag = controller.data.tag
     jq = tag('script', ' ',
