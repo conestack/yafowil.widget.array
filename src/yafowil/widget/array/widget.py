@@ -1,9 +1,11 @@
 #from odict import odict
+import types
 from yafowil.base import (
     UNSET,
     factory,
     ExtractionError,
-    fetch_value
+    fetch_value,
+    Widget,
 )
 from yafowil.utils import (
     cssid,
@@ -69,24 +71,70 @@ def array_wrapper_renderer(widget, data):
     return data.tag('div', rendered, **kw)
 
 
+CONTAINER = 'TEMPLATE_CONTAINER'
+TEMPLATE = 'TEMPLATE'
+
 def array_edit_renderer(widget, data):
-    if len(widget) == 1 and not widget.has_key('TEMPLATE_CONTAINER'):
+    if len(widget) == 1 and not widget.has_key(CONTAINER):
         raise Exception(u"Empty array widget defined")
-    if not widget.has_key('TEMPLATE_CONTAINER'):
-        container = widget['TEMPLATE_CONTAINER'] = factory(
-            'div',
-            props={
-                'structural': True,
-                'class': 'arraytemplate',
-            })
+    if not widget.has_key(CONTAINER):
+        props = dict()
+        props['structural'] = True
+        props['class'] = 'arraytemplate'
+        container = widget[CONTAINER] = factory('div', props=props)
         template = widget.detach(widget.keys()[1])
         if template.attrs.get('structural'):
             raise Exception(u"Compound templates for arrays must not be "
                             u"structural.")
-        container['TEMPLATE'] = template
+        container[TEMPLATE] = template
+    value = data.value
+    if not value:
+        return
+    template = widget[CONTAINER][TEMPLATE]
+    create_array_children(widget, template, value)
+
+
+def create_array_children(widget, template, value):
+    if isinstance(type, dict):
+        try:
+            indices = [int(_) for _ in value.keys()]
+        except ValueError, e:
+            raise Exception(u"Array value error. %s" % str(e))
+        indices = sorted(indices)
+        for i in indices:
+            create_array_entry(str(i), widget, template, value[str(i)])
+    elif type(value) in [types.ListType, types.TupleType]:
+        indices = range(len(value))
+        for i in indices:
+            create_array_entry(str(i), widget, template, value[i])
+    else:
+        raise ValueError(u"Expected list or dict as value. Got '%s'" % \
+                         str(type(value)))
+
+
+def create_array_entry(name, widget, template, value):
+    kw = extract_template_defs(template)
     
-    # XXX: value extraction
+    import pdb;pdb.set_trace()
     
+    #def __init__(self, extractors, edit_renderers, display_renderers, 
+    #             preprocessors, uniquename=None, value_or_getter=UNSET, 
+    #             properties=dict(), defaults=dict(), mode='edit'
+    #             )
+
+
+def extract_template_defs(template):
+    return {
+        'extractors': template.extractors,
+        'edit_renderers': template.edit_renderers,
+        'display_renderers': template.display_renderers,
+        'preprocessors': template.preprocessors,
+        'value_or_getter': template.getter,
+        'properties': template._properties,
+        'defaults': template.defaults,
+        'mode': template.mode,
+    }
+
     #import pdb;pdb.set_trace()
 
 #    static = widget.attrs['static']

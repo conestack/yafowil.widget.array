@@ -45,10 +45,6 @@ Create empty Array widget::
 Create empty Array widget with compound as template widget. If compound is
 used as array template, this must not be structural::
 
-    >>> form = factory(
-    ...     'form',
-    ...     name='myform',
-    ...     props={'action': 'myaction'})
     >>> form['myarray'] = factory(
     ...     'array',
     ...     props={'label': 'My Compound Array'})
@@ -62,10 +58,6 @@ used as array template, this must not be structural::
 
 Now with valid compound template::
 
-    >>> form = factory(
-    ...     'form',
-    ...     name='myform',
-    ...     props={'action': 'myaction'})
     >>> form['myarray'] = factory(
     ...     'array',
     ...     props={'label': 'My Compound Array'})
@@ -105,13 +97,11 @@ Now with valid compound template::
       </div>
     </form>
     <BLANKLINE>
+    
+    >>> del form['myarray']
 
 Create empty Array widget with another array as template widget::
 
-    >>> form = factory(
-    ...     'form',
-    ...     name='myform',
-    ...     props={'action': 'myaction'})
     >>> form['myarrayarray'] = factory(
     ...     'array',
     ...     props={'label': 'My Array Array'})
@@ -164,6 +154,45 @@ Create empty Array widget with another array as template widget::
     </form>
     <BLANKLINE>
     
+    >>> del form['myarrayarray']
+
+Create Array widget with invalid preset value::
+
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     value=object(),
+    ...     props={'label': 'My Array'})
+    >>> form['myarray']['myfield'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'My Field'})
+    >>> pxml(form())
+    Traceback (most recent call last):
+      ...
+    ValueError: Expected list or dict as value. Got '<type 'object'>'
+
+Create Array widget with preset values::
+    
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     value=['1', '2', '3'],
+    ...     props={'label': 'My Array'})
+    >>> form['myarray']['myfield'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'My Field'})
+    >>> pxml(form())
+    
+    >>> value = odict()
+    >>> value['1'] = '1'
+    >>> value['2'] = '2'
+    >>> value['3'] = '3'
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     value=value,
+    ...     props={'label': 'My Array'})
+    >>> form['myarray']['myfield'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'My Field'})
+    >>> pxml(form())
 
 Create dict widget with preset values::
 
