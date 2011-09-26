@@ -66,16 +66,12 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                 var container = yafowil.array.array_container(context);
                 var base_id = yafowil.array.base_id(context);
                 context.children().each(function() {
-                    yafowil.array.set_row_index(base_id, this, index++);
+                    yafowil.array.set_row_index(this, base_id, index++);
                 });
                 yafowil.array.binder(context);
             },
             
-            set_row_index: function(base_id, row, index) {
-                yafowil.array.recursiv_set_row_index(row, base_id, index);
-            },
-            
-            recursiv_set_row_index: function(node, base_id, index) {
+            set_row_index: function(node, base_id, index) {
                 var base_name = base_id.replace(/\-/g, '.');
                 var set_index = yafowil.array.set_attr_index;
                 var child, id, name, for_;
@@ -84,8 +80,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                     set_index(child, 'id', base_id, index, '-');
                     set_index(child, 'for', base_id, index, '-');
                     set_index(child, 'name', base_name, index, '.');
-                    yafowil.array.recursiv_set_row_index(
-                        child, base_id, index);
+                    yafowil.array.set_row_index(child, base_id, index);
                 });
             },
             
