@@ -117,8 +117,11 @@ def create_array_entry(idx, widget, template, value):
     child_widget = row[idx] = duplicate_widget(template, value)
     if 'array' in template.blueprints:
         orgin = template[template.keys()[-1]]
-        template = duplicate_widget(orgin)
+        template = duplicate_recursiv(orgin)
         hook_array_template(child_widget, template)
+        if len(template):
+            template = child_widget[CONTAINER][TEMPLATE]
+            create_array_entry_children(child_widget, template)
         return
     create_array_entry_children(child_widget, template)
 
@@ -148,6 +151,13 @@ def duplicate_widget(widget, value=UNSET):
         props=widget.properties,
         custom=widget.custom,
         mode=widget.mode)
+
+
+def duplicate_recursiv(widget):
+    node = duplicate_widget(widget)
+    for k, v in widget.items():
+        node[k] = duplicate_widget(v)
+    return node
 
 #    static = widget.attrs['static']
 #    table = widget['table']
