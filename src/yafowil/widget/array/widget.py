@@ -90,6 +90,11 @@ def array_edit_renderer(widget, data):
     value = data.value
     if not value:
         return
+    # reset array value since compound renderer fails if found on compound
+    # widget and value on child widget is already set (which happens in
+    # ``create_array_entry``).
+    widget.getter = UNSET
+    data.value = UNSET
     template = widget[CONTAINER][TEMPLATE]
     create_array_children(widget, template, value)
 
@@ -122,9 +127,25 @@ def create_array_entry(name, widget, template, value):
         custom=template.custom,
         mode=template.mode,
     )
+    for child_template_name, child_template in template.items():
+        create_array_entry_children(
+            child_template_name, child_widget, child_template)
     if 'array' in template.blueprints:
         template = widget[CONTAINER][TEMPLATE]
         create_array_children(child_widget, template, value[name])
+
+
+def create_array_entry_children(name, widget, template):
+    widget[name] = factory(
+        template.blueprints,
+        props=template.properties,
+        custom=template.custom,
+        mode=template.mode,
+    )
+    for child_template_name, child_template in template.items():
+        create_array_entry_children(
+            child_template_name, child_widget, child_template)
+
 
 #    static = widget.attrs['static']
 #    table = widget['table']
@@ -253,8 +274,9 @@ def array_display_renderer(widget, data):
 factory.register(
     'array',
     extractors=[compound_extractor],
-    edit_renderers=[array_edit_renderer, compound_renderer, array_wrapper_renderer],
-    display_renderers=[array_display_renderer],
+    edit_renderers=[
+        array_edit_renderer, compound_renderer, array_wrapper_renderer],
+    display_renderers=[array_display_renderer, compound_renderer],
     builders=[array_builder])
 
 factory.doc['blueprint']['array'] = \

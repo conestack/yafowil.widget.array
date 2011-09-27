@@ -324,6 +324,55 @@ Create array widget with compound entries, default values set::
     ...     'field:label:text',
     ...     props={'label': 'F2'})
     >>> pxml(form())
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+      <div class="array" id="array-myform-myarray">
+        <table>
+          <thead>
+            <tr>
+              <th>My Compound Array</th>
+              <th>
+                <div class="array_actions">
+                  <a class="array_row_add" href="#">&#160;</a>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <div class="field" id="field-myform-myarray-0-f1">
+                <label for="input-myform-myarray-0-f1">F1</label>
+                <input class="text" id="input-myform-myarray-0-f1" name="myform.myarray.0.f1" type="text" value="Value 1.1 F1"/>
+              </div>
+              <div class="field" id="field-myform-myarray-0-f2">
+                <label for="input-myform-myarray-0-f2">F2</label>
+                <input class="text" id="input-myform-myarray-0-f2" name="myform.myarray.0.f2" type="text" value="Value 1.2 F2"/>
+              </div>
+            </tr>
+            <tr>
+              <div class="field" id="field-myform-myarray-1-f1">
+                <label for="input-myform-myarray-1-f1">F1</label>
+                <input class="text" id="input-myform-myarray-1-f1" name="myform.myarray.1.f1" type="text" value="Value 2.1 F1"/>
+              </div>
+              <div class="field" id="field-myform-myarray-1-f2">
+                <label for="input-myform-myarray-1-f2">F2</label>
+                <input class="text" id="input-myform-myarray-1-f2" name="myform.myarray.1.f2" type="text" value="Value 2.2 F2"/>
+              </div>
+            </tr>
+          </tbody>
+        </table>
+        <div class="arraytemplate">
+          <div class="field" id="field-myform-myarray-TEMPLATE-f1">
+            <label for="input-myform-myarray-TEMPLATE-f1">F1</label>
+            <input class="text" id="input-myform-myarray-TEMPLATE-f1" name="myform.myarray.TEMPLATE.f1" type="text" value=""/>
+          </div>
+          <div class="field" id="field-myform-myarray-TEMPLATE-f2">
+            <label for="input-myform-myarray-TEMPLATE-f2">F2</label>
+            <input class="text" id="input-myform-myarray-TEMPLATE-f2" name="myform.myarray.TEMPLATE.f2" type="text" value=""/>
+          </div>
+        </div>
+      </div>
+    </form>
+    <BLANKLINE>
 
 Create dict widget with preset values::
 
