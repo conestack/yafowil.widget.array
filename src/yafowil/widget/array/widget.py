@@ -164,18 +164,27 @@ def array_extractor(widget, data):
     template = widget[widget.keys()[-1]]
     helper = duplicate_recursiv(template)
     request = data.request
+    # XXX: if widget.attrs['format'] == 'dict'
     ret = list()
     index = 0
     while True:
         helper.__parent__ = widget
         helper.__name__ = str(index)
-        entry_data = helper.extract(request)
-        if entry_data.extracted is UNSET:
+        if not check_base_name_in_request(helper, request):
             break
+        entry_data = helper.extract(request)
         ret.append(entry_data.extracted)
         data[str(index)] = entry_data
         index += 1
     return ret
+
+
+def check_base_name_in_request(widget, request):
+    basename = widget.dottedpath
+    for key in request.keys():
+        if key.startswith(basename):
+            return True
+    return False
 
 
 def array_display_renderer(widget, data):

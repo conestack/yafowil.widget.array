@@ -752,7 +752,7 @@ Create array widget with array with compound, default values mixed::
     >>> rendered == form()
     True
 
-Base Extraction::
+Array with single fields Extraction::
 
     >>> form['myarray'] = factory(
     ...     'array',
@@ -774,14 +774,91 @@ Base Extraction::
         <RuntimeData myform.myarray.1, value=<UNSET>, extracted='2' at ...>
         <RuntimeData myform.myarray.2, value=<UNSET>, extracted='3' at ...>
         <RuntimeData myform.myarray.3, value=<UNSET>, extracted='4' at ...>
+    
+    >>> data.extracted
+    odict([('myarray', ['1', '2', '3', '4'])])
+    
+    >>> data['myarray'].extracted
+    ['1', '2', '3', '4']
+    
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     value=['4', '3', '2', '1'],
+    ...     props={'label': 'My Array'})
+    >>> form['myarray']['myfield'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'My Field'})
+    >>> data = form.extract(request=request)
+    >>> data.printtree()
+    <RuntimeData myform, value=<UNSET>, extracted=odict([('myarray', ['1', '2', '3', '4'])]) at ...>
+      <RuntimeData myform.myarray, value=['4', '3', '2', '1'], extracted=['1', '2', '3', '4'] at ...>
+        <RuntimeData myform.myarray.0, value=<UNSET>, extracted='1' at ...>
+        <RuntimeData myform.myarray.1, value=<UNSET>, extracted='2' at ...>
+        <RuntimeData myform.myarray.2, value=<UNSET>, extracted='3' at ...>
+        <RuntimeData myform.myarray.3, value=<UNSET>, extracted='4' at ...>
 
 Entries increased in UI::
 
-    >>> 
+    >>> request = {
+    ...     'myform.myarray.0': '1',
+    ...     'myform.myarray.1': '2',
+    ...     'myform.myarray.2': '3',
+    ...     'myform.myarray.3': '4',
+    ...     'myform.myarray.4': '5',
+    ... }
+    >>> data = form.extract(request=request)
+    >>> data.printtree()
+    <RuntimeData myform, value=<UNSET>, extracted=odict([('myarray', ['1', '2', '3', '4', '5'])]) at ...>
+      <RuntimeData myform.myarray, value=['4', '3', '2', '1'], extracted=['1', '2', '3', '4', '5'] at ...>
+        <RuntimeData myform.myarray.0, value=<UNSET>, extracted='1' at ...>
+        <RuntimeData myform.myarray.1, value=<UNSET>, extracted='2' at ...>
+        <RuntimeData myform.myarray.2, value=<UNSET>, extracted='3' at ...>
+        <RuntimeData myform.myarray.3, value=<UNSET>, extracted='4' at ...>
+        <RuntimeData myform.myarray.4, value=<UNSET>, extracted='5' at ...>
 
 Entries decreased in UI::
 
-    >>> 
+    >>> request = {
+    ...     'myform.myarray.0': '1',
+    ...     'myform.myarray.1': '2',
+    ...     'myform.myarray.2': '3',
+    ... }
+    >>> data = form.extract(request=request)
+    >>> data.printtree()
+    <RuntimeData myform, value=<UNSET>, extracted=odict([('myarray', ['1', '2', '3'])]) at ...>
+      <RuntimeData myform.myarray, value=['4', '3', '2', '1'], extracted=['1', '2', '3'] at ...>
+        <RuntimeData myform.myarray.0, value=<UNSET>, extracted='1' at ...>
+        <RuntimeData myform.myarray.1, value=<UNSET>, extracted='2' at ...>
+        <RuntimeData myform.myarray.2, value=<UNSET>, extracted='3' at ...>
+
+Array with compound fields Extraction::
+
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     props={'label': 'My Compound Array'})
+    >>> form['myarray']['mycompound'] = factory('compound')
+    >>> form['myarray']['mycompound']['f1'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'F1'})
+    >>> form['myarray']['mycompound']['f2'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'F2'})
+    >>> request = {
+    ...     'myform.myarray.0.f1': '1',
+    ...     'myform.myarray.0.f2': '2',
+    ...     'myform.myarray.1.f1': '3',
+    ...     'myform.myarray.1.f2': '4',
+    ... }
+    >>> data = form.extract(request=request)
+    >>> data.printtree()
+    <RuntimeData myform, value=<UNSET>, extracted=odict([('myarray', [odict([('f1', '1'), ('f2', '2')]), odict([('f1', '3'), ('f2', '4')])])]) at ...>
+      <RuntimeData myform.myarray, value=<UNSET>, extracted=[odict([('f1', '1'), ('f2', '2')]), odict([('f1', '3'), ('f2', '4')])] at ...>
+        <RuntimeData myform.myarray.0, value=<UNSET>, extracted=odict([('f1', '1'), ('f2', '2')]) at ...>
+          <RuntimeData myform.myarray.0.f1, value=<UNSET>, extracted='1' at ...>
+          <RuntimeData myform.myarray.0.f2, value=<UNSET>, extracted='2' at ...>
+        <RuntimeData myform.myarray.1, value=<UNSET>, extracted=odict([('f1', '3'), ('f2', '4')]) at ...>
+          <RuntimeData myform.myarray.1.f1, value=<UNSET>, extracted='3' at ...>
+          <RuntimeData myform.myarray.1.f2, value=<UNSET>, extracted='4' at ...>
 
 Check required::
 
