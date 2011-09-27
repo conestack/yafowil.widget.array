@@ -374,7 +374,7 @@ Create array widget with compounds, default values set::
     </form>
     <BLANKLINE>
 
-Create array widget with array, default values set::
+Create array widget with array, default values set as list::
 
     >>> form['myarray'] = factory(
     ...     'array',
@@ -389,7 +389,8 @@ Create array widget with array, default values set::
     >>> form['myarray']['subarray']['myfield'] = factory(
     ...     'field:label:text',
     ...     props={'label': 'My Field'})
-    >>> pxml(form())
+    >>> rendered = form()
+    >>> pxml(rendered)
     <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array" id="array-myform-myarray">
         <table>
@@ -504,6 +505,59 @@ Create array widget with array, default values set::
       </div>
     </form>
     <BLANKLINE>
+
+
+Create array widget with array, default values set as dict::
+
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     value={
+    ...         '0': {'0': '1', '1': '2'},
+    ...         '1': {'0': '4', '1': '5'},
+    ...     },
+    ...     props={'label': 'My Array Array'})
+    >>> form['myarray']['subarray'] = factory(
+    ...     'array',
+    ...     props={'label': 'Subrray'})
+    >>> form['myarray']['subarray']['myfield'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'My Field'})
+    >>> form() == rendered
+    True
+
+Create array widget with array, default values mixed::
+
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     value={
+    ...         '0': ['1', '2'],
+    ...         '1': ['4', '5'],
+    ...     },
+    ...     props={'label': 'My Array Array'})
+    >>> form['myarray']['subarray'] = factory(
+    ...     'array',
+    ...     props={'label': 'Subrray'})
+    >>> form['myarray']['subarray']['myfield'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'My Field'})
+    >>> form() == rendered
+    True
+    
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     value=[
+    ...         {'0': '1', '1': '2'},
+    ...         {'0': '4', '1': '5'},
+    ...     ],
+    ...     props={'label': 'My Array Array'})
+    >>> form['myarray']['subarray'] = factory(
+    ...     'array',
+    ...     props={'label': 'Subrray'})
+    >>> form['myarray']['subarray']['myfield'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'My Field'})
+    >>> form() == rendered
+    True
 
 
 Create dict widget with preset values::
