@@ -1,4 +1,5 @@
 import types
+import copy
 from yafowil.base import (
     UNSET,
     factory,
@@ -78,15 +79,8 @@ def array_edit_renderer(widget, data):
     if len(widget) == 1 and not widget.has_key(CONTAINER):
         raise Exception(u"Empty array widget defined")
     if not widget.has_key(CONTAINER):
-        props = dict()
-        props['structural'] = True
-        props['class'] = 'arraytemplate'
-        container = widget[CONTAINER] = factory('div', props=props)
         template = widget.detach(widget.keys()[1])
-        if template.attrs.get('structural'):
-            raise Exception(u"Compound templates for arrays must not be "
-                            u"structural.")
-        container[TEMPLATE] = template
+        hook_array_template(widget, template)
     value = data.value
     if not value:
         return
@@ -117,35 +111,43 @@ def create_array_children(widget, template, value):
                          str(type(value)))
 
 
-def create_array_entry(name, widget, template, value):
+def create_array_entry(idx, widget, template, value):
     tbody = widget['table']['body']
-    row = tbody['row_%s' % name] = factory('tr', props={'structural': True})
-    child_widget = row[name] = factory(
-        template.blueprints,
-        value=value,
-        props=template.properties,
-        custom=template.custom,
-        mode=template.mode,
-    )
-    for child_template_name, child_template in template.items():
-        create_array_entry_children(
-            child_template_name, child_widget, child_template)
+    row = tbody['row_%s' % idx] = factory('tr', props={'structural': True})
+    child_widget = row[idx] = duplicate_widget(template, value)
     if 'array' in template.blueprints:
-        template = widget[CONTAINER][TEMPLATE]
-        create_array_children(child_widget, template, value[name])
+        orgin = template[template.keys()[-1]]
+        template = duplicate_widget(orgin)
+        hook_array_template(child_widget, template)
+        return
+    create_array_entry_children(child_widget, template)
 
 
-def create_array_entry_children(name, widget, template):
-    widget[name] = factory(
-        template.blueprints,
-        props=template.properties,
-        custom=template.custom,
-        mode=template.mode,
-    )
-    for child_template_name, child_template in template.items():
-        create_array_entry_children(
-            child_template_name, child_widget, child_template)
+def create_array_entry_children(widget, template):
+    for name, child_template in template.items():
+        child_widget = widget[name] = duplicate_widget(child_template)
+        for sub_name, sub_template in child_template.items():
+            create_array_entry_children(child_widget, sub_template)
 
+
+def hook_array_template(widget, template):
+    props = dict()
+    props['structural'] = True
+    props['class'] = 'arraytemplate'
+    container = widget[CONTAINER] = factory('div', props=props)
+    if template.attrs.get('structural'):
+        raise Exception(u"Compound templates for arrays must not be "
+                        u"structural.")
+    container[TEMPLATE] = template
+
+
+def duplicate_widget(widget, value=UNSET):
+    return factory(
+        widget.blueprints,
+        value=value,
+        props=widget.properties,
+        custom=widget.custom,
+        mode=widget.mode)
 
 #    static = widget.attrs['static']
 #    table = widget['table']

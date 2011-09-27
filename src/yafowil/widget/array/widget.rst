@@ -301,7 +301,7 @@ Valid dict value::
     </form>
     <BLANKLINE>
 
-Create array widget with compound entries, default values set::
+Create array widget with compounds, default values set::
 
     >>> form['myarray'] = factory(
     ...     'array',
@@ -373,6 +373,138 @@ Create array widget with compound entries, default values set::
       </div>
     </form>
     <BLANKLINE>
+
+Create array widget with array, default values set::
+
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     value=[
+    ...         ['1', '2'],
+    ...         ['4', '5'],
+    ...     ],
+    ...     props={'label': 'My Array Array'})
+    >>> form['myarray']['subarray'] = factory(
+    ...     'array',
+    ...     props={'label': 'Subrray'})
+    >>> form['myarray']['subarray']['myfield'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'My Field'})
+    >>> pxml(form())
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+      <div class="array" id="array-myform-myarray">
+        <table>
+          <thead>
+            <tr>
+              <th>My Array Array</th>
+              <th>
+                <div class="array_actions">
+                  <a class="array_row_add" href="#">&#160;</a>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <div class="array" id="array-myform-myarray-0">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Subrray</th>
+                      <th>
+                        <div class="array_actions">
+                          <a class="array_row_add" href="#">&#160;</a>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <div class="field" id="field-myform-myarray-0-0">
+                        <label for="input-myform-myarray-0-0">My Field</label>
+                        <input class="text" id="input-myform-myarray-0-0" name="myform.myarray.0.0" type="text" value="1"/>
+                      </div>
+                    </tr>
+                    <tr>
+                      <div class="field" id="field-myform-myarray-0-1">
+                        <label for="input-myform-myarray-0-1">My Field</label>
+                        <input class="text" id="input-myform-myarray-0-1" name="myform.myarray.0.1" type="text" value="2"/>
+                      </div>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="arraytemplate">
+                  <div class="field" id="field-myform-myarray-0-TEMPLATE">
+                    <label for="input-myform-myarray-0-TEMPLATE">My Field</label>
+                    <input class="text" id="input-myform-myarray-0-TEMPLATE" name="myform.myarray.0.TEMPLATE" type="text" value=""/>
+                  </div>
+                </div>
+              </div>
+            </tr>
+            <tr>
+              <div class="array" id="array-myform-myarray-1">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Subrray</th>
+                      <th>
+                        <div class="array_actions">
+                          <a class="array_row_add" href="#">&#160;</a>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <div class="field" id="field-myform-myarray-1-0">
+                        <label for="input-myform-myarray-1-0">My Field</label>
+                        <input class="text" id="input-myform-myarray-1-0" name="myform.myarray.1.0" type="text" value="4"/>
+                      </div>
+                    </tr>
+                    <tr>
+                      <div class="field" id="field-myform-myarray-1-1">
+                        <label for="input-myform-myarray-1-1">My Field</label>
+                        <input class="text" id="input-myform-myarray-1-1" name="myform.myarray.1.1" type="text" value="5"/>
+                      </div>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="arraytemplate">
+                  <div class="field" id="field-myform-myarray-1-TEMPLATE">
+                    <label for="input-myform-myarray-1-TEMPLATE">My Field</label>
+                    <input class="text" id="input-myform-myarray-1-TEMPLATE" name="myform.myarray.1.TEMPLATE" type="text" value=""/>
+                  </div>
+                </div>
+              </div>
+            </tr>
+          </tbody>
+        </table>
+        <div class="arraytemplate">
+          <div class="array" id="array-myform-myarray-TEMPLATE">
+            <table>
+              <thead>
+                <tr>
+                  <th>Subrray</th>
+                  <th>
+                    <div class="array_actions">
+                      <a class="array_row_add" href="#">&#160;</a>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody/>
+            </table>
+            <div class="arraytemplate">
+              <div class="field" id="field-myform-myarray-TEMPLATE-TEMPLATE">
+                <label for="input-myform-myarray-TEMPLATE-TEMPLATE">My Field</label>
+                <input class="text" id="input-myform-myarray-TEMPLATE-TEMPLATE" name="myform.myarray.TEMPLATE.TEMPLATE" type="text" value=""/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <BLANKLINE>
+
 
 Create dict widget with preset values::
 
