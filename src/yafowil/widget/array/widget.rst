@@ -754,7 +754,26 @@ Create array widget with array with compound, default values mixed::
 
 Base Extraction::
 
-    >>> 
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     props={'label': 'My Array'})
+    >>> form['myarray']['myfield'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'My Field'})
+    >>> request = {
+    ...     'myform.myarray.0': '1',
+    ...     'myform.myarray.1': '2',
+    ...     'myform.myarray.2': '3',
+    ...     'myform.myarray.3': '4',
+    ... }
+    >>> data = form.extract(request=request)
+    >>> data.printtree()
+    <RuntimeData myform, value=<UNSET>, extracted=odict([('myarray', ['1', '2', '3', '4'])]) at ...>
+      <RuntimeData myform.myarray, value=<UNSET>, extracted=['1', '2', '3', '4'] at ...>
+        <RuntimeData myform.myarray.0, value=<UNSET>, extracted='1' at ...>
+        <RuntimeData myform.myarray.1, value=<UNSET>, extracted='2' at ...>
+        <RuntimeData myform.myarray.2, value=<UNSET>, extracted='3' at ...>
+        <RuntimeData myform.myarray.3, value=<UNSET>, extracted='4' at ...>
 
 Entries increased in UI::
 

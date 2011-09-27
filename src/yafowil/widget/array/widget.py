@@ -160,21 +160,22 @@ def duplicate_recursiv(widget):
     return node
 
 
-#def extract_dynamic(data, basename):
-#    request = data.request
-#    ret = odict()
-#    index = 0
-#    while True:
-#        keyname = '%s%i.key' % (basename, index)
-#        valuename = '%s%i.value' % (basename, index)
-#        if request.has_key(keyname):
-#            key = request[keyname].strip()
-#            if key:
-#                ret[key] = request[valuename]
-#            index += 1
-#            continue
-#        break
-#    return ret
+def array_extractor(widget, data):
+    template = widget[widget.keys()[-1]]
+    helper = duplicate_recursiv(template)
+    request = data.request
+    ret = list()
+    index = 0
+    while True:
+        helper.__parent__ = widget
+        helper.__name__ = str(index)
+        entry_data = helper.extract(request)
+        if entry_data.extracted is UNSET:
+            break
+        ret.append(entry_data.extracted)
+        data[str(index)] = entry_data
+        index += 1
+    return ret
 
 
 def array_display_renderer(widget, data):
@@ -183,7 +184,8 @@ def array_display_renderer(widget, data):
 
 factory.register(
     'array',
-    extractors=[compound_extractor],
+    #extractors=[array_extractor, compound_extractor],
+    extractors=[array_extractor],
     edit_renderers=[
         array_edit_renderer, compound_renderer, array_wrapper_renderer],
     display_renderers=[array_display_renderer, compound_renderer],
