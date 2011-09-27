@@ -167,6 +167,8 @@ def array_extractor(widget, data):
     # XXX: if widget.attrs['format'] == 'dict'
     ret = list()
     index = 0
+    #import pdb;pdb.set_trace()
+    # XXX: array in array with compounds -> template invalid
     while True:
         helper.__parent__ = widget
         helper.__name__ = str(index)

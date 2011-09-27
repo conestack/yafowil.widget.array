@@ -752,7 +752,7 @@ Create array widget with array with compound, default values mixed::
     >>> rendered == form()
     True
 
-Array with single fields Extraction::
+Array with single fields extraction::
 
     >>> form['myarray'] = factory(
     ...     'array',
@@ -831,7 +831,7 @@ Entries decreased in UI::
         <RuntimeData myform.myarray.1, value=<UNSET>, extracted='2' at ...>
         <RuntimeData myform.myarray.2, value=<UNSET>, extracted='3' at ...>
 
-Array with compound fields Extraction::
+Array with compound fields extraction::
 
     >>> form['myarray'] = factory(
     ...     'array',
@@ -860,7 +860,64 @@ Array with compound fields Extraction::
           <RuntimeData myform.myarray.1.f1, value=<UNSET>, extracted='3' at ...>
           <RuntimeData myform.myarray.1.f2, value=<UNSET>, extracted='4' at ...>
 
-Check required::
+Array in array with single fields extraction::
 
-    >>>
- 
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     value=[
+    ...         ['1', '2'],
+    ...         ['4', '5'],
+    ...     ],
+    ...     props={'label': 'My Array Array'})
+    >>> form['myarray']['subarray'] = factory(
+    ...     'array',
+    ...     props={'label': 'Subrray'})
+    >>> form['myarray']['subarray']['myfield'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'My Field'})
+    >>> request = {
+    ...     'myform.myarray.0.0': '1',
+    ...     'myform.myarray.0.1': '2',
+    ...     'myform.myarray.1.0': '3',
+    ...     'myform.myarray.1.1': '4',
+    ... }
+    >>> data = form.extract(request=request)
+    >>> data.printtree()
+    <RuntimeData myform, value=<UNSET>, extracted=odict([('myarray', [['1', '2'], ['3', '4']])]) at ...>
+      <RuntimeData myform.myarray, value=[['1', '2'], ['4', '5']], extracted=[['1', '2'], ['3', '4']] at ...>
+        <RuntimeData myform.myarray.0, value=<UNSET>, extracted=['1', '2'] at ...>
+          <RuntimeData myform.myarray.0.0, value=<UNSET>, extracted='1' at ...>
+          <RuntimeData myform.myarray.0.1, value=<UNSET>, extracted='2' at ...>
+        <RuntimeData myform.myarray.1, value=<UNSET>, extracted=['3', '4'] at ...>
+          <RuntimeData myform.myarray.1.0, value=<UNSET>, extracted='3' at ...>
+          <RuntimeData myform.myarray.1.1, value=<UNSET>, extracted='4' at ...>
+
+Array in array with compound fields extraction::
+
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     props={'label': 'My Compound Array'})
+    >>> form['myarray']['subarray'] = factory(
+    ...     'array',
+    ...     props={'label': 'Subarray'})
+    >>> form['myarray']['subarray']['mycompound'] = factory('compound')
+    >>> form['myarray']['subarray']['mycompound']['f1'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'F1'})
+    >>> form['myarray']['subarray']['mycompound']['f2'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'F2'})
+    
+    >> form.printtree()
+    
+    >>> request = {
+    ...     'myform.myarray.0.0.f1': '1',
+    ...     'myform.myarray.0.0.f2': '2',
+    ...     'myform.myarray.1.0.f1': '3',
+    ...     'myform.myarray.1.0.f2': '4',
+    ...     'myform.myarray.1.1.f1': '5',
+    ...     'myform.myarray.1.1.f2': '6',
+    ... }
+    >>> data = form.extract(request=request)
+    
+    >> data.printtree()
