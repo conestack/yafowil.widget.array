@@ -323,7 +323,8 @@ Create array widget with compounds, default values set::
     >>> form['myarray']['mycompound']['f2'] = factory(
     ...     'field:label:text',
     ...     props={'label': 'F2'})
-    >>> pxml(form())
+    >>> rendered = form()
+    >>> pxml(rendered)
     <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array" id="array-myform-myarray">
         <table>
@@ -559,7 +560,7 @@ Create array widget with array, default values mixed::
     >>> form() == rendered
     True
 
-Create array widget with array with compound, default values set::
+Create array widget with array with compound, default values as list::
 
     >>> form['myarray'] = factory(
     ...     'array',
@@ -586,7 +587,8 @@ Create array widget with array with compound, default values set::
     >>> form['myarray']['subarray']['mycompound']['f2'] = factory(
     ...     'field:label:text',
     ...     props={'label': 'F2'})
-    >>> pxml(form())
+    >>> rendered = form()
+    >>> pxml(rendered)
     <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array" id="array-myform-myarray">
         <table>
@@ -689,6 +691,66 @@ Create array widget with array with compound, default values set::
       </div>
     </form>
     <BLANKLINE>
+
+Create array widget with array with compound, default values as dict::
+
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     value={
+    ...         '0': {
+    ...             '0': {
+    ...                 'f1': 'Value 0.0 F1',
+    ...                 'f2': 'Value 0.0 F2',
+    ...             },
+    ...             '1': {
+    ...                 'f1': 'Value 0.1 F1',
+    ...                 'f2': 'Value 0.1 F2',
+    ...             },
+    ...         },
+    ...     },
+    ...     props={'label': 'My Compound Array'})
+    >>> form['myarray']['subarray'] = factory(
+    ...     'array',
+    ...     props={'label': 'Subarray'})
+    >>> form['myarray']['subarray']['mycompound'] = factory('compound')
+    >>> form['myarray']['subarray']['mycompound']['f1'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'F1'})
+    >>> form['myarray']['subarray']['mycompound']['f2'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'F2'})
+    >>> rendered == form()
+    True
+
+Create array widget with array with compound, default values mixed::
+
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     value=[
+    ...         {
+    ...             '0': {
+    ...                 'f1': 'Value 0.0 F1',
+    ...                 'f2': 'Value 0.0 F2',
+    ...             },
+    ...             '1': {
+    ...                 'f1': 'Value 0.1 F1',
+    ...                 'f2': 'Value 0.1 F2',
+    ...             },
+    ...         },
+    ...     ],
+    ...     props={'label': 'My Compound Array'})
+    >>> form['myarray']['subarray'] = factory(
+    ...     'array',
+    ...     props={'label': 'Subarray'})
+    >>> form['myarray']['subarray']['mycompound'] = factory('compound')
+    >>> form['myarray']['subarray']['mycompound']['f1'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'F1'})
+    >>> form['myarray']['subarray']['mycompound']['f2'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'F2'})
+    >>> rendered == form()
+    True
 
 
 Create dict widget with preset values::
