@@ -122,6 +122,13 @@ def create_array_entry(idx, widget, template, value):
         if len(template):
             template = child_widget[CONTAINER][TEMPLATE]
             create_array_entry_children(child_widget, template)
+        # If array in array with compound. For some reason (propably
+        # compound_renderer), the compound template children get hooked to
+        # array widget. Remove them.
+        # XXX: figure out in more detail what happens.
+        for key in child_widget.keys():
+            if not key in ['table', CONTAINER]:
+                del child_widget[key]
         return
     create_array_entry_children(child_widget, template)
 

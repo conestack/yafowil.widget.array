@@ -117,6 +117,16 @@ def app(environ, start_response):
                     'f2': 'Value 0.1 F2',
                 },
             ],
+            [
+                {
+                    'f1': 'Value 1.0 F1',
+                    'f2': 'Value 1.0 F2',
+                },
+                {
+                    'f1': 'Value 1.1 F1',
+                    'f2': 'Value 1.1 F2',
+                },
+            ],
         ],
         props={'label': 'My Compound Array'})
     subarr = arr['subarray'] = factory(
