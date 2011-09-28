@@ -156,7 +156,7 @@ def duplicate_widget(widget, value=UNSET):
 def duplicate_recursiv(widget):
     node = duplicate_widget(widget)
     for k, v in widget.items():
-        node[k] = duplicate_widget(v)
+        node[k] = duplicate_recursiv(v)
     return node
 
 
@@ -164,11 +164,8 @@ def array_extractor(widget, data):
     template = widget[widget.keys()[-1]]
     helper = duplicate_recursiv(template)
     request = data.request
-    # XXX: if widget.attrs['format'] == 'dict'
     ret = list()
     index = 0
-    #import pdb;pdb.set_trace()
-    # XXX: array in array with compounds -> template invalid
     while True:
         helper.__parent__ = widget
         helper.__name__ = str(index)

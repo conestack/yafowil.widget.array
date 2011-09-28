@@ -907,9 +907,6 @@ Array in array with compound fields extraction::
     >>> form['myarray']['subarray']['mycompound']['f2'] = factory(
     ...     'field:label:text',
     ...     props={'label': 'F2'})
-    
-    >> form.printtree()
-    
     >>> request = {
     ...     'myform.myarray.0.0.f1': '1',
     ...     'myform.myarray.0.0.f2': '2',
@@ -919,5 +916,17 @@ Array in array with compound fields extraction::
     ...     'myform.myarray.1.1.f2': '6',
     ... }
     >>> data = form.extract(request=request)
-    
-    >> data.printtree()
+    >>> data.printtree()
+    <RuntimeData myform, value=<UNSET>, extracted=odict([('myarray', [[odict([('f1', '1'), ('f2', '2')])], [odict([('f1', '3'), ('f2', '4')]), odict([('f1', '5'), ('f2', '6')])]])]) at ...>
+      <RuntimeData myform.myarray, value=<UNSET>, extracted=[[odict([('f1', '1'), ('f2', '2')])], [odict([('f1', '3'), ('f2', '4')]), odict([('f1', '5'), ('f2', '6')])]] at ...>
+        <RuntimeData myform.myarray.0, value=<UNSET>, extracted=[odict([('f1', '1'), ('f2', '2')])] at ...>
+          <RuntimeData myform.myarray.0.0, value=<UNSET>, extracted=odict([('f1', '1'), ('f2', '2')]) at ...>
+            <RuntimeData myform.myarray.0.0.f1, value=<UNSET>, extracted='1' at ...>
+            <RuntimeData myform.myarray.0.0.f2, value=<UNSET>, extracted='2' at ...>
+        <RuntimeData myform.myarray.1, value=<UNSET>, extracted=[odict([('f1', '3'), ('f2', '4')]), odict([('f1', '5'), ('f2', '6')])] at ...>
+          <RuntimeData myform.myarray.1.0, value=<UNSET>, extracted=odict([('f1', '3'), ('f2', '4')]) at ...>
+            <RuntimeData myform.myarray.1.0.f1, value=<UNSET>, extracted='3' at ...>
+            <RuntimeData myform.myarray.1.0.f2, value=<UNSET>, extracted='4' at ...>
+          <RuntimeData myform.myarray.1.1, value=<UNSET>, extracted=odict([('f1', '5'), ('f2', '6')]) at ...>
+            <RuntimeData myform.myarray.1.1.f1, value=<UNSET>, extracted='5' at ...>
+            <RuntimeData myform.myarray.1.1.f2, value=<UNSET>, extracted='6' at ...>
