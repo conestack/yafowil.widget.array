@@ -1,5 +1,7 @@
-.arraytemplate {
-    display:none;
+/* example related */
+body {
+    font-family:Verdana;
+    font-size:12px;
 }
 .array table {
     border-collapse:collapse;
@@ -17,6 +19,16 @@
 }
 .array table td.actions {
     vertical-align:top;
+}
+.errormessage {
+	color:red;
+	font-size:11px;
+	padding-bottom:2px;
+}
+
+/* general */
+.arraytemplate {
+    display:none;
 }
 .array_actions a {
     line-height:16px;

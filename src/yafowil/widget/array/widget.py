@@ -37,19 +37,15 @@ def array_builder(widget, factory):
     table = widget['table'] = factory('table', props={'structural': True})
     head = table['head'] = factory('thead', props={'structural': True})
     row = head['row'] = factory('tr', props={'structural': True})
-    row['label'] = factory(
-        'th',
-        props = {
-            'structural': True,
-            'label': widget.attrs.get('label', u' '),
-        })
+    props = dict()
+    props['structural'] = True
+    props['label'] = widget.attrs.get('label', u' ')
+    row['label'] = factory('th', props=props)
     if not widget.attrs['static']:
-        row['actions'] = factory(
-            'th:array_actions',
-            props = {
-                'structural': True,
-                'add': True,
-            })
+        props = dict()
+        props['structural'] = True
+        props['add'] = True
+        row['actions'] = factory('th:array_actions', props=props)
     table['body'] = factory('tbody', props={'structural': True})
 
 
@@ -103,27 +99,21 @@ def create_array_children(widget, template, value):
 def create_array_entry(idx, widget, template, value):
     tbody = widget['table']['body']
     row = tbody['row_%s' % idx] = factory('tr', props={'structural': True})
-    widget_col = row['widget_col'] = factory(
-        'td',
-        props={
-            'structural': True,
-            'class': 'widget',
-        })
-    actions_col = row['actions_col'] = factory(
-       'td',
-        props={
-            'structural': True,
-            'class': 'actions',
-        })
-    actions_col['actions'] = factory(
-        'array_actions',
-        props = {
-            'structural': True,
-            'add': True,
-            'remove': True,
-            'up': True,
-            'down': True,
-        })
+    props = dict()
+    props['structural'] = True
+    props['class'] = 'widget'
+    widget_col = row['widget_col'] = factory('td', props=props)
+    props = dict()
+    props['structural'] = True
+    props['class'] = 'actions'
+    actions_col = row['actions_col'] = factory('td', props=props)
+    props = dict()
+    props['structural'] = True
+    props['add'] = True
+    props['remove'] = True
+    props['up'] = True
+    props['down'] = True
+    actions_col['actions'] = factory('array_actions', props=props)
     child_widget = widget_col[idx] = duplicate_widget(template, value)
     if 'array' in template.blueprints:
         orgin = template[template.keys()[-1]]
