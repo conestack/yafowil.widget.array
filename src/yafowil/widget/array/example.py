@@ -48,8 +48,16 @@ def app(environ, start_response):
     form = factory(u'form', name='example', props={'action': url})
     
     # array with leaf widgets
-    arr = form['myarray'] = factory('array', props={'label': 'My Array'})
-    arr['myfield'] = factory('field:label:text', props={'label': 'My Field'})
+    arr = form['myarray'] = factory(
+        'array',
+        value=['1', '2', '3'],
+        props={'label': 'My Array'})
+    arr['myfield'] = factory(
+        'field:label:error:text',
+        props={
+            'label': 'My Field',
+            'required': 'Field must not be empty'
+        })
     
     # array with compound widgets
     cparr = form['mycompoundarray'] = factory(

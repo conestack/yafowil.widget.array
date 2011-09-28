@@ -190,7 +190,7 @@ Value as list::
     
     >>> form['myarray'] = factory(
     ...     'array',
-    ...     value=['1', '2', '3'],
+    ...     value=['1', '2'],
     ...     props={'label': 'My Array'})
     >>> form['myarray']['myfield'] = factory(
     ...     'field:label:text',
@@ -211,22 +211,36 @@ Value as list::
           </thead>
           <tbody>
             <tr>
-              <div class="field" id="field-myform-myarray-0">
-                <label for="input-myform-myarray-0">My Field</label>
-                <input class="text" id="input-myform-myarray-0" name="myform.myarray.0" type="text" value="1"/>
-              </div>
+              <td class="widget">
+                <div class="field" id="field-myform-myarray-0">
+                  <label for="input-myform-myarray-0">My Field</label>
+                  <input class="text" id="input-myform-myarray-0" name="myform.myarray.0" type="text" value="1"/>
+                </div>
+              </td>
+              <td class="actions">
+                <div class="array_actions">
+                  <a class="array_row_add" href="#">&#160;</a>
+                  <a class="array_row_remove" href="#">&#160;</a>
+                  <a class="array_row_up" href="#">&#160;</a>
+                  <a class="array_row_down" href="#">&#160;</a>
+                </div>
+              </td>
             </tr>
             <tr>
-              <div class="field" id="field-myform-myarray-1">
-                <label for="input-myform-myarray-1">My Field</label>
-                <input class="text" id="input-myform-myarray-1" name="myform.myarray.1" type="text" value="2"/>
-              </div>
-            </tr>
-            <tr>
-              <div class="field" id="field-myform-myarray-2">
-                <label for="input-myform-myarray-2">My Field</label>
-                <input class="text" id="input-myform-myarray-2" name="myform.myarray.2" type="text" value="3"/>
-              </div>
+              <td class="widget">
+                <div class="field" id="field-myform-myarray-1">
+                  <label for="input-myform-myarray-1">My Field</label>
+                  <input class="text" id="input-myform-myarray-1" name="myform.myarray.1" type="text" value="2"/>
+                </div>
+              </td>
+              <td class="actions">
+                <div class="array_actions">
+                  <a class="array_row_add" href="#">&#160;</a>
+                  <a class="array_row_remove" href="#">&#160;</a>
+                  <a class="array_row_up" href="#">&#160;</a>
+                  <a class="array_row_down" href="#">&#160;</a>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -260,9 +274,8 @@ Value as dict, must contain indices as keys::
 Valid dict value::
 
     >>> value = odict()
-    >>> value['1'] = '1'
-    >>> value['2'] = '2'
-    >>> value['3'] = '3'
+    >>> value['0'] = '1'
+    >>> value['1'] = '2'
     >>> form['myarray'] = factory(
     ...     'array',
     ...     value=value,
@@ -286,22 +299,36 @@ Valid dict value::
           </thead>
           <tbody>
             <tr>
-              <div class="field" id="field-myform-myarray-1">
-                <label for="input-myform-myarray-1">My Field</label>
-                <input class="text" id="input-myform-myarray-1" name="myform.myarray.1" type="text" value="1"/>
-              </div>
+              <td class="widget">
+                <div class="field" id="field-myform-myarray-0">
+                  <label for="input-myform-myarray-0">My Field</label>
+                  <input class="text" id="input-myform-myarray-0" name="myform.myarray.0" type="text" value="1"/>
+                </div>
+              </td>
+              <td class="actions">
+                <div class="array_actions">
+                  <a class="array_row_add" href="#">&#160;</a>
+                  <a class="array_row_remove" href="#">&#160;</a>
+                  <a class="array_row_up" href="#">&#160;</a>
+                  <a class="array_row_down" href="#">&#160;</a>
+                </div>
+              </td>
             </tr>
             <tr>
-              <div class="field" id="field-myform-myarray-2">
-                <label for="input-myform-myarray-2">My Field</label>
-                <input class="text" id="input-myform-myarray-2" name="myform.myarray.2" type="text" value="2"/>
-              </div>
-            </tr>
-            <tr>
-              <div class="field" id="field-myform-myarray-3">
-                <label for="input-myform-myarray-3">My Field</label>
-                <input class="text" id="input-myform-myarray-3" name="myform.myarray.3" type="text" value="3"/>
-              </div>
+              <td class="widget">
+                <div class="field" id="field-myform-myarray-1">
+                  <label for="input-myform-myarray-1">My Field</label>
+                  <input class="text" id="input-myform-myarray-1" name="myform.myarray.1" type="text" value="2"/>
+                </div>
+              </td>
+              <td class="actions">
+                <div class="array_actions">
+                  <a class="array_row_add" href="#">&#160;</a>
+                  <a class="array_row_remove" href="#">&#160;</a>
+                  <a class="array_row_up" href="#">&#160;</a>
+                  <a class="array_row_down" href="#">&#160;</a>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -354,24 +381,44 @@ Create array widget with compounds, default values set::
           </thead>
           <tbody>
             <tr>
-              <div class="field" id="field-myform-myarray-0-f1">
-                <label for="input-myform-myarray-0-f1">F1</label>
-                <input class="text" id="input-myform-myarray-0-f1" name="myform.myarray.0.f1" type="text" value="Value 1.1 F1"/>
-              </div>
-              <div class="field" id="field-myform-myarray-0-f2">
-                <label for="input-myform-myarray-0-f2">F2</label>
-                <input class="text" id="input-myform-myarray-0-f2" name="myform.myarray.0.f2" type="text" value="Value 1.2 F2"/>
-              </div>
+              <td class="widget">
+                <div class="field" id="field-myform-myarray-0-f1">
+                  <label for="input-myform-myarray-0-f1">F1</label>
+                  <input class="text" id="input-myform-myarray-0-f1" name="myform.myarray.0.f1" type="text" value="Value 1.1 F1"/>
+                </div>
+                <div class="field" id="field-myform-myarray-0-f2">
+                  <label for="input-myform-myarray-0-f2">F2</label>
+                  <input class="text" id="input-myform-myarray-0-f2" name="myform.myarray.0.f2" type="text" value="Value 1.2 F2"/>
+                </div>
+              </td>
+              <td class="actions">
+                <div class="array_actions">
+                  <a class="array_row_add" href="#">&#160;</a>
+                  <a class="array_row_remove" href="#">&#160;</a>
+                  <a class="array_row_up" href="#">&#160;</a>
+                  <a class="array_row_down" href="#">&#160;</a>
+                </div>
+              </td>
             </tr>
             <tr>
-              <div class="field" id="field-myform-myarray-1-f1">
-                <label for="input-myform-myarray-1-f1">F1</label>
-                <input class="text" id="input-myform-myarray-1-f1" name="myform.myarray.1.f1" type="text" value="Value 2.1 F1"/>
-              </div>
-              <div class="field" id="field-myform-myarray-1-f2">
-                <label for="input-myform-myarray-1-f2">F2</label>
-                <input class="text" id="input-myform-myarray-1-f2" name="myform.myarray.1.f2" type="text" value="Value 2.2 F2"/>
-              </div>
+              <td class="widget">
+                <div class="field" id="field-myform-myarray-1-f1">
+                  <label for="input-myform-myarray-1-f1">F1</label>
+                  <input class="text" id="input-myform-myarray-1-f1" name="myform.myarray.1.f1" type="text" value="Value 2.1 F1"/>
+                </div>
+                <div class="field" id="field-myform-myarray-1-f2">
+                  <label for="input-myform-myarray-1-f2">F2</label>
+                  <input class="text" id="input-myform-myarray-1-f2" name="myform.myarray.1.f2" type="text" value="Value 2.2 F2"/>
+                </div>
+              </td>
+              <td class="actions">
+                <div class="array_actions">
+                  <a class="array_row_add" href="#">&#160;</a>
+                  <a class="array_row_remove" href="#">&#160;</a>
+                  <a class="array_row_up" href="#">&#160;</a>
+                  <a class="array_row_down" href="#">&#160;</a>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -421,76 +468,136 @@ Create array widget with array, default values set as list::
           </thead>
           <tbody>
             <tr>
-              <div class="array" id="array-myform-myarray-0">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Subrray</th>
-                      <th>
-                        <div class="array_actions">
-                          <a class="array_row_add" href="#">&#160;</a>
-                        </div>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <div class="field" id="field-myform-myarray-0-0">
-                        <label for="input-myform-myarray-0-0">My Field</label>
-                        <input class="text" id="input-myform-myarray-0-0" name="myform.myarray.0.0" type="text" value="1"/>
-                      </div>
-                    </tr>
-                    <tr>
-                      <div class="field" id="field-myform-myarray-0-1">
-                        <label for="input-myform-myarray-0-1">My Field</label>
-                        <input class="text" id="input-myform-myarray-0-1" name="myform.myarray.0.1" type="text" value="2"/>
-                      </div>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="arraytemplate">
-                  <div class="field" id="field-myform-myarray-0-TEMPLATE">
-                    <label for="input-myform-myarray-0-TEMPLATE">My Field</label>
-                    <input class="text" id="input-myform-myarray-0-TEMPLATE" name="myform.myarray.0.TEMPLATE" type="text" value=""/>
+              <td class="widget">
+                <div class="array" id="array-myform-myarray-0">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Subrray</th>
+                        <th>
+                          <div class="array_actions">
+                            <a class="array_row_add" href="#">&#160;</a>
+                          </div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="widget">
+                          <div class="field" id="field-myform-myarray-0-0">
+                            <label for="input-myform-myarray-0-0">My Field</label>
+                            <input class="text" id="input-myform-myarray-0-0" name="myform.myarray.0.0" type="text" value="1"/>
+                          </div>
+                        </td>
+                        <td class="actions">
+                          <div class="array_actions">
+                            <a class="array_row_add" href="#">&#160;</a>
+                            <a class="array_row_remove" href="#">&#160;</a>
+                            <a class="array_row_up" href="#">&#160;</a>
+                            <a class="array_row_down" href="#">&#160;</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="widget">
+                          <div class="field" id="field-myform-myarray-0-1">
+                            <label for="input-myform-myarray-0-1">My Field</label>
+                            <input class="text" id="input-myform-myarray-0-1" name="myform.myarray.0.1" type="text" value="2"/>
+                          </div>
+                        </td>
+                        <td class="actions">
+                          <div class="array_actions">
+                            <a class="array_row_add" href="#">&#160;</a>
+                            <a class="array_row_remove" href="#">&#160;</a>
+                            <a class="array_row_up" href="#">&#160;</a>
+                            <a class="array_row_down" href="#">&#160;</a>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="arraytemplate">
+                    <div class="field" id="field-myform-myarray-0-TEMPLATE">
+                      <label for="input-myform-myarray-0-TEMPLATE">My Field</label>
+                      <input class="text" id="input-myform-myarray-0-TEMPLATE" name="myform.myarray.0.TEMPLATE" type="text" value=""/>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </td>
+              <td class="actions">
+                <div class="array_actions">
+                  <a class="array_row_add" href="#">&#160;</a>
+                  <a class="array_row_remove" href="#">&#160;</a>
+                  <a class="array_row_up" href="#">&#160;</a>
+                  <a class="array_row_down" href="#">&#160;</a>
+                </div>
+              </td>
             </tr>
             <tr>
-              <div class="array" id="array-myform-myarray-1">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Subrray</th>
-                      <th>
-                        <div class="array_actions">
-                          <a class="array_row_add" href="#">&#160;</a>
-                        </div>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <div class="field" id="field-myform-myarray-1-0">
-                        <label for="input-myform-myarray-1-0">My Field</label>
-                        <input class="text" id="input-myform-myarray-1-0" name="myform.myarray.1.0" type="text" value="4"/>
-                      </div>
-                    </tr>
-                    <tr>
-                      <div class="field" id="field-myform-myarray-1-1">
-                        <label for="input-myform-myarray-1-1">My Field</label>
-                        <input class="text" id="input-myform-myarray-1-1" name="myform.myarray.1.1" type="text" value="5"/>
-                      </div>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="arraytemplate">
-                  <div class="field" id="field-myform-myarray-1-TEMPLATE">
-                    <label for="input-myform-myarray-1-TEMPLATE">My Field</label>
-                    <input class="text" id="input-myform-myarray-1-TEMPLATE" name="myform.myarray.1.TEMPLATE" type="text" value=""/>
+              <td class="widget">
+                <div class="array" id="array-myform-myarray-1">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Subrray</th>
+                        <th>
+                          <div class="array_actions">
+                            <a class="array_row_add" href="#">&#160;</a>
+                          </div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="widget">
+                          <div class="field" id="field-myform-myarray-1-0">
+                            <label for="input-myform-myarray-1-0">My Field</label>
+                            <input class="text" id="input-myform-myarray-1-0" name="myform.myarray.1.0" type="text" value="4"/>
+                          </div>
+                        </td>
+                        <td class="actions">
+                          <div class="array_actions">
+                            <a class="array_row_add" href="#">&#160;</a>
+                            <a class="array_row_remove" href="#">&#160;</a>
+                            <a class="array_row_up" href="#">&#160;</a>
+                            <a class="array_row_down" href="#">&#160;</a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="widget">
+                          <div class="field" id="field-myform-myarray-1-1">
+                            <label for="input-myform-myarray-1-1">My Field</label>
+                            <input class="text" id="input-myform-myarray-1-1" name="myform.myarray.1.1" type="text" value="5"/>
+                          </div>
+                        </td>
+                        <td class="actions">
+                          <div class="array_actions">
+                            <a class="array_row_add" href="#">&#160;</a>
+                            <a class="array_row_remove" href="#">&#160;</a>
+                            <a class="array_row_up" href="#">&#160;</a>
+                            <a class="array_row_down" href="#">&#160;</a>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="arraytemplate">
+                    <div class="field" id="field-myform-myarray-1-TEMPLATE">
+                      <label for="input-myform-myarray-1-TEMPLATE">My Field</label>
+                      <input class="text" id="input-myform-myarray-1-TEMPLATE" name="myform.myarray.1.TEMPLATE" type="text" value=""/>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </td>
+              <td class="actions">
+                <div class="array_actions">
+                  <a class="array_row_add" href="#">&#160;</a>
+                  <a class="array_row_remove" href="#">&#160;</a>
+                  <a class="array_row_up" href="#">&#160;</a>
+                  <a class="array_row_down" href="#">&#160;</a>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -520,7 +627,6 @@ Create array widget with array, default values set as list::
       </div>
     </form>
     <BLANKLINE>
-
 
 Create array widget with array, default values set as dict::
 
@@ -602,109 +708,9 @@ Create array widget with array with compound, default values as list::
     ...     'field:label:text',
     ...     props={'label': 'F2'})
     >>> rendered = form()
-    >>> pxml(rendered)
-    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
-      <div class="array" id="array-myform-myarray">
-        <table>
-          <thead>
-            <tr>
-              <th>My Compound Array</th>
-              <th>
-                <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <div class="array" id="array-myform-myarray-0">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Subarray</th>
-                      <th>
-                        <div class="array_actions">
-                          <a class="array_row_add" href="#">&#160;</a>
-                        </div>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <div class="field" id="field-myform-myarray-0-0-f1">
-                        <label for="input-myform-myarray-0-0-f1">F1</label>
-                        <input class="text" id="input-myform-myarray-0-0-f1" name="myform.myarray.0.0.f1" type="text" value="Value 0.0 F1"/>
-                      </div>
-                      <div class="field" id="field-myform-myarray-0-0-f2">
-                        <label for="input-myform-myarray-0-0-f2">F2</label>
-                        <input class="text" id="input-myform-myarray-0-0-f2" name="myform.myarray.0.0.f2" type="text" value="Value 0.0 F2"/>
-                      </div>
-                    </tr>
-                    <tr>
-                      <div class="field" id="field-myform-myarray-0-1-f1">
-                        <label for="input-myform-myarray-0-1-f1">F1</label>
-                        <input class="text" id="input-myform-myarray-0-1-f1" name="myform.myarray.0.1.f1" type="text" value="Value 0.1 F1"/>
-                      </div>
-                      <div class="field" id="field-myform-myarray-0-1-f2">
-                        <label for="input-myform-myarray-0-1-f2">F2</label>
-                        <input class="text" id="input-myform-myarray-0-1-f2" name="myform.myarray.0.1.f2" type="text" value="Value 0.1 F2"/>
-                      </div>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="arraytemplate">
-                  <div class="field" id="field-myform-myarray-0-TEMPLATE-f1">
-                    <label for="input-myform-myarray-0-TEMPLATE-f1">F1</label>
-                    <input class="text" id="input-myform-myarray-0-TEMPLATE-f1" name="myform.myarray.0.TEMPLATE.f1" type="text" value=""/>
-                  </div>
-                  <div class="field" id="field-myform-myarray-0-TEMPLATE-f2">
-                    <label for="input-myform-myarray-0-TEMPLATE-f2">F2</label>
-                    <input class="text" id="input-myform-myarray-0-TEMPLATE-f2" name="myform.myarray.0.TEMPLATE.f2" type="text" value=""/>
-                  </div>
-                </div>
-                <div class="field" id="field-myform-myarray-0-f1">
-                  <label for="input-myform-myarray-0-f1">F1</label>
-                  <input class="text" id="input-myform-myarray-0-f1" name="myform.myarray.0.f1" type="text" value=""/>
-                </div>
-                <div class="field" id="field-myform-myarray-0-f2">
-                  <label for="input-myform-myarray-0-f2">F2</label>
-                  <input class="text" id="input-myform-myarray-0-f2" name="myform.myarray.0.f2" type="text" value=""/>
-                </div>
-              </div>
-            </tr>
-          </tbody>
-        </table>
-        <div class="arraytemplate">
-          <div class="array" id="array-myform-myarray-TEMPLATE">
-            <table>
-              <thead>
-                <tr>
-                  <th>Subarray</th>
-                  <th>
-                    <div class="array_actions">
-                      <a class="array_row_add" href="#">&#160;</a>
-                    </div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody/>
-            </table>
-            <div class="arraytemplate">
-              <div class="field" id="field-myform-myarray-TEMPLATE-TEMPLATE-f1">
-                <label for="input-myform-myarray-TEMPLATE-TEMPLATE-f1">F1</label>
-                <input class="text" id="input-myform-myarray-TEMPLATE-TEMPLATE-f1" name="myform.myarray.TEMPLATE.TEMPLATE.f1" type="text" value=""/>
-              </div>
-              <div class="field" id="field-myform-myarray-TEMPLATE-TEMPLATE-f2">
-                <label for="input-myform-myarray-TEMPLATE-TEMPLATE-f2">F2</label>
-                <input class="text" id="input-myform-myarray-TEMPLATE-TEMPLATE-f2" name="myform.myarray.TEMPLATE.TEMPLATE.f2" type="text" value=""/>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
-    <BLANKLINE>
+    
+    XXX
+    >> pxml(rendered)
 
 Create array widget with array with compound, default values as dict::
 
@@ -983,19 +989,39 @@ Required::
           </thead>
           <tbody>
             <tr>
-              <div class="field" id="field-myform-myarray-0">
-                <label for="input-myform-myarray-0">My Field</label>
-                <input class="required text" id="input-myform-myarray-0" name="myform.myarray.0" required="required" type="text" value="0"/>
-              </div>
+              <td class="widget">
+                <div class="field" id="field-myform-myarray-0">
+                  <label for="input-myform-myarray-0">My Field</label>
+                  <input class="required text" id="input-myform-myarray-0" name="myform.myarray.0" required="required" type="text" value="0"/>
+                </div>
+              </td>
+              <td class="actions">
+                <div class="array_actions">
+                  <a class="array_row_add" href="#">&#160;</a>
+                  <a class="array_row_remove" href="#">&#160;</a>
+                  <a class="array_row_up" href="#">&#160;</a>
+                  <a class="array_row_down" href="#">&#160;</a>
+                </div>
+              </td>
             </tr>
             <tr>
-              <div class="field" id="field-myform-myarray-1">
-                <label for="input-myform-myarray-1">My Field</label>
-                <div class="error">
-                  <div class="errormessage">My Field is required</div>
-                  <input class="required text" id="input-myform-myarray-1" name="myform.myarray.1" required="required" type="text" value=""/>
+              <td class="widget">
+                <div class="field" id="field-myform-myarray-1">
+                  <label for="input-myform-myarray-1">My Field</label>
+                  <div class="error">
+                    <div class="errormessage">My Field is required</div>
+                    <input class="required text" id="input-myform-myarray-1" name="myform.myarray.1" required="required" type="text" value=""/>
+                  </div>
                 </div>
-              </div>
+              </td>
+              <td class="actions">
+                <div class="array_actions">
+                  <a class="array_row_add" href="#">&#160;</a>
+                  <a class="array_row_remove" href="#">&#160;</a>
+                  <a class="array_row_up" href="#">&#160;</a>
+                  <a class="array_row_down" href="#">&#160;</a>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>

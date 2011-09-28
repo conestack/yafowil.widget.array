@@ -42,16 +42,14 @@ def array_builder(widget, factory):
         props = {
             'structural': True,
             'label': widget.attrs.get('label', u' '),
-        }
-    )
+        })
     if not widget.attrs['static']:
         row['actions'] = factory(
             'th:array_actions',
             props = {
                 'structural': True,
                 'add': True,
-            }
-        )
+            })
     table['body'] = factory('tbody', props={'structural': True})
 
 
@@ -105,7 +103,28 @@ def create_array_children(widget, template, value):
 def create_array_entry(idx, widget, template, value):
     tbody = widget['table']['body']
     row = tbody['row_%s' % idx] = factory('tr', props={'structural': True})
-    child_widget = row[idx] = duplicate_widget(template, value)
+    widget_col = row['widget_col'] = factory(
+        'td',
+        props={
+            'structural': True,
+            'class': 'widget',
+        })
+    actions_col = row['actions_col'] = factory(
+       'td',
+        props={
+            'structural': True,
+            'class': 'actions',
+        })
+    actions_col['actions'] = factory(
+        'array_actions',
+        props = {
+            'structural': True,
+            'add': True,
+            'remove': True,
+            'up': True,
+            'down': True,
+        })
+    child_widget = widget_col[idx] = duplicate_widget(template, value)
     if 'array' in template.blueprints:
         orgin = template[template.keys()[-1]]
         template = duplicate_recursiv(orgin)
