@@ -4,6 +4,20 @@ Import requirements::
     >>> import yafowil.widget.array
     >>> from yafowil.base import factory
 
+Create array with missing entry definition::
+
+    >>> form = factory(
+    ...     'form',
+    ...     name='myform',
+    ...     props={'action': 'myaction'})
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     props={'label': 'My Array'})
+    >>> pxml(form())
+    Traceback (most recent call last):
+      ...
+    Exception: Empty array widget defined
+
 Create empty Array widget::
     
     >>> form = factory(
@@ -930,3 +944,67 @@ Array in array with compound fields extraction::
           <RuntimeData myform.myarray.1.1, value=<UNSET>, extracted=odict([('f1', '5'), ('f2', '6')]) at ...>
             <RuntimeData myform.myarray.1.1.f1, value=<UNSET>, extracted='5' at ...>
             <RuntimeData myform.myarray.1.1.f2, value=<UNSET>, extracted='6' at ...>
+
+Required::
+
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     props={'label': 'My Array'})
+    >>> form['myarray']['myfield'] = factory(
+    ...     'field:label:error:text',
+    ...     props={
+    ...         'label': 'My Field',
+    ...         'required': 'My Field is required',
+    ...     })
+    >>> request = {
+    ...     'myform.myarray.0': '0',
+    ...     'myform.myarray.1': '',
+    ... }
+    >>> data = form.extract(request=request)
+    >>> data.printtree()
+    <RuntimeData myform, value=<UNSET>, extracted=odict([('myarray', ['0', ''])]) at ...>
+      <RuntimeData myform.myarray, value=<UNSET>, extracted=['0', ''] at ...>
+        <RuntimeData myform.myarray.0, value=<UNSET>, extracted='0' at ...>
+        <RuntimeData myform.myarray.1, value=<UNSET>, extracted='', 1 error(s) at ...>
+
+    >>> pxml(form(data))
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+      <div class="array" id="array-myform-myarray">
+        <table>
+          <thead>
+            <tr>
+              <th>My Array</th>
+              <th>
+                <div class="array_actions">
+                  <a class="array_row_add" href="#">&#160;</a>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <div class="field" id="field-myform-myarray-0">
+                <label for="input-myform-myarray-0">My Field</label>
+                <input class="required text" id="input-myform-myarray-0" name="myform.myarray.0" required="required" type="text" value="0"/>
+              </div>
+            </tr>
+            <tr>
+              <div class="field" id="field-myform-myarray-1">
+                <label for="input-myform-myarray-1">My Field</label>
+                <div class="error">
+                  <div class="errormessage">My Field is required</div>
+                  <input class="required text" id="input-myform-myarray-1" name="myform.myarray.1" required="required" type="text" value=""/>
+                </div>
+              </div>
+            </tr>
+          </tbody>
+        </table>
+        <div class="arraytemplate">
+          <div class="field" id="field-myform-myarray-TEMPLATE">
+            <label for="input-myform-myarray-TEMPLATE">My Field</label>
+            <input class="required text" id="input-myform-myarray-TEMPLATE" name="myform.myarray.TEMPLATE" required="required" type="text" value=""/>
+          </div>
+        </div>
+      </div>
+    </form>
+    <BLANKLINE>

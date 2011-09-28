@@ -1,11 +1,8 @@
 import types
-import copy
 from yafowil.base import (
     UNSET,
     factory,
-    ExtractionError,
     fetch_value,
-    Widget,
 )
 from yafowil.utils import (
     cssid,
@@ -13,10 +10,7 @@ from yafowil.utils import (
     css_managed_props,
     managedprops,
 )
-from yafowil.compound import (
-    compound_extractor,
-    compound_renderer,
-)
+from yafowil.compound import compound_renderer
 
 
 def actions_renderer(widget, data):
@@ -81,12 +75,9 @@ def array_edit_renderer(widget, data):
     if not widget.has_key(CONTAINER):
         template = widget.detach(widget.keys()[1])
         hook_array_template(widget, template)
-    value = data.value
+    value = fetch_value(widget, data)
     if not value:
         return
-    # reset array value since compound renderer fails if found on compound
-    # widget and value on child widget is already set (which happens in
-    # ``create_array_entry``).
     widget.getter = UNSET
     data.value = UNSET
     template = widget[CONTAINER][TEMPLATE]
@@ -129,7 +120,7 @@ def create_array_entry(idx, widget, template, value):
 def create_array_entry_children(widget, template):
     for name, child_template in template.items():
         child_widget = widget[name] = duplicate_widget(child_template)
-        for sub_name, sub_template in child_template.items():
+        for sub_template in child_template.values():
             create_array_entry_children(child_widget, sub_template)
 
 
@@ -192,7 +183,6 @@ def array_display_renderer(widget, data):
 
 factory.register(
     'array',
-    #extractors=[array_extractor, compound_extractor],
     extractors=[array_extractor],
     edit_renderers=[
         array_edit_renderer, compound_renderer, array_wrapper_renderer],
