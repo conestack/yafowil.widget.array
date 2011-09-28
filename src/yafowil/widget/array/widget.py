@@ -135,7 +135,8 @@ def create_array_entry(idx, widget, template, value):
 
 def create_array_entry_children(widget, template):
     for name, child_template in template.items():
-        child_widget = widget[name] = duplicate_widget(child_template)
+        #child_widget = widget[name] = duplicate_widget(child_template)
+        child_widget = widget[name] = duplicate_recursiv(child_template)
         for sub_template in child_template.values():
             create_array_entry_children(child_widget, sub_template)
 

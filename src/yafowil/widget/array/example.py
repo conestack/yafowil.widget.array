@@ -32,35 +32,23 @@ def img_response(environ, start_response):
     return response(environ, start_response)
 
 
-def app(environ, start_response):
-    url = 'http://%s/' % environ['HTTP_HOST']
-    if environ['PATH_INFO'] == '/ywa.js':
-        return javascript_response(environ, start_response)
-    elif environ['PATH_INFO'] == '/ywa.css':
-        return css_response(environ, start_response)
-    elif environ['PATH_INFO'].startswith('/images/'):
-        return img_response(environ, start_response)
-    elif environ['PATH_INFO'] != '/':
-        response = Response(status=404)
-        return response(environ, start_response)
-    
-    # create form
-    form = factory(u'form', name='example', props={'action': url})
-    
-    # array with leaf widgets
-    arr = form['myarray'] = factory(
+def add_array_with_leafs(form):
+    arr = form['somearray'] = factory(
         'array',
         value=['1', '2', '3'],
-        props={'label': 'My Array'})
-    arr['myfield'] = factory(
+        props={
+            'label': 'My Array',
+        })
+    arr['somefield'] = factory(
         'field:error:label:text',
         props={
-            'label': 'My Field',
-            'required': 'Field must not be empty',
+            'label': 'Some Field',
+            'required': 'Some Field is required',
         })
-    
-    # array with compound widgets
-    cparr = form['mycompoundarray'] = factory(
+
+
+def add_array_with_compounds(form):
+    arr = form['compoundarray'] = factory(
         'array',
         value=[
             {
@@ -73,38 +61,44 @@ def app(environ, start_response):
             },
         ],
         props={
-            'label': 'My Compound Array',
+            'label': 'Compound Array',
         })
-    comp = cparr['mycompound'] = factory('compound')
-    comp['f1'] = factory('field:label:text', props={'label': 'Field 1'})
+    comp = arr['somecompound'] = factory('compound')
+    comp['f1'] = factory(
+        'field:label:text',
+        props={
+            'label': 'Field 1',
+        })
     comp['f2'] = factory(
         'field:error:label:text',
         props={
             'label': 'Field 2',
             'required': 'Field 2 is required',
         })
-    
-    # array with array widgets
-    arrarr = form['myarrayarray'] = factory(
+
+
+def add_array_with_array_with_leafs(form):
+    arr = form['arrayarray'] = factory(
         'array',
         value=[['1', '2'], ['3', '4'], ['5', '6']],
         props={
-            'label': 'My Array Array',
+            'label': 'Array Array',
         })
-    arr = arrarr['myarray'] = factory(
+    subarr = arr['somearray'] = factory(
         'array',
         props={
-            'label': 'My Array',
+            'label': 'Some Array',
         })
-    arr['myfield'] = factory(
+    subarr['somefield'] = factory(
         'field:error:label:text',
         props={
-            'label': 'My Field',
-            'required': 'My Field is required',
+            'label': 'Some Field',
+            'required': 'Some Field is required',
         })
-    
-    # array widget with array with compound
-    arr = form['myarrayarraycomp'] = factory(
+
+
+def add_array_with_array_with_compounds(form):
+    arr = form['arrayarraycomp'] = factory(
         'array',
         value=[
             [
@@ -128,66 +122,79 @@ def app(environ, start_response):
                 },
             ],
         ],
-        props={'label': 'My Compound Array'})
+        props={'label': 'Array 1'})
     subarr = arr['subarray'] = factory(
         'array',
         props={
-            'label': 'Subarray',
+            'label': 'Array 2',
         })
-    comp = subarr['mycompound'] = factory('compound')
+    comp = subarr['comp'] = factory('compound')
     comp['f1'] = factory(
         'field:label:text',
         props={
             'label': 'F1',
         })
     comp['f2'] = factory(
-        'field:label:text',
+        'field:error:label:text',
         props={
             'label': 'F2',
+            'required': 'F2 is required',
         })
+
+
+def add_array_with_array_with_array_with_leafs(form):
+    arr = form['arrayarrayarray'] = factory(
+        'array',
+        value=[
+            [
+                ['1', '2'],
+                ['3'],
+            ],
+            [
+                ['4', '5'],
+            ],
+        ],
+        props={
+            'label': 'Array 1',
+        })
+    arr2 = arr['arrayarray'] = factory(
+        'array',
+        props={
+            'label': 'Array 2',
+        })
+    arr3 = arr2['subarray'] = factory(
+        'array',
+        props={
+            'label': 'Array 3',
+        })
+    arr3['somefield'] = factory(
+        'field:error:label:text',
+        props={
+            'label': 'Some Field',
+            'required': 'Some Field is required',
+        })
+
+
+def app(environ, start_response):
+    url = 'http://%s/' % environ['HTTP_HOST']
+    if environ['PATH_INFO'] == '/ywa.js':
+        return javascript_response(environ, start_response)
+    elif environ['PATH_INFO'] == '/ywa.css':
+        return css_response(environ, start_response)
+    elif environ['PATH_INFO'].startswith('/images/'):
+        return img_response(environ, start_response)
+    elif environ['PATH_INFO'] != '/':
+        response = Response(status=404)
+        return response(environ, start_response)
     
-#    # 3-dimensional array
-#    _3darr = form['my3dimensional'] = factory(
-#        'array',
-#        value=[
-#            # 1
-#            [   
-#                #2
-#                [
-#                    {
-#                        'mycompound.f1': 'F 1',
-#                        'mycompound.f2': 'F 2',
-#                    },
-#                ],
-#            ],
-#        ],
-#        props={
-#            'label': 'My 3 Dimensional Array',
-#        })
-#    arrarr = _3darr['myarrayarray'] = factory(
-#        'array',
-#        props={
-#            'label': 'My Array Array',
-#        })
-#    arr = arrarr['myarray'] = factory(
-#        'array',
-#        props={
-#            'label': 'My Array',
-#        })
-#    comp = arr['mycompound'] = factory('compound')
-#    comp['f1'] = factory(
-#        'field:error:label:text',
-#        props={
-#            'label': 'Field 1',
-#            'required': 'Field 1 is required',
-#        })
-#    comp['f2'] = factory(
-#        'field:label:text',
-#        props={
-#            'label': 'Field 2',
-#        })
+    form = factory(u'form', name='example', props={'action': url})
     
-    # submit action
+    add_array_with_leafs(form)
+    add_array_with_compounds(form)
+    add_array_with_array_with_leafs(form)
+    add_array_with_array_with_compounds(form)
+    #add_array_with_array_with_array_with_leafs(form)
+    
     form['submit'] = factory(
         'field:submit',
         props={        

@@ -1177,3 +1177,63 @@ Required::
       </div>
     </form>
     <BLANKLINE>
+
+3-Dimensional Array::
+
+    >>> arr = form['myarray'] = factory(
+    ...     'array',
+    ...     value=[
+    ...         [
+    ...             ['1', '2'],
+    ...             ['3'],
+    ...         ],
+    ...         [
+    ...             ['4', '5'],
+    ...         ],
+    ...     ],
+    ...     props={
+    ...         'label': 'Array 1',
+    ...     })
+    >>> arr2 = arr['arrayarray'] = factory(
+    ...     'array',
+    ...     props={
+    ...         'label': 'Array 2',
+    ...     })
+    >>> arr3 = arr2['subarray'] = factory(
+    ...     'array',
+    ...     props={
+    ...         'label': 'Array 3',
+    ...     })
+    >>> arr3['somefield'] = factory(
+    ...     'field:error:label:text',
+    ...     props={
+    ...         'label': 'Some Field',
+    ...         'required': 'Some Field is required',
+    ...     })
+    
+    >>> form.printtree()
+    <class 'yafowil.base.Widget'>: myform
+      <class 'yafowil.base.Widget'>: myarray
+        <class 'yafowil.base.Widget'>: table
+          <class 'yafowil.base.Widget'>: head
+            <class 'yafowil.base.Widget'>: row
+              <class 'yafowil.base.Widget'>: label
+              <class 'yafowil.base.Widget'>: actions
+          <class 'yafowil.base.Widget'>: body
+        <class 'yafowil.base.Widget'>: arrayarray
+          <class 'yafowil.base.Widget'>: table
+            <class 'yafowil.base.Widget'>: head
+              <class 'yafowil.base.Widget'>: row
+                <class 'yafowil.base.Widget'>: label
+                <class 'yafowil.base.Widget'>: actions
+            <class 'yafowil.base.Widget'>: body
+          <class 'yafowil.base.Widget'>: subarray
+            <class 'yafowil.base.Widget'>: table
+              <class 'yafowil.base.Widget'>: head
+                <class 'yafowil.base.Widget'>: row
+                  <class 'yafowil.base.Widget'>: label
+                  <class 'yafowil.base.Widget'>: actions
+              <class 'yafowil.base.Widget'>: body
+            <class 'yafowil.base.Widget'>: somefield
+    
+    >> pxml(form())
