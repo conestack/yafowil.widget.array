@@ -1177,63 +1177,326 @@ Required::
       </div>
     </form>
     <BLANKLINE>
+    
+    >>> del form['myarray']
 
 3-Dimensional Array::
 
-    >>> arr = form['myarray'] = factory(
+    >>> arr_1 = form['array_1'] = factory(
     ...     'array',
     ...     value=[
     ...         [
-    ...             ['1', '2'],
-    ...             ['3'],
+    ...             ['1'],
     ...         ],
     ...         [
-    ...             ['4', '5'],
+    ...             ['2'],
     ...         ],
     ...     ],
     ...     props={
     ...         'label': 'Array 1',
     ...     })
-    >>> arr2 = arr['arrayarray'] = factory(
+    >>> arr_2 = arr_1['array_2'] = factory(
     ...     'array',
     ...     props={
     ...         'label': 'Array 2',
     ...     })
-    >>> arr3 = arr2['subarray'] = factory(
+    >>> arr_3 = arr_2['array_3'] = factory(
     ...     'array',
     ...     props={
     ...         'label': 'Array 3',
     ...     })
-    >>> arr3['somefield'] = factory(
+    >>> arr_3['textfield'] = factory(
     ...     'field:error:label:text',
     ...     props={
-    ...         'label': 'Some Field',
-    ...         'required': 'Some Field is required',
+    ...         'label': 'Text Field',
+    ...         'required': 'Text Field is required',
     ...     })
     
     >>> form.printtree()
     <class 'yafowil.base.Widget'>: myform
-      <class 'yafowil.base.Widget'>: myarray
+      <class 'yafowil.base.Widget'>: array_1
         <class 'yafowil.base.Widget'>: table
           <class 'yafowil.base.Widget'>: head
             <class 'yafowil.base.Widget'>: row
               <class 'yafowil.base.Widget'>: label
               <class 'yafowil.base.Widget'>: actions
           <class 'yafowil.base.Widget'>: body
-        <class 'yafowil.base.Widget'>: arrayarray
+        <class 'yafowil.base.Widget'>: array_2
           <class 'yafowil.base.Widget'>: table
             <class 'yafowil.base.Widget'>: head
               <class 'yafowil.base.Widget'>: row
                 <class 'yafowil.base.Widget'>: label
                 <class 'yafowil.base.Widget'>: actions
             <class 'yafowil.base.Widget'>: body
-          <class 'yafowil.base.Widget'>: subarray
+          <class 'yafowil.base.Widget'>: array_3
             <class 'yafowil.base.Widget'>: table
               <class 'yafowil.base.Widget'>: head
                 <class 'yafowil.base.Widget'>: row
                   <class 'yafowil.base.Widget'>: label
                   <class 'yafowil.base.Widget'>: actions
               <class 'yafowil.base.Widget'>: body
-            <class 'yafowil.base.Widget'>: somefield
-    
-    >> pxml(form())
+            <class 'yafowil.base.Widget'>: textfield
+
+    >>> rendered = form()
+    >>> pxml(rendered)
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+      <div class="array" id="array-myform-array_1">
+        <table>
+          <thead>
+            <tr>
+              <th>Array 1</th>
+              <th>
+                <div class="array_actions">
+                  <a class="array_row_add" href="#">&#160;</a>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="widget">
+                <div class="array" id="array-myform-array_1-0">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Array 2</th>
+                        <th>
+                          <div class="array_actions">
+                            <a class="array_row_add" href="#">&#160;</a>
+                          </div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="widget">
+                          <div class="array" id="array-myform-array_1-0-0">
+                            <table>
+                              <thead>
+                                <tr>
+                                  <th>Array 3</th>
+                                  <th>
+                                    <div class="array_actions">
+                                      <a class="array_row_add" href="#">&#160;</a>
+                                    </div>
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td class="widget">
+                                    <div class="field" id="field-myform-array_1-0-0-0">
+                                      <label for="input-myform-array_1-0-0-0">Text Field</label>
+                                      <input class="required text" id="input-myform-array_1-0-0-0" name="myform.array_1.0.0.0" required="required" type="text" value="1"/>
+                                    </div>
+                                  </td>
+                                  <td class="actions">
+                                    <div class="array_actions">
+                                      <a class="array_row_add" href="#">&#160;</a>
+                                      <a class="array_row_remove" href="#">&#160;</a>
+                                      <a class="array_row_up" href="#">&#160;</a>
+                                      <a class="array_row_down" href="#">&#160;</a>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            <div class="arraytemplate">
+                              <div class="field" id="field-myform-array_1-0-0-TEMPLATE">
+                                <label for="input-myform-array_1-0-0-TEMPLATE">Text Field</label>
+                                <input class="required text" id="input-myform-array_1-0-0-TEMPLATE" name="myform.array_1.0.0.TEMPLATE" required="required" type="text" value=""/>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="actions">
+                          <div class="array_actions">
+                            <a class="array_row_add" href="#">&#160;</a>
+                            <a class="array_row_remove" href="#">&#160;</a>
+                            <a class="array_row_up" href="#">&#160;</a>
+                            <a class="array_row_down" href="#">&#160;</a>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="arraytemplate">
+                    <div class="array" id="array-myform-array_1-0-TEMPLATE">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>Array 3</th>
+                            <th>
+                              <div class="array_actions">
+                                <a class="array_row_add" href="#">&#160;</a>
+                              </div>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody/>
+                      </table>
+                      <div class="arraytemplate">
+                        <div class="field" id="field-myform-array_1-0-TEMPLATE-TEMPLATE">
+                          <label for="input-myform-array_1-0-TEMPLATE-TEMPLATE">Text Field</label>
+                          <input class="required text" id="input-myform-array_1-0-TEMPLATE-TEMPLATE" name="myform.array_1.0.TEMPLATE.TEMPLATE" required="required" type="text" value=""/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="actions">
+                <div class="array_actions">
+                  <a class="array_row_add" href="#">&#160;</a>
+                  <a class="array_row_remove" href="#">&#160;</a>
+                  <a class="array_row_up" href="#">&#160;</a>
+                  <a class="array_row_down" href="#">&#160;</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="widget">
+                <div class="array" id="array-myform-array_1-1">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Array 2</th>
+                        <th>
+                          <div class="array_actions">
+                            <a class="array_row_add" href="#">&#160;</a>
+                          </div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="widget">
+                          <div class="array" id="array-myform-array_1-1-0">
+                            <table>
+                              <thead>
+                                <tr>
+                                  <th>Array 3</th>
+                                  <th>
+                                    <div class="array_actions">
+                                      <a class="array_row_add" href="#">&#160;</a>
+                                    </div>
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td class="widget">
+                                    <div class="field" id="field-myform-array_1-1-0-0">
+                                      <label for="input-myform-array_1-1-0-0">Text Field</label>
+                                      <input class="required text" id="input-myform-array_1-1-0-0" name="myform.array_1.1.0.0" required="required" type="text" value="2"/>
+                                    </div>
+                                  </td>
+                                  <td class="actions">
+                                    <div class="array_actions">
+                                      <a class="array_row_add" href="#">&#160;</a>
+                                      <a class="array_row_remove" href="#">&#160;</a>
+                                      <a class="array_row_up" href="#">&#160;</a>
+                                      <a class="array_row_down" href="#">&#160;</a>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            <div class="arraytemplate">
+                              <div class="field" id="field-myform-array_1-1-0-TEMPLATE">
+                                <label for="input-myform-array_1-1-0-TEMPLATE">Text Field</label>
+                                <input class="required text" id="input-myform-array_1-1-0-TEMPLATE" name="myform.array_1.1.0.TEMPLATE" required="required" type="text" value=""/>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="actions">
+                          <div class="array_actions">
+                            <a class="array_row_add" href="#">&#160;</a>
+                            <a class="array_row_remove" href="#">&#160;</a>
+                            <a class="array_row_up" href="#">&#160;</a>
+                            <a class="array_row_down" href="#">&#160;</a>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="arraytemplate">
+                    <div class="array" id="array-myform-array_1-1-TEMPLATE">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>Array 3</th>
+                            <th>
+                              <div class="array_actions">
+                                <a class="array_row_add" href="#">&#160;</a>
+                              </div>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody/>
+                      </table>
+                      <div class="arraytemplate">
+                        <div class="field" id="field-myform-array_1-1-TEMPLATE-TEMPLATE">
+                          <label for="input-myform-array_1-1-TEMPLATE-TEMPLATE">Text Field</label>
+                          <input class="required text" id="input-myform-array_1-1-TEMPLATE-TEMPLATE" name="myform.array_1.1.TEMPLATE.TEMPLATE" required="required" type="text" value=""/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="actions">
+                <div class="array_actions">
+                  <a class="array_row_add" href="#">&#160;</a>
+                  <a class="array_row_remove" href="#">&#160;</a>
+                  <a class="array_row_up" href="#">&#160;</a>
+                  <a class="array_row_down" href="#">&#160;</a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="arraytemplate">
+          <div class="array" id="array-myform-array_1-TEMPLATE">
+            <table>
+              <thead>
+                <tr>
+                  <th>Array 2</th>
+                  <th>
+                    <div class="array_actions">
+                      <a class="array_row_add" href="#">&#160;</a>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody/>
+            </table>
+            <div class="arraytemplate">
+              <div class="array" id="array-myform-array_1-TEMPLATE-TEMPLATE">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Array 3</th>
+                      <th>
+                        <div class="array_actions">
+                          <a class="array_row_add" href="#">&#160;</a>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody/>
+                </table>
+                <div class="arraytemplate">
+                  <div class="field" id="field-myform-array_1-TEMPLATE-TEMPLATE-TEMPLATE">
+                    <label for="input-myform-array_1-TEMPLATE-TEMPLATE-TEMPLATE">Text Field</label>
+                    <input class="required text" id="input-myform-array_1-TEMPLATE-TEMPLATE-TEMPLATE" name="myform.array_1.TEMPLATE.TEMPLATE.TEMPLATE" required="required" type="text" value=""/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <BLANKLINE>

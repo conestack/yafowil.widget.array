@@ -143,7 +143,7 @@ def add_array_with_array_with_compounds(form):
 
 
 def add_array_with_array_with_array_with_leafs(form):
-    arr = form['arrayarrayarray'] = factory(
+    arr_1 = form['array_1'] = factory(
         'array',
         value=[
             [
@@ -157,21 +157,21 @@ def add_array_with_array_with_array_with_leafs(form):
         props={
             'label': 'Array 1',
         })
-    arr2 = arr['arrayarray'] = factory(
+    arr_2 = arr_1['array_2'] = factory(
         'array',
         props={
             'label': 'Array 2',
         })
-    arr3 = arr2['subarray'] = factory(
+    arr_3 = arr_2['array_3'] = factory(
         'array',
         props={
             'label': 'Array 3',
         })
-    arr3['somefield'] = factory(
+    arr_3['textfield'] = factory(
         'field:error:label:text',
         props={
-            'label': 'Some Field',
-            'required': 'Some Field is required',
+            'label': 'Text Field',
+            'required': 'Text Field is required',
         })
 
 
@@ -193,7 +193,7 @@ def app(environ, start_response):
     add_array_with_compounds(form)
     add_array_with_array_with_leafs(form)
     add_array_with_array_with_compounds(form)
-    #add_array_with_array_with_array_with_leafs(form)
+    add_array_with_array_with_array_with_leafs(form)
     
     form['submit'] = factory(
         'field:submit',

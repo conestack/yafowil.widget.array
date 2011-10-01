@@ -72,6 +72,7 @@ def array_edit_renderer(widget, data):
     value = fetch_value(widget, data)
     if not value:
         return
+    # XXX: reset table body if already filled -> case form in memory.
     widget.getter = UNSET
     data.value = UNSET
     template = widget[CONTAINER][TEMPLATE]
@@ -116,12 +117,11 @@ def create_array_entry(idx, widget, template, value):
     actions_col['actions'] = factory('array_actions', props=props)
     child_widget = widget_col[idx] = duplicate_widget(template, value)
     if 'array' in template.blueprints:
+        if len(template):
+            create_array_entry_children(child_widget, template)
         orgin = template[template.keys()[-1]]
         template = duplicate_recursiv(orgin)
         hook_array_template(child_widget, template)
-        if len(template):
-            template = child_widget[CONTAINER][TEMPLATE]
-            create_array_entry_children(child_widget, template)
         # If array in array with compound. For some reason (propably
         # compound_renderer), the compound template children get hooked to
         # array widget. Remove them.
@@ -135,10 +135,8 @@ def create_array_entry(idx, widget, template, value):
 
 def create_array_entry_children(widget, template):
     for name, child_template in template.items():
-        #child_widget = widget[name] = duplicate_widget(child_template)
         child_widget = widget[name] = duplicate_recursiv(child_template)
-        for sub_template in child_template.values():
-            create_array_entry_children(child_widget, sub_template)
+        create_array_entry_children(child_widget, child_template)
 
 
 def hook_array_template(widget, template):
