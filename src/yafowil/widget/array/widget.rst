@@ -86,17 +86,7 @@ Now with valid compound template::
     <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array" id="array-myform-myarray">
         <table>
-          <thead>
-            <tr>
-              <th>My Compound Array</th>
-              <th>
-                <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody/>
+          ...
         </table>
         <div class="arraytemplate">
           <div class="field" id="field-myform-myarray-TEMPLATE-f1">
@@ -129,32 +119,12 @@ Create empty Array widget with another array as template widget::
     <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array" id="array-myform-myarrayarray">
         <table>
-          <thead>
-            <tr>
-              <th>My Array Array</th>
-              <th>
-                <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody/>
+          ...
         </table>
         <div class="arraytemplate">
           <div class="array" id="array-myform-myarrayarray-TEMPLATE">
             <table>
-              <thead>
-                <tr>
-                  <th>My Array</th>
-                  <th>
-                    <div class="array_actions">
-                      <a class="array_row_add" href="#">&#160;</a>
-                    </div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody/>
+              ...
             </table>
             <div class="arraytemplate">
               <div class="field" id="field-myform-myarrayarray-TEMPLATE-TEMPLATE">
@@ -200,14 +170,7 @@ Value as list::
       <div class="array" id="array-myform-myarray">
         <table>
           <thead>
-            <tr>
-              <th>My Array</th>
-              <th>
-                <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                </div>
-              </th>
-            </tr>
+            ...
           </thead>
           <tbody>
             <tr>
@@ -234,21 +197,13 @@ Value as list::
                 </div>
               </td>
               <td class="actions">
-                <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                  <a class="array_row_remove" href="#">&#160;</a>
-                  <a class="array_row_up" href="#">&#160;</a>
-                  <a class="array_row_down" href="#">&#160;</a>
-                </div>
+                ...
               </td>
             </tr>
           </tbody>
         </table>
         <div class="arraytemplate">
-          <div class="field" id="field-myform-myarray-TEMPLATE">
-            <label for="input-myform-myarray-TEMPLATE">My Field</label>
-            <input class="text" id="input-myform-myarray-TEMPLATE" name="myform.myarray.TEMPLATE" type="text" value=""/>
-          </div>
+          ...
         </div>
       </div>
     </form>
@@ -288,14 +243,7 @@ Valid dict value::
       <div class="array" id="array-myform-myarray">
         <table>
           <thead>
-            <tr>
-              <th>My Array</th>
-              <th>
-                <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                </div>
-              </th>
-            </tr>
+            ...
           </thead>
           <tbody>
             <tr>
@@ -306,37 +254,16 @@ Valid dict value::
                 </div>
               </td>
               <td class="actions">
-                <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                  <a class="array_row_remove" href="#">&#160;</a>
-                  <a class="array_row_up" href="#">&#160;</a>
-                  <a class="array_row_down" href="#">&#160;</a>
-                </div>
+                ...
               </td>
             </tr>
             <tr>
-              <td class="widget">
-                <div class="field" id="field-myform-myarray-1">
-                  <label for="input-myform-myarray-1">My Field</label>
-                  <input class="text" id="input-myform-myarray-1" name="myform.myarray.1" type="text" value="2"/>
-                </div>
-              </td>
-              <td class="actions">
-                <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                  <a class="array_row_remove" href="#">&#160;</a>
-                  <a class="array_row_up" href="#">&#160;</a>
-                  <a class="array_row_down" href="#">&#160;</a>
-                </div>
-              </td>
+              ...
             </tr>
           </tbody>
         </table>
         <div class="arraytemplate">
-          <div class="field" id="field-myform-myarray-TEMPLATE">
-            <label for="input-myform-myarray-TEMPLATE">My Field</label>
-            <input class="text" id="input-myform-myarray-TEMPLATE" name="myform.myarray.TEMPLATE" type="text" value=""/>
-          </div>
+          ...
         </div>
       </div>
     </form>
@@ -370,14 +297,7 @@ Create array widget with compounds, default values set::
       <div class="array" id="array-myform-myarray">
         <table>
           <thead>
-            <tr>
-              <th>My Compound Array</th>
-              <th>
-                <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                </div>
-              </th>
-            </tr>
+            ...
           </thead>
           <tbody>
             <tr>
@@ -392,12 +312,7 @@ Create array widget with compounds, default values set::
                 </div>
               </td>
               <td class="actions">
-                <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                  <a class="array_row_remove" href="#">&#160;</a>
-                  <a class="array_row_up" href="#">&#160;</a>
-                  <a class="array_row_down" href="#">&#160;</a>
-                </div>
+                ...
               </td>
             </tr>
             <tr>
@@ -412,25 +327,13 @@ Create array widget with compounds, default values set::
                 </div>
               </td>
               <td class="actions">
-                <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                  <a class="array_row_remove" href="#">&#160;</a>
-                  <a class="array_row_up" href="#">&#160;</a>
-                  <a class="array_row_down" href="#">&#160;</a>
-                </div>
+                ...
               </td>
             </tr>
           </tbody>
         </table>
         <div class="arraytemplate">
-          <div class="field" id="field-myform-myarray-TEMPLATE-f1">
-            <label for="input-myform-myarray-TEMPLATE-f1">F1</label>
-            <input class="text" id="input-myform-myarray-TEMPLATE-f1" name="myform.myarray.TEMPLATE.f1" type="text" value=""/>
-          </div>
-          <div class="field" id="field-myform-myarray-TEMPLATE-f2">
-            <label for="input-myform-myarray-TEMPLATE-f2">F2</label>
-            <input class="text" id="input-myform-myarray-TEMPLATE-f2" name="myform.myarray.TEMPLATE.f2" type="text" value=""/>
-          </div>
+          ...
         </div>
       </div>
     </form>
@@ -457,14 +360,7 @@ Create array widget with array, default values set as list::
       <div class="array" id="array-myform-myarray">
         <table>
           <thead>
-            <tr>
-              <th>My Array Array</th>
-              <th>
-                <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                </div>
-              </th>
-            </tr>
+            ...
           </thead>
           <tbody>
             <tr>
@@ -474,11 +370,7 @@ Create array widget with array, default values set as list::
                     <thead>
                       <tr>
                         <th>Subrray</th>
-                        <th>
-                          <div class="array_actions">
-                            <a class="array_row_add" href="#">&#160;</a>
-                          </div>
-                        </th>
+                        ...
                       </tr>
                     </thead>
                     <tbody>
@@ -490,12 +382,7 @@ Create array widget with array, default values set as list::
                           </div>
                         </td>
                         <td class="actions">
-                          <div class="array_actions">
-                            <a class="array_row_add" href="#">&#160;</a>
-                            <a class="array_row_remove" href="#">&#160;</a>
-                            <a class="array_row_up" href="#">&#160;</a>
-                            <a class="array_row_down" href="#">&#160;</a>
-                          </div>
+                          ...
                         </td>
                       </tr>
                       <tr>
@@ -506,12 +393,7 @@ Create array widget with array, default values set as list::
                           </div>
                         </td>
                         <td class="actions">
-                          <div class="array_actions">
-                            <a class="array_row_add" href="#">&#160;</a>
-                            <a class="array_row_remove" href="#">&#160;</a>
-                            <a class="array_row_up" href="#">&#160;</a>
-                            <a class="array_row_down" href="#">&#160;</a>
-                          </div>
+                          ...
                         </td>
                       </tr>
                     </tbody>
@@ -525,78 +407,17 @@ Create array widget with array, default values set as list::
                 </div>
               </td>
               <td class="actions">
-                <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                  <a class="array_row_remove" href="#">&#160;</a>
-                  <a class="array_row_up" href="#">&#160;</a>
-                  <a class="array_row_down" href="#">&#160;</a>
-                </div>
+                ...
               </td>
             </tr>
             <tr>
               <td class="widget">
                 <div class="array" id="array-myform-myarray-1">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Subrray</th>
-                        <th>
-                          <div class="array_actions">
-                            <a class="array_row_add" href="#">&#160;</a>
-                          </div>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td class="widget">
-                          <div class="field" id="field-myform-myarray-1-0">
-                            <label for="input-myform-myarray-1-0">My Field</label>
-                            <input class="text" id="input-myform-myarray-1-0" name="myform.myarray.1.0" type="text" value="4"/>
-                          </div>
-                        </td>
-                        <td class="actions">
-                          <div class="array_actions">
-                            <a class="array_row_add" href="#">&#160;</a>
-                            <a class="array_row_remove" href="#">&#160;</a>
-                            <a class="array_row_up" href="#">&#160;</a>
-                            <a class="array_row_down" href="#">&#160;</a>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="widget">
-                          <div class="field" id="field-myform-myarray-1-1">
-                            <label for="input-myform-myarray-1-1">My Field</label>
-                            <input class="text" id="input-myform-myarray-1-1" name="myform.myarray.1.1" type="text" value="5"/>
-                          </div>
-                        </td>
-                        <td class="actions">
-                          <div class="array_actions">
-                            <a class="array_row_add" href="#">&#160;</a>
-                            <a class="array_row_remove" href="#">&#160;</a>
-                            <a class="array_row_up" href="#">&#160;</a>
-                            <a class="array_row_down" href="#">&#160;</a>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <div class="arraytemplate">
-                    <div class="field" id="field-myform-myarray-1-TEMPLATE">
-                      <label for="input-myform-myarray-1-TEMPLATE">My Field</label>
-                      <input class="text" id="input-myform-myarray-1-TEMPLATE" name="myform.myarray.1.TEMPLATE" type="text" value=""/>
-                    </div>
-                  </div>
+                  ...
                 </div>
               </td>
               <td class="actions">
-                <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                  <a class="array_row_remove" href="#">&#160;</a>
-                  <a class="array_row_up" href="#">&#160;</a>
-                  <a class="array_row_down" href="#">&#160;</a>
-                </div>
+                ...
               </td>
             </tr>
           </tbody>
@@ -607,20 +428,13 @@ Create array widget with array, default values set as list::
               <thead>
                 <tr>
                   <th>Subrray</th>
-                  <th>
-                    <div class="array_actions">
-                      <a class="array_row_add" href="#">&#160;</a>
-                    </div>
-                  </th>
+                  ...
                 </tr>
               </thead>
               <tbody/>
             </table>
             <div class="arraytemplate">
-              <div class="field" id="field-myform-myarray-TEMPLATE-TEMPLATE">
-                <label for="input-myform-myarray-TEMPLATE-TEMPLATE">My Field</label>
-                <input class="text" id="input-myform-myarray-TEMPLATE-TEMPLATE" name="myform.myarray.TEMPLATE.TEMPLATE" type="text" value=""/>
-              </div>
+              ...
             </div>
           </div>
         </div>
@@ -736,11 +550,7 @@ Create array widget with array with compound, default values as list::
           <thead>
             <tr>
               <th>My Compound Array</th>
-              <th>
-                <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                </div>
-              </th>
+              ...
             </tr>
           </thead>
           <tbody>
@@ -751,11 +561,7 @@ Create array widget with array with compound, default values as list::
                     <thead>
                       <tr>
                         <th>Subarray</th>
-                        <th>
-                          <div class="array_actions">
-                            <a class="array_row_add" href="#">&#160;</a>
-                          </div>
-                        </th>
+                        ...
                       </tr>
                     </thead>
                     <tbody>
@@ -771,12 +577,7 @@ Create array widget with array with compound, default values as list::
                           </div>
                         </td>
                         <td class="actions">
-                          <div class="array_actions">
-                            <a class="array_row_add" href="#">&#160;</a>
-                            <a class="array_row_remove" href="#">&#160;</a>
-                            <a class="array_row_up" href="#">&#160;</a>
-                            <a class="array_row_down" href="#">&#160;</a>
-                          </div>
+                          ...
                         </td>
                       </tr>
                       <tr>
@@ -791,35 +592,18 @@ Create array widget with array with compound, default values as list::
                           </div>
                         </td>
                         <td class="actions">
-                          <div class="array_actions">
-                            <a class="array_row_add" href="#">&#160;</a>
-                            <a class="array_row_remove" href="#">&#160;</a>
-                            <a class="array_row_up" href="#">&#160;</a>
-                            <a class="array_row_down" href="#">&#160;</a>
-                          </div>
+                          ...
                         </td>
                       </tr>
                     </tbody>
                   </table>
                   <div class="arraytemplate">
-                    <div class="field" id="field-myform-myarray-0-TEMPLATE-f1">
-                      <label for="input-myform-myarray-0-TEMPLATE-f1">F1</label>
-                      <input class="text" id="input-myform-myarray-0-TEMPLATE-f1" name="myform.myarray.0.TEMPLATE.f1" type="text" value=""/>
-                    </div>
-                    <div class="field" id="field-myform-myarray-0-TEMPLATE-f2">
-                      <label for="input-myform-myarray-0-TEMPLATE-f2">F2</label>
-                      <input class="text" id="input-myform-myarray-0-TEMPLATE-f2" name="myform.myarray.0.TEMPLATE.f2" type="text" value=""/>
-                    </div>
+                    ...
                   </div>
                 </div>
               </td>
               <td class="actions">
-                <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                  <a class="array_row_remove" href="#">&#160;</a>
-                  <a class="array_row_up" href="#">&#160;</a>
-                  <a class="array_row_down" href="#">&#160;</a>
-                </div>
+                ...
               </td>
             </tr>
           </tbody>
@@ -830,11 +614,7 @@ Create array widget with array with compound, default values as list::
               <thead>
                 <tr>
                   <th>Subarray</th>
-                  <th>
-                    <div class="array_actions">
-                      <a class="array_row_add" href="#">&#160;</a>
-                    </div>
-                  </th>
+                  ...
                 </tr>
               </thead>
               <tbody/>
@@ -1120,32 +900,10 @@ Required::
     <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array" id="array-myform-myarray">
         <table>
-          <thead>
-            <tr>
-              <th>My Array</th>
-              <th>
-                <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                </div>
-              </th>
-            </tr>
-          </thead>
+          ...
           <tbody>
             <tr>
-              <td class="widget">
-                <div class="field" id="field-myform-myarray-0">
-                  <label for="input-myform-myarray-0">My Field</label>
-                  <input class="required text" id="input-myform-myarray-0" name="myform.myarray.0" required="required" type="text" value="0"/>
-                </div>
-              </td>
-              <td class="actions">
-                <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                  <a class="array_row_remove" href="#">&#160;</a>
-                  <a class="array_row_up" href="#">&#160;</a>
-                  <a class="array_row_down" href="#">&#160;</a>
-                </div>
-              </td>
+              ...
             </tr>
             <tr>
               <td class="widget">
@@ -1158,21 +916,13 @@ Required::
                 </div>
               </td>
               <td class="actions">
-                <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                  <a class="array_row_remove" href="#">&#160;</a>
-                  <a class="array_row_up" href="#">&#160;</a>
-                  <a class="array_row_down" href="#">&#160;</a>
-                </div>
+                ...
               </td>
             </tr>
           </tbody>
         </table>
         <div class="arraytemplate">
-          <div class="field" id="field-myform-myarray-TEMPLATE">
-            <label for="input-myform-myarray-TEMPLATE">My Field</label>
-            <input class="required text" id="input-myform-myarray-TEMPLATE" name="myform.myarray.TEMPLATE" required="required" type="text" value=""/>
-          </div>
+          ...
         </div>
       </div>
     </form>
@@ -1245,11 +995,7 @@ Required::
           <thead>
             <tr>
               <th>Array 1</th>
-              <th>
-                <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                </div>
-              </th>
+              ...
             </tr>
           </thead>
           <tbody>
@@ -1260,11 +1006,7 @@ Required::
                     <thead>
                       <tr>
                         <th>Array 2</th>
-                        <th>
-                          <div class="array_actions">
-                            <a class="array_row_add" href="#">&#160;</a>
-                          </div>
-                        </th>
+                        ...
                       </tr>
                     </thead>
                     <tbody>
@@ -1275,11 +1017,7 @@ Required::
                               <thead>
                                 <tr>
                                   <th>Array 3</th>
-                                  <th>
-                                    <div class="array_actions">
-                                      <a class="array_row_add" href="#">&#160;</a>
-                                    </div>
-                                  </th>
+                                  ...
                                 </tr>
                               </thead>
                               <tbody>
@@ -1291,12 +1029,7 @@ Required::
                                     </div>
                                   </td>
                                   <td class="actions">
-                                    <div class="array_actions">
-                                      <a class="array_row_add" href="#">&#160;</a>
-                                      <a class="array_row_remove" href="#">&#160;</a>
-                                      <a class="array_row_up" href="#">&#160;</a>
-                                      <a class="array_row_down" href="#">&#160;</a>
-                                    </div>
+                                    ...
                                   </td>
                                 </tr>
                               </tbody>
@@ -1310,12 +1043,7 @@ Required::
                           </div>
                         </td>
                         <td class="actions">
-                          <div class="array_actions">
-                            <a class="array_row_add" href="#">&#160;</a>
-                            <a class="array_row_remove" href="#">&#160;</a>
-                            <a class="array_row_up" href="#">&#160;</a>
-                            <a class="array_row_down" href="#">&#160;</a>
-                          </div>
+                          ...
                         </td>
                       </tr>
                     </tbody>
@@ -1326,11 +1054,7 @@ Required::
                         <thead>
                           <tr>
                             <th>Array 3</th>
-                            <th>
-                              <div class="array_actions">
-                                <a class="array_row_add" href="#">&#160;</a>
-                              </div>
-                            </th>
+                            ...
                           </tr>
                         </thead>
                         <tbody/>
@@ -1346,114 +1070,11 @@ Required::
                 </div>
               </td>
               <td class="actions">
-                <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                  <a class="array_row_remove" href="#">&#160;</a>
-                  <a class="array_row_up" href="#">&#160;</a>
-                  <a class="array_row_down" href="#">&#160;</a>
-                </div>
+                ...
               </td>
             </tr>
             <tr>
-              <td class="widget">
-                <div class="array" id="array-myform-array_1-1">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Array 2</th>
-                        <th>
-                          <div class="array_actions">
-                            <a class="array_row_add" href="#">&#160;</a>
-                          </div>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td class="widget">
-                          <div class="array" id="array-myform-array_1-1-0">
-                            <table>
-                              <thead>
-                                <tr>
-                                  <th>Array 3</th>
-                                  <th>
-                                    <div class="array_actions">
-                                      <a class="array_row_add" href="#">&#160;</a>
-                                    </div>
-                                  </th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td class="widget">
-                                    <div class="field" id="field-myform-array_1-1-0-0">
-                                      <label for="input-myform-array_1-1-0-0">Text Field</label>
-                                      <input class="required text" id="input-myform-array_1-1-0-0" name="myform.array_1.1.0.0" required="required" type="text" value="2"/>
-                                    </div>
-                                  </td>
-                                  <td class="actions">
-                                    <div class="array_actions">
-                                      <a class="array_row_add" href="#">&#160;</a>
-                                      <a class="array_row_remove" href="#">&#160;</a>
-                                      <a class="array_row_up" href="#">&#160;</a>
-                                      <a class="array_row_down" href="#">&#160;</a>
-                                    </div>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                            <div class="arraytemplate">
-                              <div class="field" id="field-myform-array_1-1-0-TEMPLATE">
-                                <label for="input-myform-array_1-1-0-TEMPLATE">Text Field</label>
-                                <input class="required text" id="input-myform-array_1-1-0-TEMPLATE" name="myform.array_1.1.0.TEMPLATE" required="required" type="text" value=""/>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td class="actions">
-                          <div class="array_actions">
-                            <a class="array_row_add" href="#">&#160;</a>
-                            <a class="array_row_remove" href="#">&#160;</a>
-                            <a class="array_row_up" href="#">&#160;</a>
-                            <a class="array_row_down" href="#">&#160;</a>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <div class="arraytemplate">
-                    <div class="array" id="array-myform-array_1-1-TEMPLATE">
-                      <table>
-                        <thead>
-                          <tr>
-                            <th>Array 3</th>
-                            <th>
-                              <div class="array_actions">
-                                <a class="array_row_add" href="#">&#160;</a>
-                              </div>
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody/>
-                      </table>
-                      <div class="arraytemplate">
-                        <div class="field" id="field-myform-array_1-1-TEMPLATE-TEMPLATE">
-                          <label for="input-myform-array_1-1-TEMPLATE-TEMPLATE">Text Field</label>
-                          <input class="required text" id="input-myform-array_1-1-TEMPLATE-TEMPLATE" name="myform.array_1.1.TEMPLATE.TEMPLATE" required="required" type="text" value=""/>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </td>
-              <td class="actions">
-                <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                  <a class="array_row_remove" href="#">&#160;</a>
-                  <a class="array_row_up" href="#">&#160;</a>
-                  <a class="array_row_down" href="#">&#160;</a>
-                </div>
-              </td>
+              ...
             </tr>
           </tbody>
         </table>
@@ -1463,11 +1084,7 @@ Required::
               <thead>
                 <tr>
                   <th>Array 2</th>
-                  <th>
-                    <div class="array_actions">
-                      <a class="array_row_add" href="#">&#160;</a>
-                    </div>
-                  </th>
+                  ...
                 </tr>
               </thead>
               <tbody/>
@@ -1478,11 +1095,7 @@ Required::
                   <thead>
                     <tr>
                       <th>Array 3</th>
-                      <th>
-                        <div class="array_actions">
-                          <a class="array_row_add" href="#">&#160;</a>
-                        </div>
-                      </th>
+                      ...
                     </tr>
                   </thead>
                   <tbody/>
