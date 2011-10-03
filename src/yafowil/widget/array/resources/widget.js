@@ -22,6 +22,8 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
         
         array: {
             
+            binders: {},
+            
             container: function(context) {
                 return $(context).parents('.array').first();
             },
@@ -126,6 +128,9 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                             var body = $('tbody', table).first();
                             container = body;
                             container.prepend(new_row);
+                        }
+                        for (var name in yafowil.array.binders) {
+                            yafowil.array.binders[name](new_row);
                         }
                         yafowil.array.reset_indices(container);
                     });
