@@ -143,7 +143,7 @@ def add_array_with_array_with_compounds(form):
 
 
 def add_array_with_array_with_array_with_leafs(form):
-    arr = form['arrayarrayarray'] = factory(
+    arr_1 = form['array_1'] = factory(
         'array',
         value=[
             [
@@ -157,21 +157,69 @@ def add_array_with_array_with_array_with_leafs(form):
         props={
             'label': 'Array 1',
         })
-    arr2 = arr['arrayarray'] = factory(
+    arr_2 = arr_1['array_2'] = factory(
         'array',
         props={
             'label': 'Array 2',
         })
-    arr3 = arr2['subarray'] = factory(
+    arr_3 = arr_2['array_3'] = factory(
         'array',
         props={
             'label': 'Array 3',
         })
-    arr3['somefield'] = factory(
+    arr_3['textfield'] = factory(
         'field:error:label:text',
         props={
-            'label': 'Some Field',
-            'required': 'Some Field is required',
+            'label': 'Text Field',
+            'required': 'Text Field is required',
+        })
+
+
+def add_array_with_array_with_array_with_compounds(form):
+    arr_1 = form['comp_array_1'] = factory(
+        'array',
+        value=[
+            [
+                [
+                    {
+                        'f1': 'Value F1',
+                        'f2': 'Value F2',
+                    },
+                ],
+            ],
+            [
+                [
+                    {
+                        'f1': 'Value F1',
+                        'f2': 'Value F2',
+                    },
+                ],
+            ],
+        ],
+        props={
+            'label': 'Array 1',
+        })
+    arr_2 = arr_1['array_2'] = factory(
+        'array',
+        props={
+            'label': 'Array 2',
+        })
+    arr_3 = arr_2['array_3'] = factory(
+        'array',
+        props={
+            'label': 'Array 3',
+        })
+    comp = arr_3['comp'] = factory('compound')
+    comp['f1'] = factory(
+        'field:label:text',
+        props={
+            'label': 'F1',
+        })
+    comp['f2'] = factory(
+        'field:error:label:text',
+        props={
+            'label': 'F2',
+            'required': 'F2 is required',
         })
 
 
@@ -193,7 +241,8 @@ def app(environ, start_response):
     add_array_with_compounds(form)
     add_array_with_array_with_leafs(form)
     add_array_with_array_with_compounds(form)
-    #add_array_with_array_with_array_with_leafs(form)
+    add_array_with_array_with_array_with_leafs(form)
+    add_array_with_array_with_array_with_compounds(form)
     
     form['submit'] = factory(
         'field:submit',
