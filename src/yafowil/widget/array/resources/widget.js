@@ -22,7 +22,12 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
         
         array: {
             
-            binders: {},
+            hooks: {
+                add: {},
+                remove: {},
+                up: {},
+                down: {}
+            },
             
             container: function(context) {
                 return $(context).parents('.array').first();
@@ -129,10 +134,10 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                             container = body;
                             container.prepend(new_row);
                         }
-                        for (var name in yafowil.array.binders) {
-                            yafowil.array.binders[name](new_row);
-                        }
                         yafowil.array.reset_indices(container);
+                        for (var name in yafowil.array.hooks.add) {
+                            yafowil.array.hooks.add[name](new_row);
+                        }
                     });
                 
                 $('a.array_row_remove', context)
@@ -140,6 +145,9 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                     .bind('click', function(event) {
                         event.preventDefault();
                         var row = yafowil.array.get_row(this);
+                        for (var name in yafowil.array.hooks.remove) {
+                            yafowil.array.hooks.remove[name](row);
+                        }
                         var container = row.parent();
                         row.remove();
                         yafowil.array.reset_indices(container);
@@ -152,6 +160,9 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                         var row = yafowil.array.get_row(this);
                         row.insertBefore(row.prev());
                         yafowil.array.reset_indices(row.parent());
+                        for (var name in yafowil.array.hooks.up) {
+                            yafowil.array.hooks.up[name](row);
+                        }
                     });
                 
                 $('a.array_row_down', context)
@@ -161,6 +172,9 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                         var row = yafowil.array.get_row(this);
                         row.insertAfter(row.next());
                         yafowil.array.reset_indices(row.parent());
+                        for (var name in yafowil.array.hooks.down) {
+                            yafowil.array.hooks.down[name](row);
+                        }
                     });
             }
         }
