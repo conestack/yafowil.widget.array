@@ -39,7 +39,10 @@ def array_builder(widget, factory):
     row = head['row'] = factory('tr', props={'structural': True})
     props = dict()
     props['structural'] = True
-    props['label'] = widget.attrs.get('label', u' ')
+    label = widget.attrs.get('label', u' ')
+    if callable(label):
+        label = label()
+    props['label'] = label
     row['label'] = factory('th', props=props)
     if not widget.attrs['static']:
         props = dict()
