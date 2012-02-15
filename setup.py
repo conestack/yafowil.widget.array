@@ -39,8 +39,10 @@ setup(name='yafowil.widget.array',
       ),
       test_suite="yafowil.widget.array.tests.test_suite",
       entry_points="""
-      # plone specific, ignore if not available
-      [z3c.autoinclude.plugin]
-      target = plone
-      """,      
+      [yafowil.plugin]
+      register = yafowil.widget.array:register
+      resourcedir = yafowil.widget.array:get_resource_dir
+      javascripts = yafowil.widget.array:get_js
+      stylesheets = yafowil.widget.array:get_css
+      """,
       )
