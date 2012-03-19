@@ -1,5 +1,5 @@
 This is an **array widget** for for `YAFOWIL
-<http://pypi.python.org/pypi/yafowil>`_ - Yet Another Form WIdget Library.
+<http://pypi.python.org/pypi/yafowil>`_ .
 
 
 Example Application
@@ -39,6 +39,8 @@ Source Code
 
 The sources are in a GIT DVCS with its main branches at
 `github <http://github.com/bluedynamics/yafowil.widget.array>`_.
+
+We'd be happy to see many forks and pull-requests to make YAFOWIL even better.
 
 
 Contributors
