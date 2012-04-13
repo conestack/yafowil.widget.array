@@ -47,7 +47,8 @@ def array_builder(widget, factory):
     if not widget.attrs['static']:
         props = dict()
         props['structural'] = True
-        props['add'] = True
+        if widget.attrs['add']:
+            props['add'] = True
         row['actions'] = factory('th:array_actions', props=props)
     table['body'] = factory('tbody', props={'structural': True})
 
@@ -73,13 +74,14 @@ def array_edit_renderer(widget, data):
         template = widget.detach(widget.keys()[1])
         hook_array_template(widget, template)
     value = fetch_value(widget, data)
-    if not value:
-        return
     # XXX: reset table body if already filled -> case form in memory.
-    widget.getter = UNSET
-    data.value = UNSET
-    template = widget[CONTAINER][TEMPLATE]
-    create_array_children(widget, template, value)
+    if value:
+        widget.getter = UNSET
+        data.value = UNSET
+        template = widget[CONTAINER][TEMPLATE]
+        create_array_children(widget, template, value)
+    if not widget.attrs['add'] or widget.attrs['static']:
+        del widget[CONTAINER]
 
 
 def create_array_children(widget, template, value):
@@ -107,17 +109,21 @@ def create_array_entry(idx, widget, template, value):
     props['structural'] = True
     props['class'] = 'widget'
     widget_col = row['widget_col'] = factory('td', props=props)
-    props = dict()
-    props['structural'] = True
-    props['class'] = 'actions'
-    actions_col = row['actions_col'] = factory('td', props=props)
-    props = dict()
-    props['structural'] = True
-    props['add'] = True
-    props['remove'] = True
-    props['up'] = True
-    props['down'] = True
-    actions_col['actions'] = factory('array_actions', props=props)
+    if not widget.attrs['static']:
+        props = dict()
+        props['structural'] = True
+        props['class'] = 'actions'
+        actions_col = row['actions_col'] = factory('td', props=props)
+        props = dict()
+        props['structural'] = True
+        if widget.attrs['add']:
+            props['add'] = True
+        if widget.attrs['remove']:
+            props['remove'] = True
+        if widget.attrs['sort']:
+            props['up'] = True
+            props['down'] = True
+        actions_col['actions'] = factory('array_actions', props=props)
     child_widget = widget_col[idx] = duplicate_widget(template, value)
     if 'array' in template.blueprints:
         if len(template):
@@ -214,8 +220,27 @@ factory.doc['blueprint']['array'] = \
 
 factory.defaults['array.class'] = 'array'
 
-factory.defaults['array.static'] = False
-
 factory.defaults['array.error_class'] = 'error'
 
 factory.defaults['array.message_class'] = 'errormessage'
+
+factory.defaults['array.static'] = False
+factory.doc['props']['array.static'] = \
+"""Array is immutable. No Array actions are rendered. If True, ``add``,
+``remove`` and ``sort`` properties are ignored.
+"""
+
+factory.defaults['array.add'] = True
+factory.doc['props']['array.add'] = \
+"""Render ``add`` action.
+"""
+
+factory.defaults['array.remove'] = True
+factory.doc['props']['array.remove'] = \
+"""Render ``remove`` action.
+"""
+
+factory.defaults['array.sort'] = True
+factory.doc['props']['array.sort'] = \
+"""Render ``move up`` and ``move down`` actions.
+"""

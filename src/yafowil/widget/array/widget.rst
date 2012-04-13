@@ -18,7 +18,7 @@ Create array with missing entry definition::
       ...
     Exception: Empty array widget defined
 
-Create empty Array widget::
+Create empty array widget::
     
     >>> form = factory(
     ...     'form',
@@ -56,7 +56,62 @@ Create empty Array widget::
     </form>
     <BLANKLINE>
 
-Create empty Array widget with compound as template widget. If compound is
+Create empty array widget with add action disabled::
+
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     props={
+    ...         'label': 'My Array',
+    ...         'add': False,
+    ...     })
+    >>> form['myarray']['myfield'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'My Field'})
+    >>> pxml(form())
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+      <div class="array" id="array-myform-myarray">
+        <table>
+          <thead>
+            <tr>
+              <th>My Array</th>
+              <th>
+                <div class="array_actions"/>
+              </th>
+            </tr>
+          </thead>
+          <tbody/>
+        </table>
+      </div>
+    </form>
+    <BLANKLINE>
+
+Create empty static array widget::
+
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     props={
+    ...         'label': 'My Array',
+    ...         'static': True,
+    ...     })
+    >>> form['myarray']['myfield'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'My Field'})
+    >>> pxml(form())
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+      <div class="array" id="array-myform-myarray">
+        <table>
+          <thead>
+            <tr>
+              <th>My Array</th>
+            </tr>
+          </thead>
+          <tbody/>
+        </table>
+      </div>
+    </form>
+    <BLANKLINE>
+
+Create empty array widget with compound as template widget. If compound is
 used as array template, this must not be structural::
 
     >>> form['myarray'] = factory(
@@ -104,7 +159,7 @@ Now with valid compound template::
     
     >>> del form['myarray']
 
-Create empty Array widget with another array as template widget::
+Create empty array widget with another array as template widget::
 
     >>> form['myarrayarray'] = factory(
     ...     'array',
@@ -140,7 +195,7 @@ Create empty Array widget with another array as template widget::
     
     >>> del form['myarrayarray']
 
-Create Array widget with invalid preset value::
+Create array widget with invalid preset value::
 
     >>> form['myarray'] = factory(
     ...     'array',
@@ -154,7 +209,196 @@ Create Array widget with invalid preset value::
       ...
     ValueError: Expected list or dict as value. Got '<type 'object'>'
 
-Create Array widget with preset values.
+Create array widget with preset values.
+
+Value as list. Disable ``add``::
+    
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     value=['1', '2'],
+    ...     props={
+    ...         'label': 'My Array',
+    ...         'add': False,
+    ...     })
+    >>> form['myarray']['myfield'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'My Field'})
+    >>> pxml(form())
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+      <div class="array" id="array-myform-myarray">
+        <table>
+          <thead>
+            <tr>
+              <th>My Array</th>
+              <th>
+                <div class="array_actions"/>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="widget">
+                <div class="field" id="field-myform-myarray-0">
+                  <label for="input-myform-myarray-0">My Field</label>
+                  <input class="text" id="input-myform-myarray-0" name="myform.myarray.0" type="text" value="1"/>
+                </div>
+              </td>
+              <td class="actions">
+                <div class="array_actions">
+                  <a class="array_row_remove" href="#">&#160;</a>
+                  <a class="array_row_up" href="#">&#160;</a>
+                  <a class="array_row_down" href="#">&#160;</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              ...
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+    <BLANKLINE>
+
+Value as list. Disable ``sort``::
+
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     value=['1', '2'],
+    ...     props={
+    ...         'label': 'My Array',
+    ...         'sort': False,
+    ...     })
+    >>> form['myarray']['myfield'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'My Field'})
+    >>> pxml(form())
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+      <div class="array" id="array-myform-myarray">
+        <table>
+          <thead>
+            <tr>
+              <th>My Array</th>
+              <th>
+                <div class="array_actions">
+                  <a class="array_row_add" href="#">&#160;</a>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="widget">
+                <div class="field" id="field-myform-myarray-0">
+                  <label for="input-myform-myarray-0">My Field</label>
+                  <input class="text" id="input-myform-myarray-0" name="myform.myarray.0" type="text" value="1"/>
+                </div>
+              </td>
+              <td class="actions">
+                <div class="array_actions">
+                  <a class="array_row_add" href="#">&#160;</a>
+                  <a class="array_row_remove" href="#">&#160;</a>
+                </div>
+              </td>
+            </tr>
+            ...
+          </tbody>
+        </table>
+        <div class="arraytemplate">
+          ...
+        </div>
+      </div>
+    </form>
+    <BLANKLINE>
+
+Value as list. All actions disabled. Actions col still rendered::
+    
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     value=['1', '2'],
+    ...     props={
+    ...         'label': 'My Array',
+    ...         'add': False,
+    ...         'remove': False,
+    ...         'sort': False,
+    ...     })
+    >>> form['myarray']['myfield'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'My Field'})
+    >>> pxml(form())
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+      <div class="array" id="array-myform-myarray">
+        <table>
+          <thead>
+            <tr>
+              <th>My Array</th>
+              <th>
+                <div class="array_actions"/>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="widget">
+                <div class="field" id="field-myform-myarray-0">
+                  <label for="input-myform-myarray-0">My Field</label>
+                  <input class="text" id="input-myform-myarray-0" name="myform.myarray.0" type="text" value="1"/>
+                </div>
+              </td>
+              <td class="actions">
+                <div class="array_actions"/>
+              </td>
+            </tr>
+            ...
+          </tbody>
+        </table>
+      </div>
+    </form>
+    <BLANKLINE>
+
+Value as list. Set ``static`` property to ``True``. Actions col is skipped::
+    
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     value=['1', '2'],
+    ...     props={
+    ...         'label': 'My Array',
+    ...         'static': True,
+    ...     })
+    >>> form['myarray']['myfield'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'My Field'})
+    >>> pxml(form())
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+      <div class="array" id="array-myform-myarray">
+        <table>
+          <thead>
+            <tr>
+              <th>My Array</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="widget">
+                <div class="field" id="field-myform-myarray-0">
+                  <label for="input-myform-myarray-0">My Field</label>
+                  <input class="text" id="input-myform-myarray-0" name="myform.myarray.0" type="text" value="1"/>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="widget">
+                <div class="field" id="field-myform-myarray-1">
+                  <label for="input-myform-myarray-1">My Field</label>
+                  <input class="text" id="input-myform-myarray-1" name="myform.myarray.1" type="text" value="2"/>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+    <BLANKLINE>
 
 Value as list::
     
