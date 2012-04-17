@@ -30,6 +30,18 @@ Create empty array widget::
     >>> form['myarray']['myfield'] = factory(
     ...     'field:label:text',
     ...     props={'label': 'My Field'})
+    
+    >>> form.printtree()
+    <class 'yafowil.base.Widget'>: myform
+      <class 'yafowil.base.Widget'>: myarray
+        <class 'yafowil.base.Widget'>: table
+          <class 'yafowil.base.Widget'>: head
+            <class 'yafowil.base.Widget'>: row
+              <class 'yafowil.base.Widget'>: label
+              <class 'yafowil.base.Widget'>: actions
+          <class 'yafowil.base.Widget'>: body
+        <class 'yafowil.base.Widget'>: myfield
+    
     >>> pxml(form())
     <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array" id="array-myform-myarray">
@@ -67,6 +79,18 @@ Create empty array widget with add action disabled::
     >>> form['myarray']['myfield'] = factory(
     ...     'field:label:text',
     ...     props={'label': 'My Field'})
+    
+    >>> form.printtree()
+    <class 'yafowil.base.Widget'>: myform
+      <class 'yafowil.base.Widget'>: myarray
+        <class 'yafowil.base.Widget'>: table
+          <class 'yafowil.base.Widget'>: head
+            <class 'yafowil.base.Widget'>: row
+              <class 'yafowil.base.Widget'>: label
+              <class 'yafowil.base.Widget'>: actions
+          <class 'yafowil.base.Widget'>: body
+        <class 'yafowil.base.Widget'>: myfield
+    
     >>> pxml(form())
     <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array" id="array-myform-myarray">
@@ -96,6 +120,17 @@ Create empty static array widget::
     >>> form['myarray']['myfield'] = factory(
     ...     'field:label:text',
     ...     props={'label': 'My Field'})
+    
+    >>> form.printtree()
+     <class 'yafowil.base.Widget'>: myform
+      <class 'yafowil.base.Widget'>: myarray
+        <class 'yafowil.base.Widget'>: table
+          <class 'yafowil.base.Widget'>: head
+            <class 'yafowil.base.Widget'>: row
+              <class 'yafowil.base.Widget'>: label
+          <class 'yafowil.base.Widget'>: body
+        <class 'yafowil.base.Widget'>: myfield
+    
     >>> pxml(form())
     <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array" id="array-myform-myarray">
@@ -137,6 +172,20 @@ Now with valid compound template::
     >>> form['myarray']['mycompound']['f2'] = factory(
     ...     'field:label:text',
     ...     props={'label': 'F2'})
+    
+    >>> form.printtree()
+    <class 'yafowil.base.Widget'>: myform
+      <class 'yafowil.base.Widget'>: myarray
+        <class 'yafowil.base.Widget'>: table
+          <class 'yafowil.base.Widget'>: head
+            <class 'yafowil.base.Widget'>: row
+              <class 'yafowil.base.Widget'>: label
+              <class 'yafowil.base.Widget'>: actions
+          <class 'yafowil.base.Widget'>: body
+        <class 'yafowil.base.Widget'>: mycompound
+          <class 'yafowil.base.Widget'>: f1
+          <class 'yafowil.base.Widget'>: f2
+    
     >>> pxml(form())
     <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array" id="array-myform-myarray">
@@ -170,6 +219,25 @@ Create empty array widget with another array as template widget::
     >>> form['myarrayarray']['myarray']['myfield'] = factory(
     ...     'field:label:text',
     ...     props={'label': 'My Field'})
+    
+    >>> form.printtree()
+    <class 'yafowil.base.Widget'>: myform
+      <class 'yafowil.base.Widget'>: myarrayarray
+        <class 'yafowil.base.Widget'>: table
+          <class 'yafowil.base.Widget'>: head
+            <class 'yafowil.base.Widget'>: row
+              <class 'yafowil.base.Widget'>: label
+              <class 'yafowil.base.Widget'>: actions
+          <class 'yafowil.base.Widget'>: body
+        <class 'yafowil.base.Widget'>: myarray
+          <class 'yafowil.base.Widget'>: table
+            <class 'yafowil.base.Widget'>: head
+              <class 'yafowil.base.Widget'>: row
+                <class 'yafowil.base.Widget'>: label
+                <class 'yafowil.base.Widget'>: actions
+            <class 'yafowil.base.Widget'>: body
+          <class 'yafowil.base.Widget'>: myfield
+    
     >>> pxml(form())
     <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array" id="array-myform-myarrayarray">
@@ -368,6 +436,17 @@ Value as list. Set ``static`` property to ``True``. Actions col is skipped::
     >>> form['myarray']['myfield'] = factory(
     ...     'field:label:text',
     ...     props={'label': 'My Field'})
+    
+    >>> form.printtree()
+    <class 'yafowil.base.Widget'>: myform
+      <class 'yafowil.base.Widget'>: myarray
+        <class 'yafowil.base.Widget'>: table
+          <class 'yafowil.base.Widget'>: head
+            <class 'yafowil.base.Widget'>: row
+              <class 'yafowil.base.Widget'>: label
+          <class 'yafowil.base.Widget'>: body
+        <class 'yafowil.base.Widget'>: myfield
+    
     >>> pxml(form())
     <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array" id="array-myform-myarray">
@@ -1117,6 +1196,70 @@ Array in array with compound fields extraction::
           <RuntimeData myform.myarray.1.1, value=<UNSET>, extracted=odict([('f1', '5'), ('f2', '6')]) at ...>
             <RuntimeData myform.myarray.1.1.f1, value=<UNSET>, extracted='5' at ...>
             <RuntimeData myform.myarray.1.1.f2, value=<UNSET>, extracted='6' at ...>
+
+Array hidden proxy for display mode children.
+
+``yafowil.widget.array`` differs in value extraction when rerendering forms.
+Normally the value gets fetched from the getter if not found on request.
+Since it's hard to reference the origin value for array entries if not found
+on request - you have possibly a mutable array containing componds with some 
+fields disabled or in display mode - a hidden field is added for such widgets
+in the tree on the fly in order to rerender forms correctly::
+
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     value=[{'f1': 'foo1', 'f2': 'foo2'}],
+    ...     props={'label': 'My Compound Array with display children'})
+    >>> form['myarray']['mycompound'] = factory('compound')
+    >>> form['myarray']['mycompound']['f1'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'F1'},
+    ...     mode='display')
+    >>> form['myarray']['mycompound']['f2'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'F2', 'disabled': 'disabled'})
+    
+    >>> pxml(form())
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+      <div class="array" id="array-myform-myarray">
+        <table>
+          ...
+              <td class="widget">
+                <input id="input-myform-myarray-0-f1" name="myform.myarray.0.f1" type="hidden" value="foo1"/>
+                <div class="field" id="field-myform-myarray-0-f1">
+                  <label>F1</label>
+                  <div class="display-text" id="display-myform-myarray-0-f1">foo1</div>
+                </div>
+                <input id="input-myform-myarray-0-f2" name="myform.myarray.0.f2" type="hidden" value="foo2"/>
+                <div class="field" id="field-myform-myarray-0-f2">
+                  <label for="input-myform-myarray-0-f2">F2</label>
+                  <input class="text" disabled="disabled" id="input-myform-myarray-0-f2" name="myform.myarray.0.f2" type="text" value="foo2"/>
+                </div>
+              </td>
+              ...
+        </table>
+        ...
+    <BLANKLINE>
+
+Callable array label::
+
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     props={'label': lambda: 'Callable label'})
+    >>> form['myarray']['f1'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'F1'},
+    ...     mode='display')
+    
+    >>> pxml(form())
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+      <div class="array" id="array-myform-myarray">
+        <table>
+          <thead>
+            <tr>
+              <th>Callable label</th>
+              ...
+    <BLANKLINE>
 
 Required::
 

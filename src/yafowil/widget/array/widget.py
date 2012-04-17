@@ -10,7 +10,31 @@ from yafowil.utils import (
     css_managed_props,
     managedprops,
 )
+from yafowil.common import generic_extractor
 from yafowil.compound import compound_renderer
+
+
+def array_display_proxy_renderer(widget, data):
+    input_attrs = {
+        'type': 'hidden',
+        'value': fetch_value(widget, data),
+        'name_': widget.dottedpath,
+        'id': cssid(widget, 'input'),
+        'class_': cssclasses(widget, data),
+    }
+    input_attrs['required'] = \
+        widget.attrs.get('required') and 'required' or None
+    return data.tag('input', **input_attrs) + data.rendered
+
+
+factory.register(
+     'array_display_proxy',
+     extractors=[generic_extractor],
+     edit_renderers=[array_display_proxy_renderer],
+     display_renderers=[array_display_proxy_renderer])
+
+# do not document internal widget
+factory.doc['blueprint']['array_display_proxy'] = UNSET
 
 
 def actions_renderer(widget, data):
@@ -29,7 +53,7 @@ factory.register(
     'array_actions',
     edit_renderers=[actions_renderer])
 
-# dont document internal widget
+# do not document internal widget
 factory.doc['blueprint']['array_actions'] = UNSET
 
 
@@ -160,8 +184,12 @@ def hook_array_template(widget, template):
 
 
 def duplicate_widget(widget, value=UNSET):
+    blueprints = widget.blueprints
+    leaf = len(widget) == 0
+    if widget.mode == 'display' or widget.attrs.get('disabled') and leaf:
+        blueprints.insert(0, 'array_display_proxy')
     return factory(
-        widget.blueprints,
+        blueprints,
         value=value,
         props=widget.properties,
         custom=widget.custom,
@@ -202,6 +230,8 @@ def check_base_name_in_request(widget, request):
 
 
 def array_display_renderer(widget, data):
+    """XXX: either throw exception or use edit renderers.
+    """
     return '<div>Array display</div>'
 
 
