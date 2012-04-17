@@ -5,6 +5,9 @@ History
 1.1dev
 ------
 
+- Handle ``display`` mode and ``disabled`` property for leaf array children.
+  [rnix, 2012-04-17]
+
 - Introduce ``add``, ``remove``, ``sort`` and ``static`` properties for
   ``array`` blueprint.
   [rnix, 2012-04-13]
