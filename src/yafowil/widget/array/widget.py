@@ -79,9 +79,16 @@ def array_builder(widget, factory):
 
 @managedprops('array', *css_managed_props)
 def array_wrapper_renderer(widget, data):
+    add_css = ''
+    if not widget.attrs['static']:
+        for attr in ['add', 'remove', 'sort']:
+            if widget.attrs[attr]:
+                add_css += ' array-%s' % attr
+    else:
+        add_css += ' array-static'
     kw = {
         'id': cssid(widget, 'array'),
-        'class': cssclasses(widget, data),
+        'class': cssclasses(widget, data) + add_css,
     }
     rendered = data.rendered
     return data.tag('div', rendered, **kw)

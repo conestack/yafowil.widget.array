@@ -40,19 +40,28 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
             },
             
             create_row: function(context) {
+                var css = $(context).parents('.array').attr('class');
                 var row = '';
-                row += '<tr>';
-                row +=   '<td class="widget">';
-                row +=   '</td>';
-                row +=   '<td class="actions">';
-                row +=     '<div class="array_actions">';
-                row +=       '<a class="array_row_add" href="#">&nbsp;</a>';
-                row +=       '<a class="array_row_remove" href="#">&nbsp</a>';
-                row +=       '<a class="array_row_up" href="#">&nbsp</a>';
-                row +=       '<a class="array_row_down" href="#">&nbsp</a>';
-                row +=     '</div>';
-                row +=   '</td>';
-                row += '</tr>';
+                row +=   '<tr>';
+                row +=     '<td class="widget">';
+                row +=     '</td>';
+                if (css.indexOf('array-static') == -1) {
+                    row += '<td class="actions">';
+                    row +=   '<div class="array_actions">';
+                    if (css.indexOf('array-add') > -1) {
+                        row += '<a class="array_row_add" href="#">&nbsp;</a>';
+                    }
+                    if (css.indexOf('array-remove') > -1) {
+                        row += '<a class="array_row_remove" href="#">&nbsp</a>';
+                    }
+                    if (css.indexOf('array-sort') > -1) {
+                        row += '<a class="array_row_up" href="#">&nbsp</a>';
+                        row += '<a class="array_row_down" href="#">&nbsp</a>';
+                    }
+                    row +=   '</div>';
+                    row += '</td>';
+                }
+                row +=   '</tr>';
                 row = $(row);
                 var template = yafowil.array.template(context);
                 $('.widget', row).append(template.children());
