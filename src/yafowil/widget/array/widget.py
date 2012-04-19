@@ -10,7 +10,10 @@ from yafowil.utils import (
     css_managed_props,
     managedprops,
 )
-from yafowil.common import generic_extractor
+from yafowil.common import (
+    generic_extractor,
+    generic_required_extractor,
+)
 from yafowil.compound import compound_renderer
 
 
@@ -245,7 +248,7 @@ def array_display_renderer(widget, data):
 
 factory.register(
     'array',
-    extractors=[array_extractor],
+    extractors=[array_extractor, generic_required_extractor],
     edit_renderers=[
         array_edit_renderer, compound_renderer, array_wrapper_renderer],
     display_renderers=[array_display_renderer, compound_renderer],
@@ -257,6 +260,8 @@ factory.doc['blueprint']['array'] = \
 """
 
 factory.defaults['array.class'] = 'array'
+
+factory.defaults['array.required'] = False
 
 factory.defaults['array.error_class'] = 'error'
 

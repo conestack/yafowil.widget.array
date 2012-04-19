@@ -1097,6 +1097,36 @@ Entries decreased in UI::
         <RuntimeData myform.myarray.1, value=<UNSET>, extracted='2' at ...>
         <RuntimeData myform.myarray.2, value=<UNSET>, extracted='3' at ...>
 
+Required Array::
+
+    >>> form['myarray'] = factory(
+    ...     'error:array',
+    ...     value=['4', '3', '2', '1'],
+    ...     props={
+    ...         'label': 'My Array',
+    ...         'required': 'Array is required',
+    ...     })
+    >>> form['myarray']['myfield'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'My Field'})
+    >>> request = {}
+    >>> data = form.extract(request=request)
+    
+    >>> data.printtree()
+    <RuntimeData myform, value=<UNSET>, extracted=odict([('myarray', [])]) at ...>
+      <RuntimeData myform.myarray, value=['4', '3', '2', '1'], extracted=[], 1 error(s) at ...>
+    
+    >>> pxml(form(data=data))
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+      <div class="error">
+        <div class="errormessage">Array is required</div>
+        <div class="array error array-add array-remove array-sort" id="array-myform-myarray">
+          ...
+        </div>
+      </div>
+    </form>
+    <BLANKLINE>
+
 Array with compound fields extraction::
 
     >>> form['myarray'] = factory(

@@ -5,6 +5,9 @@ History
 1.1dev
 ------
 
+- Handle ``required`` property in ``array`` blueprint.
+  [rnix, 2012-04-19]
+
 - Handle ``display`` mode and ``disabled`` property for leaf array children.
   [rnix, 2012-04-17]
 
