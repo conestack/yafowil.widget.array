@@ -225,7 +225,7 @@ def array_extractor(widget, data):
         helper.__name__ = str(index)
         if not check_base_name_in_request(helper, request):
             break
-        entry_data = helper.extract(request)
+        entry_data = helper.extract(request, parent=data)
         ret.append(entry_data.extracted)
         data[str(index)] = entry_data
         index += 1

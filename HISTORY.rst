@@ -5,6 +5,10 @@ History
 1.1dev
 ------
 
+- pass parent to array extractor explicit extract call (as compound extractor 
+  does).
+  [jensens, 2012-05-20]
+
 - Handle ``required`` property in ``array`` blueprint.
   [rnix, 2012-04-19]
 
