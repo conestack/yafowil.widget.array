@@ -2,8 +2,8 @@
 History
 =======
 
-1.1dev
-------
+1.1
+---
 
 - pass parent to array extractor explicit extract call (as compound extractor 
   does).
