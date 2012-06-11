@@ -268,3 +268,14 @@ def app(environ, start_response):
     body = tag('body', h1, controller.rendered)
     response = Response(body=fxml(tag('html', head, body)))
     return response(environ, start_response)
+
+
+def get_example():
+    root = factory('fieldset', name='yafowil.widget.array')
+    add_array_with_leafs(root)
+    add_array_with_compounds(root)
+    add_array_with_array_with_leafs(root)
+    add_array_with_array_with_compounds(root)
+    add_array_with_array_with_array_with_leafs(root)
+    add_array_with_array_with_array_with_compounds(root)
+    return {'widget': root, 'routes': {}}
