@@ -1,7 +1,8 @@
 from yafowil.base import factory
 
 
-def add_array_with_leafs(form):
+def array_with_leafs():
+    form = factory('fieldset', name='yafowil.widget.array.array_with_leafs')
     arr = form['somearray'] = factory(
         'array',
         value=['1', '2', '3'],
@@ -14,9 +15,12 @@ def add_array_with_leafs(form):
             'label': 'Some Field',
             'required': 'Some Field is required',
         })
+    return {'widget': form, 'doc': ''}
 
 
-def add_array_with_compounds(form):
+def array_with_compounds():
+    form = factory('fieldset',
+                   name='yafowil.widget.array.array_with_compounds')
     arr = form['compoundarray'] = factory(
         'array',
         value=[
@@ -44,9 +48,12 @@ def add_array_with_compounds(form):
             'label': 'Field 2',
             'required': 'Field 2 is required',
         })
+    return {'widget': form, 'doc': ''}
 
 
-def add_array_with_array_with_leafs(form):
+def array_with_array_with_leafs():
+    form = factory('fieldset',
+                   name='yafowil.widget.array_with_array_with_leafs')
     arr = form['arrayarray'] = factory(
         'array',
         value=[['1', '2'], ['3', '4'], ['5', '6']],
@@ -64,9 +71,12 @@ def add_array_with_array_with_leafs(form):
             'label': 'Some Field',
             'required': 'Some Field is required',
         })
+    return {'widget': form, 'doc': ''}
 
 
-def add_array_with_array_with_compounds(form):
+def array_with_array_with_compounds():
+    form = factory('fieldset',
+                   name='yafowil.widget.array_with_array_with_compounds')
     arr = form['arrayarraycomp'] = factory(
         'array',
         value=[
@@ -109,9 +119,12 @@ def add_array_with_array_with_compounds(form):
             'label': 'F2',
             'required': 'F2 is required',
         })
+    return {'widget': form, 'doc': ''}
 
-
-def add_array_with_array_with_array_with_leafs(form):
+def array_with_array_with_array_with_leafs():
+    form = factory(
+        'fieldset',
+        name='yafowil.widget.array_with_array_with_array_with_leafs')
     arr_1 = form['array_1'] = factory(
         'array',
         value=[
@@ -142,9 +155,12 @@ def add_array_with_array_with_array_with_leafs(form):
             'label': 'Text Field',
             'required': 'Text Field is required',
         })
+    return {'widget': form, 'doc': ''}
 
-
-def add_array_with_array_with_array_with_compounds(form):
+def array_with_array_with_array_with_compounds():
+    form = factory(
+        'fieldset',
+        name='yafowil.widget.array_with_array_with_array_with_compounds')
     arr_1 = form['comp_array_1'] = factory(
         'array',
         value=[
@@ -190,14 +206,14 @@ def add_array_with_array_with_array_with_compounds(form):
             'label': 'F2',
             'required': 'F2 is required',
         })
-
+    return {'widget': form, 'doc': ''}
 
 def get_example():
-    root = factory('fieldset', name='yafowil.widget.array')
-    add_array_with_leafs(root)
-    add_array_with_compounds(root)
-    add_array_with_array_with_leafs(root)
-    add_array_with_array_with_compounds(root)
-    add_array_with_array_with_array_with_leafs(root)
-    add_array_with_array_with_array_with_compounds(root)
-    return {'widget': root, 'routes': {}}
+    return [
+        array_with_leafs(),
+        array_with_compounds(),
+        array_with_array_with_leafs(),
+        array_with_array_with_compounds(),
+        array_with_array_with_array_with_leafs(),
+        array_with_array_with_array_with_compounds(),
+    ]
