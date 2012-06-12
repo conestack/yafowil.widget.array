@@ -2,6 +2,16 @@
 History
 =======
 
+1.2dev
+------
+
+- Adopt resource providing
+  [rnix, 2012-06-12]
+
+- Remove example app
+  [rnix, 2012-06-12]
+
+
 1.1
 ---
 
