@@ -40,13 +40,21 @@ factory.register(
 factory.doc['blueprint']['array_display_proxy'] = UNSET
 
 
+ICON_CSS = {
+    'add': 'icon-plus-sign',
+    'remove': 'icon-minus-sign',
+    'up': 'icon-circle-arrow-up',
+    'down': 'icon-circle-arrow-down',
+}
+
 def actions_renderer(widget, data):
     tag = data.tag
     actions = list()
     for key in ['add', 'remove', 'up', 'down']:
         if widget.attrs.get(key):
             class_ = 'array_row_%s' % key
-            action = tag('a', '&#160;', href='#', class_=class_)
+            icon = tag('i', '&#160;', class_=ICON_CSS[key])
+            action = tag('a', icon, href='#', class_=class_)
             actions.append(action)
     kw = dict(class_='array_actions')
     return tag('div', *actions, **kw)

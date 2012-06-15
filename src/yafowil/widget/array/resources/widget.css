@@ -3,28 +3,10 @@
     display:none;
 }
 .array_actions a {
-    line-height:16px;
-    font-size:16px;
-    padding-left:16px;
-    text-decoration:none;
     float:right;
-    margin-top:1px;
 }
-.array_actions a.array_row_add {
-    background:url('images/icon_add.png') 50% 50% no-repeat;
-}
-.array_actions a.array_row_remove {
-    background:url('images/icon_remove.png') 50% 50% no-repeat;
-}
-.array_actions a.array_row_up {
-    background:url('images/icon_up.png') 50% 50% no-repeat;
-}
-.array_actions a.array_row_up_disabled {
-    background:url('images/icon_up_disabled.png') 50% 50% no-repeat !important;
-}
-.array_actions a.array_row_down {
-    background:url('images/icon_down.png') 50% 50% no-repeat;
-}
+.array_actions a.array_row_up_disabled,
 .array_actions a.array_row_down_disabled {
-    background:url('images/icon_down_disabled.png') 50% 50% no-repeat !important;
+    opacity:0.4;
+    filter:alpha(opacity=40);
 }
