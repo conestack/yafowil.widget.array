@@ -61,7 +61,9 @@ factory.doc['blueprint']['array_actions'] = UNSET
 
 
 def array_builder(widget, factory):
-    table = widget['table'] = factory('table', props={'structural': True})
+    table = widget['table'] = factory('table', props={
+                                      'structural': True,
+                                      'class': widget.attrs['table_class']})
     head = table['head'] = factory('thead', props={'structural': True})
     row = head['row'] = factory('tr', props={'structural': True})
     props = dict()
@@ -266,6 +268,12 @@ factory.defaults['array.required'] = False
 factory.defaults['array.error_class'] = 'error'
 
 factory.defaults['array.message_class'] = 'errormessage'
+
+table_class = 'table table-striped table-bordered table-condensed'
+factory.defaults['array.table_class'] = table_class
+factory.doc['props']['array.table_class'] = \
+"""CSS classes rendered on array table.
+"""
 
 factory.defaults['array.static'] = False
 factory.doc['props']['array.static'] = \
