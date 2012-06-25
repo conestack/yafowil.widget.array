@@ -277,7 +277,7 @@ factory.defaults['array.error_class'] = 'error'
 
 factory.defaults['array.message_class'] = 'errormessage'
 
-table_class = 'table table-striped table-bordered table-condensed'
+table_class = 'table table-bordered table-condensed'
 factory.defaults['array.table_class'] = table_class
 factory.doc['props']['array.table_class'] = \
 """CSS classes rendered on array table.
