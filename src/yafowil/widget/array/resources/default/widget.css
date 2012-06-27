@@ -31,6 +31,7 @@
     text-decoration:none;
     float:right;
     margin-top:1px;
+    border:none !important;
 }
 .array_actions a.array_row_add {
     background:url('images/icon_add.png') 50% 50% no-repeat;
