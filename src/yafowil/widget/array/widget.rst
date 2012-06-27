@@ -43,15 +43,17 @@ Create empty array widget::
         <class 'yafowil.base.Widget'>: myfield
     
     >>> pxml(form())
-    <form action="myaction" class="well" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array array-add array-remove array-sort" id="array-myform-myarray">
-        <table class="table table-bordered table-condensed table-striped">
+        <table>
           <thead>
             <tr>
               <th>My Array</th>
               <th>
                 <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
+                  <a class="array_row_add" href="#">
+                    <i class="icon-plus-sign">&#160;</i>
+                  </a>
                 </div>
               </th>
             </tr>
@@ -92,9 +94,9 @@ Create empty array widget with add action disabled::
         <class 'yafowil.base.Widget'>: myfield
     
     >>> pxml(form())
-    <form action="myaction" class="well" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array array-remove array-sort" id="array-myform-myarray">
-        <table class="table table-bordered table-condensed table-striped">
+        <table>
           <thead>
             <tr>
               <th>My Array</th>
@@ -132,9 +134,9 @@ Create empty static array widget::
         <class 'yafowil.base.Widget'>: myfield
     
     >>> pxml(form())
-    <form action="myaction" class="well" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array array-static" id="array-myform-myarray">
-        <table class="table table-bordered table-condensed table-striped">
+        <table>
           <thead>
             <tr>
               <th>My Array</th>
@@ -187,9 +189,9 @@ Now with valid compound template::
           <class 'yafowil.base.Widget'>: f2
     
     >>> pxml(form())
-    <form action="myaction" class="well" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array array-add array-remove array-sort" id="array-myform-myarray">
-        <table class="table table-bordered table-condensed table-striped">
+        <table>
           ...
         </table>
         <div class="arraytemplate">
@@ -239,14 +241,14 @@ Create empty array widget with another array as template widget::
           <class 'yafowil.base.Widget'>: myfield
     
     >>> pxml(form())
-    <form action="myaction" class="well" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array array-add array-remove array-sort" id="array-myform-myarrayarray">
-        <table class="table table-bordered table-condensed table-striped">
+        <table>
           ...
         </table>
         <div class="arraytemplate">
           <div class="array array-add array-remove array-sort" id="array-myform-myarrayarray-TEMPLATE">
-            <table class="table table-bordered table-condensed table-striped">
+            <table>
               ...
             </table>
             <div class="arraytemplate">
@@ -292,9 +294,9 @@ Value as list. Disable ``add``::
     ...     'field:label:text',
     ...     props={'label': 'My Field'})
     >>> pxml(form())
-    <form action="myaction" class="well" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array array-remove array-sort" id="array-myform-myarray">
-        <table class="table table-bordered table-condensed table-striped">
+        <table>
           <thead>
             <tr>
               <th>My Array</th>
@@ -313,9 +315,15 @@ Value as list. Disable ``add``::
               </td>
               <td class="actions">
                 <div class="array_actions">
-                  <a class="array_row_remove" href="#">&#160;</a>
-                  <a class="array_row_up" href="#">&#160;</a>
-                  <a class="array_row_down" href="#">&#160;</a>
+                  <a class="array_row_remove" href="#">
+                    <i class="icon-minus-sign">&#160;</i>
+                  </a>
+                  <a class="array_row_up" href="#">
+                    <i class="icon-circle-arrow-up">&#160;</i>
+                  </a>
+                  <a class="array_row_down" href="#">
+                    <i class="icon-circle-arrow-down">&#160;</i>
+                  </a>
                 </div>
               </td>
             </tr>
@@ -341,15 +349,15 @@ Value as list. Disable ``sort``::
     ...     'field:label:text',
     ...     props={'label': 'My Field'})
     >>> pxml(form())
-    <form action="myaction" class="well" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array array-add array-remove" id="array-myform-myarray">
-        <table class="table table-bordered table-condensed table-striped">
+        <table>
           <thead>
             <tr>
               <th>My Array</th>
               <th>
                 <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
+                  ...
                 </div>
               </th>
             </tr>
@@ -364,8 +372,12 @@ Value as list. Disable ``sort``::
               </td>
               <td class="actions">
                 <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                  <a class="array_row_remove" href="#">&#160;</a>
+                  <a class="array_row_add" href="#">
+                    <i class="icon-plus-sign">&#160;</i>
+                  </a>
+                  <a class="array_row_remove" href="#">
+                    <i class="icon-minus-sign">&#160;</i>
+                  </a>
                 </div>
               </td>
             </tr>
@@ -394,9 +406,9 @@ Value as list. All actions disabled. Actions col still rendered::
     ...     'field:label:text',
     ...     props={'label': 'My Field'})
     >>> pxml(form())
-    <form action="myaction" class="well" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array" id="array-myform-myarray">
-        <table class="table table-bordered table-condensed table-striped">
+        <table>
           <thead>
             <tr>
               <th>My Array</th>
@@ -448,9 +460,9 @@ Value as list. Set ``static`` property to ``True``. Actions col is skipped::
         <class 'yafowil.base.Widget'>: myfield
     
     >>> pxml(form())
-    <form action="myaction" class="well" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array array-static" id="array-myform-myarray">
-        <table class="table table-bordered table-condensed table-striped">
+        <table>
           <thead>
             <tr>
               <th>My Array</th>
@@ -489,9 +501,9 @@ Value as list::
     ...     'field:label:text',
     ...     props={'label': 'My Field'})
     >>> pxml(form())
-    <form action="myaction" class="well" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array array-add array-remove array-sort" id="array-myform-myarray">
-        <table class="table table-bordered table-condensed table-striped">
+        <table>
           <thead>
             ...
           </thead>
@@ -505,10 +517,18 @@ Value as list::
               </td>
               <td class="actions">
                 <div class="array_actions">
-                  <a class="array_row_add" href="#">&#160;</a>
-                  <a class="array_row_remove" href="#">&#160;</a>
-                  <a class="array_row_up" href="#">&#160;</a>
-                  <a class="array_row_down" href="#">&#160;</a>
+                  <a class="array_row_add" href="#">
+                    <i class="icon-plus-sign">&#160;</i>
+                  </a>
+                  <a class="array_row_remove" href="#">
+                    <i class="icon-minus-sign">&#160;</i>
+                  </a>
+                  <a class="array_row_up" href="#">
+                    <i class="icon-circle-arrow-up">&#160;</i>
+                  </a>
+                  <a class="array_row_down" href="#">
+                    <i class="icon-circle-arrow-down">&#160;</i>
+                  </a>
                 </div>
               </td>
             </tr>
@@ -562,9 +582,9 @@ Valid dict value::
     ...     'field:label:text',
     ...     props={'label': 'My Field'})
     >>> pxml(form())
-    <form action="myaction" class="well" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array array-add array-remove array-sort" id="array-myform-myarray">
-        <table class="table table-bordered table-condensed table-striped">
+        <table>
           <thead>
             ...
           </thead>
@@ -616,9 +636,9 @@ Create array widget with compounds, default values set::
     ...     props={'label': 'F2'})
     >>> rendered = form()
     >>> pxml(rendered)
-    <form action="myaction" class="well" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array array-add array-remove array-sort" id="array-myform-myarray">
-        <table class="table table-bordered table-condensed table-striped">
+        <table>
           <thead>
             ...
           </thead>
@@ -679,9 +699,9 @@ Create array widget with array, default values set as list::
     ...     props={'label': 'My Field'})
     >>> rendered = form()
     >>> pxml(rendered)
-    <form action="myaction" class="well" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array array-add array-remove array-sort" id="array-myform-myarray">
-        <table class="table table-bordered table-condensed table-striped">
+        <table>
           <thead>
             ...
           </thead>
@@ -689,7 +709,7 @@ Create array widget with array, default values set as list::
             <tr>
               <td class="widget">
                 <div class="array array-add array-remove array-sort" id="array-myform-myarray-0">
-                  <table class="table table-bordered table-condensed table-striped">
+                  <table>
                     <thead>
                       <tr>
                         <th>Subrray</th>
@@ -747,7 +767,7 @@ Create array widget with array, default values set as list::
         </table>
         <div class="arraytemplate">
           <div class="array array-add array-remove array-sort" id="array-myform-myarray-TEMPLATE">
-            <table class="table table-bordered table-condensed table-striped">
+            <table>
               <thead>
                 <tr>
                   <th>Subrray</th>
@@ -867,9 +887,9 @@ Create array widget with array with compound, default values as list::
     
     >>> rendered = form()
     >>> pxml(rendered)
-    <form action="myaction" class="well" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array array-add array-remove array-sort" id="array-myform-myarray">
-        <table class="table table-bordered table-condensed table-striped">
+        <table>
           <thead>
             <tr>
               <th>My Compound Array</th>
@@ -880,7 +900,7 @@ Create array widget with array with compound, default values as list::
             <tr>
               <td class="widget">
                 <div class="array array-add array-remove array-sort" id="array-myform-myarray-0">
-                  <table class="table table-bordered table-condensed table-striped">
+                  <table>
                     <thead>
                       <tr>
                         <th>Subarray</th>
@@ -933,7 +953,7 @@ Create array widget with array with compound, default values as list::
         </table>
         <div class="arraytemplate">
           <div class="array array-add array-remove array-sort" id="array-myform-myarray-TEMPLATE">
-            <table class="table table-bordered table-condensed table-striped">
+            <table>
               <thead>
                 <tr>
                   <th>Subarray</th>
@@ -1117,7 +1137,7 @@ Required Array::
       <RuntimeData myform.myarray, value=['4', '3', '2', '1'], extracted=[], 1 error(s) at ...>
     
     >>> pxml(form(data=data))
-    <form action="myaction" class="well" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="error">
         <div class="errormessage">Array is required</div>
         <div class="array error array-add array-remove array-sort" id="array-myform-myarray">
@@ -1250,9 +1270,9 @@ in the tree on the fly in order to rerender forms correctly::
     ...     props={'label': 'F2', 'disabled': 'disabled'})
     
     >>> pxml(form())
-    <form action="myaction" class="well" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array array-add array-remove array-sort" id="array-myform-myarray">
-        <table class="table table-bordered table-condensed table-striped">
+        <table>
           ...
               <td class="widget">
                 <input id="input-myform-myarray-0-f1" name="myform.myarray.0.f1" type="hidden" value="foo1"/>
@@ -1282,9 +1302,9 @@ Callable array label::
     ...     mode='display')
     
     >>> pxml(form())
-    <form action="myaction" class="well" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array array-add array-remove array-sort" id="array-myform-myarray">
-        <table class="table table-bordered table-condensed table-striped">
+        <table>
           <thead>
             <tr>
               <th>Callable label</th>
@@ -1314,9 +1334,9 @@ Required::
         <RuntimeData myform.myarray.1, value=<UNSET>, extracted='', 1 error(s) at ...>
 
     >>> pxml(form(data))
-    <form action="myaction" class="well" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array array-add array-remove array-sort" id="array-myform-myarray">
-        <table class="table table-bordered table-condensed table-striped">
+        <table>
           ...
           <tbody>
             <tr>
@@ -1406,9 +1426,9 @@ Required::
 
     >>> rendered = form()
     >>> pxml(rendered)
-    <form action="myaction" class="well" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
       <div class="array array-add array-remove array-sort" id="array-myform-array_1">
-        <table class="table table-bordered table-condensed table-striped">
+        <table>
           <thead>
             <tr>
               <th>Array 1</th>
@@ -1419,7 +1439,7 @@ Required::
             <tr>
               <td class="widget">
                 <div class="array array-add array-remove array-sort" id="array-myform-array_1-0">
-                  <table class="table table-bordered table-condensed table-striped">
+                  <table>
                     <thead>
                       <tr>
                         <th>Array 2</th>
@@ -1430,7 +1450,7 @@ Required::
                       <tr>
                         <td class="widget">
                           <div class="array array-add array-remove array-sort" id="array-myform-array_1-0-0">
-                            <table class="table table-bordered table-condensed table-striped">
+                            <table>
                               <thead>
                                 <tr>
                                   <th>Array 3</th>
@@ -1467,7 +1487,7 @@ Required::
                   </table>
                   <div class="arraytemplate">
                     <div class="array array-add array-remove array-sort" id="array-myform-array_1-0-TEMPLATE">
-                      <table class="table table-bordered table-condensed table-striped">
+                      <table>
                         <thead>
                           <tr>
                             <th>Array 3</th>
@@ -1497,7 +1517,7 @@ Required::
         </table>
         <div class="arraytemplate">
           <div class="array array-add array-remove array-sort" id="array-myform-array_1-TEMPLATE">
-            <table class="table table-bordered table-condensed table-striped">
+            <table>
               <thead>
                 <tr>
                   <th>Array 2</th>
@@ -1508,7 +1528,7 @@ Required::
             </table>
             <div class="arraytemplate">
               <div class="array array-add array-remove array-sort" id="array-myform-array_1-TEMPLATE-TEMPLATE">
-                <table class="table table-bordered table-condensed table-striped">
+                <table>
                   <thead>
                     <tr>
                       <th>Array 3</th>
