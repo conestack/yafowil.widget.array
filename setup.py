@@ -40,9 +40,6 @@ setup(name='yafowil.widget.array',
       entry_points="""
       [yafowil.plugin]
       register = yafowil.widget.array:register
-      resourcedir = yafowil.widget.array:get_resource_dir
-      javascripts = yafowil.widget.array:get_js
-      stylesheets = yafowil.widget.array:get_css
       example = yafowil.widget.array.example:get_example
       """,
       )

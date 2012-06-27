@@ -10,8 +10,14 @@ js = [{
     'order': 20,
 }]
 
-css = [{
-    'resource': 'widget.css',
+default_css = [{
+    'resource': 'default/widget.css',
+    'thirdparty': False,
+    'order': 20,
+}]
+
+bootstrap_css = [{
+    'resource': 'bootstrap/widget.css',
     'thirdparty': False,
     'order': 20,
 }]
@@ -20,20 +26,6 @@ css = [{
 def register():
     import widget
     factory.register_theme('default', 'yafowil.widget.array',
-                           resourcedir, js=js, css=css)
-
-
-###############################################################################
-# XXX: outdated below
-###############################################################################
-
-def get_resource_dir():
-    return resourcedir
-
-
-def get_js():
-    return js
-
-
-def get_css():
-    return css
+                           resourcedir, js=js, css=default_css)
+    factory.register_theme('bootstrap', 'yafowil.widget.array',
+                           resourcedir, js=js, css=bootstrap_css)
