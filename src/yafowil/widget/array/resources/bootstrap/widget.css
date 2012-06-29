@@ -10,3 +10,12 @@
     opacity:0.4;
     filter:alpha(opacity=40);
 }
+.array .widget .control-group {
+    margin-bottom:0;
+}
+.array td.widget {
+    font-size:13px;
+}
+.array td.actions {
+    min-width:60px;
+}

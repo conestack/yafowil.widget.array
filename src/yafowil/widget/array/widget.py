@@ -90,7 +90,7 @@ def array_builder(widget, factory):
     table['body'] = factory('tbody', props={'structural': True})
 
 
-@managedprops('array', *css_managed_props)
+@managedprops('add', 'remove', 'sort', 'static', *css_managed_props)
 def array_wrapper_renderer(widget, data):
     add_css = ''
     if not widget.attrs['static']:
@@ -175,10 +175,8 @@ def create_array_entry(idx, widget, template, value):
         orgin = template[template.keys()[-1]]
         template = duplicate_recursiv(orgin)
         hook_array_template(child_widget, template)
-        # If array in array with compound. For some reason (propably
-        # compound_renderer), the compound template children get hooked to
-        # array widget. Remove them.
-        # XXX: figure out in more detail what happens.
+        # If array in array with compound. Compound template children get 
+        # hooked to array widget. Remove them.
         for key in child_widget.keys():
             if not key in ['table', CONTAINER]:
                 del child_widget[key]
