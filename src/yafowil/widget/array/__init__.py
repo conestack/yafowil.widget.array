@@ -2,23 +2,24 @@ import os
 from yafowil.base import factory
 
 
+# XXX: use fanstatic
 resourcedir = os.path.join(os.path.dirname(__file__), 'resources')
 
 js = [{
+    'group': 'yafowil.widget.array',
     'resource': 'widget.js',
-    'thirdparty': False,
     'order': 20,
 }]
 
 default_css = [{
+    'group': 'yafowil.widget.array',
     'resource': 'default/widget.css',
-    'thirdparty': False,
     'order': 20,
 }]
 
 bootstrap_css = [{
+    'group': 'yafowil.widget.array',
     'resource': 'bootstrap/widget.css',
-    'thirdparty': False,
     'order': 20,
 }]
 
