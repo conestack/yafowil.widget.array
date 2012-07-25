@@ -103,6 +103,8 @@ def array_wrapper_renderer(widget, data):
         'id': cssid(widget, 'array'),
         'class': cssclasses(widget, data) + add_css,
     }
+    if not 'array' in kw['class'].split(' '):
+        kw['class'] = 'array %s' % kw['class']
     rendered = data.rendered
     return data.tag('div', rendered, **kw)
 

@@ -5,10 +5,15 @@ History
 2.0dev
 ------
 
-- Adopt resource providing
+- Add ``array`` CSS class to array wrapper DOM element if not present (may
+  happen if ``class`` property for array blueprint gets overwritten). Javascript
+  depends on this CSS class.
+  [rnix, 2012-07-25]
+
+- Adopt resource providing.
   [rnix, 2012-06-12]
 
-- Remove example app
+- Remove example app.
   [rnix, 2012-06-12]
 
 
