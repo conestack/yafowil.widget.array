@@ -2,7 +2,7 @@
 History
 =======
 
-2.0dev
+1.2dev
 ------
 
 - Add ``array`` CSS class to array wrapper DOM element if not present (may
