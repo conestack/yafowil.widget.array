@@ -7,6 +7,7 @@ longdesc = open(os.path.join(os.path.dirname(__file__), 'README.rst')).read()
 longdesc += open(os.path.join(os.path.dirname(__file__), 'HISTORY.rst')).read()
 longdesc += open(os.path.join(os.path.dirname(__file__), 'LICENSE.rst')).read()
 tests_require = ['yafowil[test]']
+fanstatic_require = ['js.jquery']
 
 setup(name='yafowil.widget.array',
       version=version,
@@ -35,11 +36,16 @@ setup(name='yafowil.widget.array',
       tests_require=tests_require,
       extras_require = dict(
           test=tests_require,
+          fanstatic=fanstatic_require,
       ),
       test_suite="yafowil.widget.array.tests.test_suite",
-      entry_points="""
-      [yafowil.plugin]
-      register = yafowil.widget.array:register
-      example = yafowil.widget.array.example:get_example
-      """,
+      entry_points={
+          'yafowil.plugin': [
+              'register = yafowil.widget.array:register',
+              'example = yafowil.widget.array.example:get_example'
+          ],
+          'fanstatic.libraries': [
+              'yafowil.widget.array = yafowil.widget.array:library',
+          ],
+      },
       )
