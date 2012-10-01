@@ -111,6 +111,40 @@ Create empty array widget with add action disabled::
     </form>
     <BLANKLINE>
 
+Create array widget with overwritten class property. if CSS class 'array'
+missing, it gets added transparently::
+
+    >>> form['myarray'] = factory(
+    ...     'array',
+    ...     props={
+    ...         'label': 'My Array',
+    ...         'class': 'specialclass',
+    ...     })
+    >>> form['myarray']['myfield'] = factory(
+    ...     'field:label:text',
+    ...     props={'label': 'My Field'})
+    
+    >>> pxml(form())
+    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
+      <div class="array specialclass array-add array-remove array-sort" id="array-myform-myarray">
+        <table>
+          ...
+        </table>
+        <div class="arraytemplate">
+          ...
+        </div>
+      </div>
+    </form>
+    <BLANKLINE>
+
+Display mode is not implemented yet::
+
+    >>> form['myarray'].mode = 'display'
+    >>> pxml(form())
+    Traceback (most recent call last):
+      ...
+    NotImplementedError: yafowil.widget.array: Display mode not implemented yet
+
 Create empty static array widget::
 
     >>> form['myarray'] = factory(

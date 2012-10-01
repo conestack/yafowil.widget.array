@@ -251,9 +251,10 @@ def check_base_name_in_request(widget, request):
 
 
 def array_display_renderer(widget, data):
-    """XXX: either throw exception or use edit renderers.
+    """XXX
     """
-    return '<div>Array display</div>'
+    raise NotImplementedError(u"yafowil.widget.array: Display mode not "
+                              u"implemented yet")
 
 
 factory.register(
