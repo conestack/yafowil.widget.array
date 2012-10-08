@@ -1,6 +1,9 @@
 This is an **array widget** for for `YAFOWIL
 <http://pypi.python.org/pypi/yafowil>`_ .
 
+- `Documentation <http://docs.yafowil.info/yafowil/blueprints.html#array>`_
+- `DEMO - see it Live <http://demo.yafowil.info/++widget++yafowil.widget.array/index.html>`_
+
 Source Code
 ===========
 
