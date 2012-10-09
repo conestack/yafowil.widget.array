@@ -17,6 +17,7 @@ from yafowil.common import (
 from yafowil.compound import compound_renderer
 
 
+@managedprops(*css_managed_props)
 def array_display_proxy_renderer(widget, data):
     input_attrs = {
         'type': 'hidden',
@@ -90,7 +91,7 @@ def array_builder(widget, factory):
     table['body'] = factory('tbody', props={'structural': True})
 
 
-@managedprops('add', 'remove', 'sort', 'static', *css_managed_props)
+@managedprops('add', 'remove', 'sort', 'static', 'table_class', *css_managed_props)
 def array_wrapper_renderer(widget, data):
     add_css = ''
     if not widget.attrs['static']:
