@@ -2,8 +2,8 @@
 History
 =======
 
-1.2dev
-------
+1.2
+---
 
 - Add ``array`` CSS class to array wrapper DOM element if not present (may
   happen if ``class`` property for array blueprint gets overwritten). Javascript
