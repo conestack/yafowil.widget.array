@@ -9,6 +9,7 @@ from yafowil.utils import (
     cssclasses,
     css_managed_props,
     managedprops,
+    attr_value,
 )
 from yafowil.common import (
     generic_extractor,
@@ -25,9 +26,8 @@ def array_display_proxy_renderer(widget, data):
         'name_': widget.dottedpath,
         'id': cssid(widget, 'input'),
         'class_': cssclasses(widget, data),
+        'required': attr_value('required', widget, data) and 'required' or None
     }
-    input_attrs['required'] = \
-        widget.attrs.get('required') and 'required' or None
     return data.tag('input', **input_attrs) + data.rendered
 
 
