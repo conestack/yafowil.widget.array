@@ -20,6 +20,8 @@ from yafowil.compound import compound_renderer
 
 @managedprops(*css_managed_props)
 def array_display_proxy_renderer(widget, data):
+    """B/C. Use ``display_proxy`` widget attribute.
+    """
     input_attrs = {
         'type': 'hidden',
         'value': fetch_value(widget, data),
@@ -207,9 +209,11 @@ def hook_array_template(widget, template):
 def duplicate_widget(widget, value=UNSET):
     blueprints = widget.blueprints
     leaf = len(widget) == 0
+    # B/C: use display_property widget attribute!
     if leaf and (widget.mode == 'display' or widget.attrs.get('disabled')) \
       and not 'array_display_proxy' in blueprints:
-        blueprints.insert(0, 'array_display_proxy')
+        if not widget.attrs.get('display_proxy'):
+            blueprints.insert(0, 'array_display_proxy')
     return factory(
         blueprints,
         value=value,

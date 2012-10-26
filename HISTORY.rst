@@ -5,7 +5,11 @@ History
 1.2.1dev
 --------
 
-- use ``yafowil.utils.attr_value`` wherever possible.
+- Do not hook ``array_display_proxy`` if ``display_proxy`` proerty set on
+  widget attributes.
+  [rnix, 2012-10-26]
+
+- Use ``yafowil.utils.attr_value`` wherever possible.
   [rnix, 2012-10-25]
 
 1.2
