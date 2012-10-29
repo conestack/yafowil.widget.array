@@ -2,8 +2,8 @@
 History
 =======
 
-1.2.1dev
---------
+1.2.1
+-----
 
 - Do not hook ``array_display_proxy`` if ``display_proxy`` proerty set on
   widget attributes.
