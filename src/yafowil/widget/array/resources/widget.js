@@ -123,15 +123,22 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
             },
 
             mark_disabled: function(context) {
-                context = $(context);
-                $('a.array_row_up', context)
-                    .removeClass('array_row_up_disabled')
-                    .first()
-                    .addClass('array_row_up_disabled');
-                $('a.array_row_down', context)
-                    .removeClass('array_row_down_disabled')
-                    .last()
-                    .addClass('array_row_down_disabled');
+                if (context !== document) {
+                    context = $(context).parent();
+                } else {
+                    context = $(context);
+                }
+                var up_sel = '> tr > td.actions a.array_row_up';
+                var down_sel = '> tr > td.actions a.array_row_down';
+                $('tbody:visible', context).each(function() {
+                    var body = $(this);
+                    $(up_sel, body).removeClass('array_row_up_disabled')
+                                   .first()
+                                   .addClass('array_row_up_disabled');
+                    $(down_sel, body).removeClass('array_row_down_disabled')
+                                     .last()
+                                     .addClass('array_row_down_disabled');
+                });
             },
 
             binder: function(context) {
