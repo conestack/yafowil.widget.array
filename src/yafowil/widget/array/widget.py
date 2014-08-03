@@ -56,7 +56,7 @@ def actions_renderer(widget, data):
     for key in ['add', 'remove', 'up', 'down']:
         if widget.attrs.get(key):
             class_ = 'array_row_%s' % key
-            icon = tag('i', '&#160;', class_=ICON_CSS[key])
+            icon = tag('span', ' ', class_=ICON_CSS[key])
             action = tag('a', icon, href='#', class_=class_)
             actions.append(action)
     kw = dict(class_='array_actions')
@@ -73,24 +73,32 @@ factory.doc['blueprint']['array_actions'] = UNSET
 
 def array_builder(widget, factory):
     table = widget['table'] = factory('table', props={
-                                      'structural': True,
-                                      'class': widget.attrs['table_class']})
-    head = table['head'] = factory('thead', props={'structural': True})
-    row = head['row'] = factory('tr', props={'structural': True})
-    props = dict()
-    props['structural'] = True
+        'structural': True,
+        'class': widget.attrs['table_class'],
+    })
+    head = table['head'] = factory('thead', props={
+        'structural': True,
+    })
+    row = head['row'] = factory('tr', props={
+        'structural': True,
+    })
     label = widget.attrs.get('label', u' ')
     if callable(label):
         label = label()
-    props['label'] = label
-    row['label'] = factory('th', props=props)
+    row['label'] = factory('th', props={
+        'structural': True,
+        'label': label,
+    })
     if not widget.attrs['static']:
         props = dict()
         props['structural'] = True
+        props['th.class'] = 'head_actions'
         if widget.attrs['add']:
             props['add'] = True
         row['actions'] = factory('th:array_actions', props=props)
-    table['body'] = factory('tbody', props={'structural': True})
+    table['body'] = factory('tbody', props={
+        'structural': True,
+    })
 
 
 @managedprops('add', 'remove', 'sort', 'static', 'table_class', *css_managed_props)

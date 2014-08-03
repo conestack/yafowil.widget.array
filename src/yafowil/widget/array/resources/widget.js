@@ -8,7 +8,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
 
     $(document).ready(function() {
         // initial binding
-        yafowil.array.binder();
+        yafowil.array.binder(document);
         
         // add after ajax binding if bdajax present
         if (typeof(window['bdajax']) != "undefined") {
@@ -17,28 +17,28 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
             });
         }
     });
-    
+
     $.extend(yafowil, {
-        
+
         array: {
-            
+
             hooks: {
                 add: {},
                 remove: {},
                 up: {},
                 down: {}
             },
-            
+
             container: function(context) {
                 return $(context).parents('.array').first();
             },
-            
+
             template: function(context) {
                 var container = yafowil.array.container(context);
                 var tmpl = container.children('.arraytemplate').clone();
                 return tmpl;
             },
-            
+
             create_row: function(context) {
                 var css = $(context).parents('.array').attr('class');
                 var row = '';
@@ -50,20 +50,20 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                     row +=   '<div class="array_actions">';
                     if (css.indexOf('array-add') > -1) {
                         row += '<a class="array_row_add" href="#">';
-                        row +=   '<i class="icon-plus-sign">&nbsp;</i>';
+                        row +=   '<span class="icon-plus-sign"> </span>';
                         row += '</a>';
                     }
                     if (css.indexOf('array-remove') > -1) {
                         row += '<a class="array_row_remove" href="#">';
-                        row +=   '<i class="icon-minus-sign">&nbsp;</i>';
+                        row +=   '<span class="icon-minus-sign"> </span>';
                         row += '</a>';
                     }
                     if (css.indexOf('array-sort') > -1) {
                         row += '<a class="array_row_up" href="#">';
-                        row +=   '<i class="icon-circle-arrow-up">&nbsp;</i>';
+                        row +=   '<span class="icon-circle-arrow-up"> </span>';
                         row += '</a>';
                         row += '<a class="array_row_down" href="#">';
-                        row +=   '<i class="icon-circle-arrow-down">&nbsp;</i>';
+                        row +=   '<span class="icon-circle-arrow-down"> </span>';
                         row += '</a>';
                     }
                     row +=   '</div>';
@@ -75,16 +75,16 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                 $('.widget', row).append(template.children());
                 return row;
             },
-            
+
             get_row: function(action) {
                 return $(action).parent().parent().parent();
             },
-            
+
             base_id: function(context) {
                 var id = context.parents('.array').first().attr('id');
                 return id.substring(6, id.length);
             },
-            
+
             reset_indices: function(context) {
                 var index = 0;
                 var container = yafowil.array.container(context);
@@ -94,7 +94,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                 });
                 yafowil.array.binder(context);
             },
-            
+
             set_row_index: function(node, base_id, index) {
                 var base_name = base_id.replace(/\-/g, '.');
                 var set_index = yafowil.array.set_attr_index;
@@ -107,7 +107,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                     yafowil.array.set_row_index(child, base_id, index);
                 });
             },
-            
+
             set_attr_index: function(node, attr, base, index, delim) {
                 var value = node.attr(attr);
                 if (value && value.indexOf(base) > -1) {
@@ -121,7 +121,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                     node.attr(attr, pre + index + post);
                 }
             },
-            
+
             mark_disabled: function(context) {
                 context = $(context);
                 $('a.array_row_up', context)
@@ -133,7 +133,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                     .last()
                     .addClass('array_row_down_disabled');
             },
-            
+
             binder: function(context) {
                 yafowil.array.mark_disabled(context);
                 $('a.array_row_add', context)
@@ -156,7 +156,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                             yafowil.array.hooks.add[name](new_row);
                         }
                     });
-                
+
                 $('a.array_row_remove', context)
                     .unbind()
                     .bind('click', function(event) {
@@ -169,7 +169,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                         row.remove();
                         yafowil.array.reset_indices(container);
                     });
-                
+
                 $('a.array_row_up', context)
                     .unbind()
                     .bind('click', function(event) {
@@ -181,7 +181,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                             yafowil.array.hooks.up[name](row);
                         }
                     });
-                
+
                 $('a.array_row_down', context)
                     .unbind()
                     .bind('click', function(event) {

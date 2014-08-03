@@ -49,10 +49,10 @@ Create empty array widget::
           <thead>
             <tr>
               <th>My Array</th>
-              <th>
+              <th class="head_actions">
                 <div class="array_actions">
                   <a class="array_row_add" href="#">
-                    <i class="icon-plus-sign">&#160;</i>
+                    <span class="icon-plus-sign"> </span>
                   </a>
                 </div>
               </th>
@@ -100,7 +100,7 @@ Create empty array widget with add action disabled::
           <thead>
             <tr>
               <th>My Array</th>
-              <th>
+              <th class="head_actions">
                 <div class="array_actions"/>
               </th>
             </tr>
@@ -334,7 +334,7 @@ Value as list. Disable ``add``::
           <thead>
             <tr>
               <th>My Array</th>
-              <th>
+              <th class="head_actions">
                 <div class="array_actions"/>
               </th>
             </tr>
@@ -350,13 +350,13 @@ Value as list. Disable ``add``::
               <td class="actions">
                 <div class="array_actions">
                   <a class="array_row_remove" href="#">
-                    <i class="icon-minus-sign">&#160;</i>
+                    <span class="icon-minus-sign"> </span>
                   </a>
                   <a class="array_row_up" href="#">
-                    <i class="icon-circle-arrow-up">&#160;</i>
+                    <span class="icon-circle-arrow-up"> </span>
                   </a>
                   <a class="array_row_down" href="#">
-                    <i class="icon-circle-arrow-down">&#160;</i>
+                    <span class="icon-circle-arrow-down"> </span>
                   </a>
                 </div>
               </td>
@@ -389,7 +389,7 @@ Value as list. Disable ``sort``::
           <thead>
             <tr>
               <th>My Array</th>
-              <th>
+              <th class="head_actions">
                 <div class="array_actions">
                   ...
                 </div>
@@ -407,10 +407,10 @@ Value as list. Disable ``sort``::
               <td class="actions">
                 <div class="array_actions">
                   <a class="array_row_add" href="#">
-                    <i class="icon-plus-sign">&#160;</i>
+                    <span class="icon-plus-sign"> </span>
                   </a>
                   <a class="array_row_remove" href="#">
-                    <i class="icon-minus-sign">&#160;</i>
+                    <span class="icon-minus-sign"> </span>
                   </a>
                 </div>
               </td>
@@ -446,7 +446,7 @@ Value as list. All actions disabled. Actions col still rendered::
           <thead>
             <tr>
               <th>My Array</th>
-              <th>
+              <th class="head_actions">
                 <div class="array_actions"/>
               </th>
             </tr>
@@ -552,16 +552,16 @@ Value as list::
               <td class="actions">
                 <div class="array_actions">
                   <a class="array_row_add" href="#">
-                    <i class="icon-plus-sign">&#160;</i>
+                    <span class="icon-plus-sign"> </span>
                   </a>
                   <a class="array_row_remove" href="#">
-                    <i class="icon-minus-sign">&#160;</i>
+                    <span class="icon-minus-sign"> </span>
                   </a>
                   <a class="array_row_up" href="#">
-                    <i class="icon-circle-arrow-up">&#160;</i>
+                    <span class="icon-circle-arrow-up"> </span>
                   </a>
                   <a class="array_row_down" href="#">
-                    <i class="icon-circle-arrow-down">&#160;</i>
+                    <span class="icon-circle-arrow-down"> </span>
                   </a>
                 </div>
               </td>
