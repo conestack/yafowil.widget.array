@@ -2,6 +2,15 @@
 History
 =======
 
+1.3 (2015-01-23)
+----------------
+
+- Fix ``mark_disabled`` function.
+  [rnix]
+
+- Adopt to ``yafowil.bootstrap`` 1.2.
+  [rnix]
+
 1.2.1
 -----
 
