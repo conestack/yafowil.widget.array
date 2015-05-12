@@ -2,6 +2,13 @@
 History
 =======
 
+1.3.1 (unreleased)
+------------------
+
+- Fix CSS for displaying icons in default theme.
+  [marfago]
+
+
 1.3 (2015-01-23)
 ----------------
 
@@ -10,6 +17,7 @@ History
 
 - Adopt to ``yafowil.bootstrap`` 1.2.
   [rnix]
+
 
 1.2.1
 -----
@@ -20,6 +28,7 @@ History
 
 - Use ``yafowil.utils.attr_value`` wherever possible.
   [rnix, 2012-10-25]
+
 
 1.2
 ---

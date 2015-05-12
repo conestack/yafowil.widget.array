@@ -2,6 +2,18 @@
 .arraytemplate {
     display:none;
 }
+.icon-plus-sign:before {
+    content:"\00a0";
+}
+.icon-minus-sign:before {
+    content: "\00a0";
+}
+.icon-circle-arrow-up:before {
+    content:"\00a0";
+}
+.icon-circle-arrow-down:before {
+    content: "\00a0";
+}
 .array table {
     border-collapse:collapse;
     border-top:#ccc 1px solid;
