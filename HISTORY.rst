@@ -5,6 +5,9 @@ History
 1.3.1 (unreleased)
 ------------------
 
+- Resolve JSHint errors and warnings.
+  [thet]
+
 - Fix CSS for displaying icons in default theme.
   [marfago]
 

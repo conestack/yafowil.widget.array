@@ -1,18 +1,23 @@
+/* jslint browser: true */
+/* global jQuery, yafowil */
 /*
  * yafowil array widget
  */
 
-if (typeof(window['yafowil']) == "undefined") yafowil = {};
+if (window.yafowil === undefined) {
+    window.yafowil = {};
+}
 
-(function($) {
+(function($, yafowil) {
+    "use strict";
 
     $(document).ready(function() {
         // initial binding
         yafowil.array.binder(document);
         
         // add after ajax binding if bdajax present
-        if (typeof(window['bdajax']) != "undefined") {
-            $.extend(bdajax.binders, {
+        if (window.bdajax !== undefined) {
+            $.extend(window.bdajax.binders, {
                 arraywidget_binder: yafowil.array.binder
             });
         }
@@ -45,7 +50,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                 row +=   '<tr>';
                 row +=     '<td class="widget">';
                 row +=     '</td>';
-                if (css.indexOf('array-static') == -1) {
+                if (css.indexOf('array-static') === -1) {
                     row += '<td class="actions">';
                     row +=   '<div class="array_actions">';
                     if (css.indexOf('array-add') > -1) {
@@ -87,7 +92,6 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
 
             reset_indices: function(context) {
                 var index = 0;
-                var container = yafowil.array.container(context);
                 var base_id = yafowil.array.base_id(context);
                 context.children().each(function() {
                     yafowil.array.set_row_index(this, base_id, index++);
@@ -98,7 +102,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
             set_row_index: function(node, base_id, index) {
                 var base_name = base_id.replace(/\-/g, '.');
                 var set_index = yafowil.array.set_attr_index;
-                var child, id, name, for_;
+                var child;
                 $(node).children().each(function() {
                     child = $(this);
                     set_index(child, 'id', base_id, index, '-');
@@ -116,7 +120,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                     var pre = value.substring(0, idx_0);
                     var post = '';
                     if (idx_1 > -1) {
-                        var post = value.substring(idx_1, value.length);
+                        post = value.substring(idx_1, value.length);
                     }
                     node.attr(attr, pre + index + post);
                 }
@@ -150,7 +154,7 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
                         var row = yafowil.array.get_row(this);
                         var new_row = yafowil.array.create_row(this);
                         var container = row.parent();
-                        if (container.get(0).tagName.toLowerCase() == 'tbody') {
+                        if (container.get(0).tagName.toLowerCase() === 'tbody') {
                             row.after(new_row);
                         } else {
                             var table = container.parent();
@@ -204,4 +208,4 @@ if (typeof(window['yafowil']) == "undefined") yafowil = {};
         }
     });
 
-})(jQuery);
+})(jQuery, yafowil);
