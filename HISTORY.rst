@@ -5,9 +5,6 @@ History
 1.3.1 (unreleased)
 ------------------
 
-- JSHint JavaScript resources.
-  [thet]
-
 - Fix CSS for displaying icons in default theme.
   [marfago]
 
