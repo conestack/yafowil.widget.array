@@ -1,24 +1,22 @@
 /* jslint browser: true */
-/* global jQuery */
-
+/* global jQuery, yafowil */
 /*
  * yafowil array widget
  */
 
-if (typeof(window.yafowil) === "undefined") {
+if (window.yafowil === undefined) {
     window.yafowil = {};
 }
 
-(function($) {
+(function($, yafowil) {
     "use strict";
-    var yafowil = window.yafowil;
 
     $(document).ready(function() {
         // initial binding
         yafowil.array.binder(document);
-
+        
         // add after ajax binding if bdajax present
-        if (typeof(window.bdajax) !== "undefined") {
+        if (window.bdajax !== undefined) {
             $.extend(window.bdajax.binders, {
                 arraywidget_binder: yafowil.array.binder
             });
@@ -49,37 +47,34 @@ if (typeof(window.yafowil) === "undefined") {
             create_row: function(context) {
                 var css = $(context).parents('.array').attr('class');
                 var row = '';
-                row += '<tr>';
-                row += '<td class="widget">';
-                row += '</td>';
+                row +=   '<tr>';
+                row +=     '<td class="widget">';
+                row +=     '</td>';
                 if (css.indexOf('array-static') === -1) {
                     row += '<td class="actions">';
-                    row += '<div class="array_actions">';
+                    row +=   '<div class="array_actions">';
                     if (css.indexOf('array-add') > -1) {
                         row += '<a class="array_row_add" href="#">';
-                        row += '<span class="icon-plus-sign"> </span>';
+                        row +=   '<span class="icon-plus-sign"> </span>';
                         row += '</a>';
                     }
                     if (css.indexOf('array-remove') > -1) {
                         row += '<a class="array_row_remove" href="#">';
-                        row +=
-                            '<span class="icon-minus-sign"> </span>';
+                        row +=   '<span class="icon-minus-sign"> </span>';
                         row += '</a>';
                     }
                     if (css.indexOf('array-sort') > -1) {
                         row += '<a class="array_row_up" href="#">';
-                        row +=
-                            '<span class="icon-circle-arrow-up"> </span>';
+                        row +=   '<span class="icon-circle-arrow-up"> </span>';
                         row += '</a>';
                         row += '<a class="array_row_down" href="#">';
-                        row +=
-                            '<span class="icon-circle-arrow-down"> </span>';
+                        row +=   '<span class="icon-circle-arrow-down"> </span>';
                         row += '</a>';
                     }
-                    row += '</div>';
+                    row +=   '</div>';
                     row += '</td>';
                 }
-                row += '</tr>';
+                row +=   '</tr>';
                 row = $(row);
                 var template = yafowil.array.template(context);
                 $('.widget', row).append(template.children());
@@ -97,11 +92,9 @@ if (typeof(window.yafowil) === "undefined") {
 
             reset_indices: function(context) {
                 var index = 0;
-                var container = yafowil.array.container(context);
                 var base_id = yafowil.array.base_id(context);
                 context.children().each(function() {
-                    yafowil.array.set_row_index(this, base_id,
-                        index++);
+                    yafowil.array.set_row_index(this, base_id, index++);
                 });
                 yafowil.array.binder(context);
             },
@@ -115,8 +108,7 @@ if (typeof(window.yafowil) === "undefined") {
                     set_index(child, 'id', base_id, index, '-');
                     set_index(child, 'for', base_id, index, '-');
                     set_index(child, 'name', base_name, index, '.');
-                    yafowil.array.set_row_index(child, base_id,
-                        index);
+                    yafowil.array.set_row_index(child, base_id, index);
                 });
             },
 
@@ -144,14 +136,12 @@ if (typeof(window.yafowil) === "undefined") {
                 var down_sel = '> tr > td.actions a.array_row_down';
                 $('tbody:visible', context).each(function() {
                     var body = $(this);
-                    $(up_sel, body).removeClass(
-                        'array_row_up_disabled')
-                        .first()
-                        .addClass('array_row_up_disabled');
-                    $(down_sel, body).removeClass(
-                        'array_row_down_disabled')
-                        .last()
-                        .addClass('array_row_down_disabled');
+                    $(up_sel, body).removeClass('array_row_up_disabled')
+                                   .first()
+                                   .addClass('array_row_up_disabled');
+                    $(down_sel, body).removeClass('array_row_down_disabled')
+                                     .last()
+                                     .addClass('array_row_down_disabled');
                 });
             },
 
@@ -162,8 +152,7 @@ if (typeof(window.yafowil) === "undefined") {
                     .bind('click', function(event) {
                         event.preventDefault();
                         var row = yafowil.array.get_row(this);
-                        var new_row = yafowil.array.create_row(
-                            this);
+                        var new_row = yafowil.array.create_row(this);
                         var container = row.parent();
                         if (container.get(0).tagName.toLowerCase() === 'tbody') {
                             row.after(new_row);
@@ -219,4 +208,4 @@ if (typeof(window.yafowil) === "undefined") {
         }
     });
 
-}(jQuery));
+})(jQuery, yafowil);
