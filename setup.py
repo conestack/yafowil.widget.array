@@ -5,7 +5,7 @@ from setuptools import (
 )
 
 
-version = '1.3.1.dev0'
+version = '1.3.1'
 shortdesc = 'Array Widget for YAFOWIL'
 longdesc = open(os.path.join(os.path.dirname(__file__), 'README.rst')).read()
 longdesc += open(os.path.join(os.path.dirname(__file__), 'HISTORY.rst')).read()
