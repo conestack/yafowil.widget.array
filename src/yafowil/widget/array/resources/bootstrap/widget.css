@@ -38,15 +38,24 @@
 .array table table th {
     padding-left:0;
 }
-.array th.head_actions,
-.array td.actions {
-    width:75px;
-}
 .array td.widget {
-    padding:0 0 10px 0;
+    padding:0;
 }
 .array td.widget .form-group {
     margin:0;
+}
+.array th {
+    vertical-align:middle;
+}
+.array th.head_actions,
+.array td.actions {
+    width:7em;
+}
+.array_actions {
+    display:inline-block;
+    margin-top:0.6em;
+    padding-right:0.45em;
+    width:7em;
 }
 .array_actions a {
     float:right;
