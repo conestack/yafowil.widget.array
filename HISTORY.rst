@@ -5,7 +5,9 @@ History
 1.3.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Explicitely define ``font-family`` for each icon in bootstrap theme to avoid
+  overwriting with CSS wild card selectors.
+  [rnix, 2016-06-27]
 
 
 1.3.1 (2015-06-25)
