@@ -36,7 +36,7 @@
     padding-left:0;
 }
 .array td.widget {
-    padding:0;
+    padding:0 0 10px 0;
 }
 .array td.widget .form-group {
     margin:0;
