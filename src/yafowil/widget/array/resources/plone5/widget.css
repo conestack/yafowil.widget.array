@@ -87,3 +87,7 @@
 .arraytemplate {
     display:none;
 }
+.array .field {
+    padding-top:0.5em;
+    margin-bottom:0;
+}
