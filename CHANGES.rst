@@ -2,7 +2,7 @@
 History
 =======
 
-1.4 (unreleased)
+1.4 (2016-09-09)
 ----------------
 
 - Add dedicated CSS for ``plone5`` theme provided by ``yafowil.plone``.
