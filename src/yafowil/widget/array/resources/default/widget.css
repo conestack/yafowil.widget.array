@@ -63,3 +63,15 @@
 .array_actions a.array_row_down_disabled {
     background:url('images/icon_down_disabled.png') 50% 50% no-repeat !important;
 }
+.icon-plus-sign:before {
+    content:"\00a0";
+}
+.icon-minus-sign:before {
+    content: "\00a0";
+}
+.icon-circle-arrow-up:before {
+    content:"\00a0";
+}
+.icon-circle-arrow-down:before {
+    content: "\00a0";
+}
