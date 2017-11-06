@@ -2,11 +2,10 @@
 History
 =======
 
-1.4.1 (unreleased)
-------------------
+1.5 (unreleased)
+----------------
 
-- Set ``persist`` property for array blueprint in factory defaults.
-  [rnix]
+- Nothing changed yet.
 
 
 1.4 (2016-09-09)

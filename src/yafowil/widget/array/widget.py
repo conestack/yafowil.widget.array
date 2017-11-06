@@ -310,5 +310,3 @@ factory.defaults['array.sort'] = True
 factory.doc['props']['array.sort'] = \
 """Render ``move up`` and ``move down`` actions.
 """
-
-factory.defaults['array.persist'] = True
