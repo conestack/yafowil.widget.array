@@ -42,7 +42,7 @@ setup(
     extras_require=dict(
         test=tests_require,
     ),
-    test_suite="yafowil.widget.array.tests.test_suite",
+    test_suite="yafowil.widget.array.tests",
     entry_points={
         'yafowil.plugin': [
             'register = yafowil.widget.array:register',

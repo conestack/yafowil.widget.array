@@ -5,7 +5,8 @@ History
 1.5 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Convert doctests to unittests.
+  [rnix]
 
 
 1.4 (2016-09-09)
