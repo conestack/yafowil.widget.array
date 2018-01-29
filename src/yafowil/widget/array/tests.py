@@ -1450,6 +1450,85 @@ class TestArrayWidget(NodeTestCase):
         </form>
         """, fxml(form(data=data)))
 
+    def test_array_field_required_extraction(self):
+        form = factory(
+            'form',
+            name='myform',
+            props={'action': 'myaction'})
+        form['myarray'] = factory(
+            'array',
+            props={'label': 'My Array'})
+        form['myarray']['myfield'] = factory(
+            'field:label:error:text',
+            props={
+                'label': 'My Field',
+                'required': 'My Field is required',
+            })
+        request = {
+            'myform.myarray.0': '0',
+            'myform.myarray.1': '',
+        }
+
+        data = form.extract(request=request)
+        self.assertEqual(
+            [data.name, data.value, data.extracted, data.errors],
+            ['myform', UNSET, odict([('myarray', ['0', ''])]), []]
+        )
+        arrd = data['myarray']
+        self.assertEqual(
+            [arrd.name, arrd.value, arrd.extracted, arrd.errors],
+            ['myarray', UNSET, ['0', ''], []]
+        )
+        arrd0 = data['myarray']['0']
+        self.assertEqual(
+            [arrd0.name, arrd0.value, arrd0.extracted, arrd0.errors],
+            ['0', UNSET, '0', []]
+        )
+        arrd1 = data['myarray']['1']
+        self.assertEqual(
+            [arrd1.name, arrd1.value, arrd1.extracted, arrd1.errors],
+            ['1', UNSET, '', [ExtractionError('My Field is required')]]
+        )
+
+        self.check_output("""
+        <form action="myaction" enctype="multipart/form-data" id="form-myform"
+              method="post" novalidate="novalidate">
+          <div class="array array-add array-remove array-sort"
+               id="array-myform-myarray">
+            <table>
+              ...
+              <tbody>
+                <tr>
+                  ...
+                </tr>
+                <tr>
+                  <td class="widget">
+                    <div class="field" id="field-myform-myarray-1">
+                      <label for="input-myform-myarray-1">My Field</label>
+                      <div class="error">
+                        <div class="errormessage">My Field is required</div>
+                        <input class="required text"
+                               id="input-myform-myarray-1"
+                               name="myform.myarray.1"
+                               required="required"
+                               type="text"
+                               value=""/>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="actions">
+                    ...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="arraytemplate">
+              ...
+            </div>
+          </div>
+        </form>
+        """, fxml(form(data)))
+
     def test_array_with_compound_fields_extraction(self):
         form = factory(
             'form',
@@ -1623,325 +1702,394 @@ class TestArrayWidget(NodeTestCase):
             'myform.myarray.1.1.f2': '6',
         }
         data = form.extract(request=request)
-        #data.printtree()
-        # <RuntimeData myform, value=<UNSET>, extracted=odict([('myarray', [[odict([('f1', '1'), ('f2', '2')])], [odict([('f1', '3'), ('f2', '4')]), odict([('f1', '5'), ('f2', '6')])]])]) at ...>
-        #   <RuntimeData myform.myarray, value=<UNSET>, extracted=[[odict([('f1', '1'), ('f2', '2')])], [odict([('f1', '3'), ('f2', '4')]), odict([('f1', '5'), ('f2', '6')])]] at ...>
-        #     <RuntimeData myform.myarray.0, value=<UNSET>, extracted=[odict([('f1', '1'), ('f2', '2')])] at ...>
-        #       <RuntimeData myform.myarray.0.0, value=<UNSET>, extracted=odict([('f1', '1'), ('f2', '2')]) at ...>
-        #         <RuntimeData myform.myarray.0.0.f1, value=<UNSET>, extracted='1' at ...>
-        #         <RuntimeData myform.myarray.0.0.f2, value=<UNSET>, extracted='2' at ...>
-        #     <RuntimeData myform.myarray.1, value=<UNSET>, extracted=[odict([('f1', '3'), ('f2', '4')]), odict([('f1', '5'), ('f2', '6')])] at ...>
-        #       <RuntimeData myform.myarray.1.0, value=<UNSET>, extracted=odict([('f1', '3'), ('f2', '4')]) at ...>
-        #         <RuntimeData myform.myarray.1.0.f1, value=<UNSET>, extracted='3' at ...>
-        #         <RuntimeData myform.myarray.1.0.f2, value=<UNSET>, extracted='4' at ...>
-        #       <RuntimeData myform.myarray.1.1, value=<UNSET>, extracted=odict([('f1', '5'), ('f2', '6')]) at ...>
-        #         <RuntimeData myform.myarray.1.1.f1, value=<UNSET>, extracted='5' at ...>
-        #         <RuntimeData myform.myarray.1.1.f2, value=<UNSET>, extracted='6' at ...>
-"""
-Array hidden proxy for display mode children.
+        extracted = odict([
+            ('myarray', [
+                [
+                    odict([('f1', '1'), ('f2', '2')])
+                ], [
+                    odict([('f1', '3'), ('f2', '4')]),
+                    odict([('f1', '5'), ('f2', '6')])
+                ]
+            ])
+        ])
+        self.assertEqual(
+            [data.name, data.value, data.extracted, data.errors],
+            ['myform', UNSET, extracted, []]
+        )
+        arrd0 = data['myarray']
+        self.assertEqual(len(arrd0), 2)
+        extracted = [
+            [
+                odict([('f1', '1'), ('f2', '2')])
+            ], [
+                odict([('f1', '3'), ('f2', '4')]),
+                odict([('f1', '5'), ('f2', '6')])
+            ]
+        ]
+        self.assertEqual(
+            [arrd0.name, arrd0.value, arrd0.extracted, arrd0.errors],
+            ['myarray', UNSET, extracted, []]
+        )
+        a0 = data['myarray']['0']
+        self.assertEqual(len(a0), 1)
+        extracted = [odict([('f1', '1'), ('f2', '2')])]
+        self.assertEqual(
+            [a0.name, a0.value, a0.extracted, a0.errors],
+            ['0', UNSET, extracted, []]
+        )
+        a0_0 = data['myarray']['0']['0']
+        self.assertEqual(len(a0_0), 2)
+        extracted = odict([('f1', '1'), ('f2', '2')])
+        self.assertEqual(
+            [a0_0.name, a0_0.value, a0_0.extracted, a0_0.errors],
+            ['0', UNSET, extracted, []]
+        )
+        a0_0f1 = data['myarray']['0']['0']['f1']
+        self.assertEqual(
+            [a0_0f1.name, a0_0f1.value, a0_0f1.extracted, a0_0f1.errors],
+            ['f1', UNSET, '1', []]
+        )
+        a0_0f2 = data['myarray']['0']['0']['f2']
+        self.assertEqual(
+            [a0_0f2.name, a0_0f2.value, a0_0f2.extracted, a0_0f2.errors],
+            ['f2', UNSET, '2', []]
+        )
+        a1 = data['myarray']['1']
+        self.assertEqual(len(a1), 2)
+        extracted = [
+            odict([('f1', '3'), ('f2', '4')]),
+            odict([('f1', '5'), ('f2', '6')])
+        ]
+        self.assertEqual(
+            [a1.name, a1.value, a1.extracted, a1.errors],
+            ['1', UNSET, extracted, []]
+        )
+        a1_0 = data['myarray']['1']['0']
+        self.assertEqual(len(a1_0), 2)
+        extracted = odict([('f1', '3'), ('f2', '4')])
+        self.assertEqual(
+            [a1_0.name, a1_0.value, a1_0.extracted, a1_0.errors],
+            ['0', UNSET, extracted, []]
+        )
+        a1_0f1 = data['myarray']['1']['0']['f1']
+        self.assertEqual(
+            [a1_0f1.name, a1_0f1.value, a1_0f1.extracted, a1_0f1.errors],
+            ['f1', UNSET, '3', []]
+        )
+        a1_0f2 = data['myarray']['1']['0']['f2']
+        self.assertEqual(
+            [a1_0f2.name, a1_0f2.value, a1_0f2.extracted, a1_0f2.errors],
+            ['f2', UNSET, '4', []]
+        )
+        a1_1 = data['myarray']['1']['1']
+        self.assertEqual(len(a1_1), 2)
+        extracted = odict([('f1', '5'), ('f2', '6')])
+        self.assertEqual(
+            [a1_1.name, a1_1.value, a1_1.extracted, a1_1.errors],
+            ['1', UNSET, extracted, []]
+        )
+        a1_1f1 = data['myarray']['1']['1']['f1']
+        self.assertEqual(
+            [a1_1f1.name, a1_1f1.value, a1_1f1.extracted, a1_1f1.errors],
+            ['f1', UNSET, '5', []]
+        )
+        a1_1f2 = data['myarray']['1']['1']['f2']
+        self.assertEqual(
+            [a1_1f2.name, a1_1f2.value, a1_1f2.extracted, a1_1f2.errors],
+            ['f2', UNSET, '6', []]
+        )
 
-``yafowil.widget.array`` differs in value extraction when rerendering forms.
-Normally the value gets fetched from the getter if not found on request.
-Since it's hard to reference the origin value for array entries if not found
-on request - you have possibly a mutable array containing componds with some 
-fields disabled or in display mode - a hidden field is added for such widgets
-in the tree on the fly in order to rerender forms correctly::
-
-    >>> form['myarray'] = factory(
-    ...     'array',
-    ...     value=[{'f1': 'foo1', 'f2': 'foo2'}],
-    ...     props={'label': 'My Compound Array with display children'})
-    >>> form['myarray']['mycompound'] = factory('compound')
-    >>> form['myarray']['mycompound']['f1'] = factory(
-    ...     'field:label:text',
-    ...     props={'label': 'F1'},
-    ...     mode='display')
-    >>> form['myarray']['mycompound']['f2'] = factory(
-    ...     'field:label:text',
-    ...     props={'label': 'F2', 'disabled': 'disabled'})
-    
-    >>> pxml(form())
-    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
-      <div class="array array-add array-remove array-sort" id="array-myform-myarray">
-        <table>
-          ...
-              <td class="widget">
-                <input id="input-myform-myarray-0-f1" name="myform.myarray.0.f1" type="hidden" value="foo1"/>
-                <div class="field" id="field-myform-myarray-0-f1">
-                  <label>F1</label>
-                  <div class="display-text" id="display-myform-myarray-0-f1">foo1</div>
-                </div>
-                <input id="input-myform-myarray-0-f2" name="myform.myarray.0.f2" type="hidden" value="foo2"/>
-                <div class="field" id="field-myform-myarray-0-f2">
-                  <label for="input-myform-myarray-0-f2">F2</label>
-                  <input class="text" disabled="disabled" id="input-myform-myarray-0-f2" name="myform.myarray.0.f2" type="text" value="foo2"/>
-                </div>
-              </td>
+    def test_array_hidden_proxy_for_display_mode_children(self):
+        # ``yafowil.widget.array`` differs in value extraction when rerendering
+        # forms. Normally the value gets fetched from the getter if not found
+        # on request. Since it's hard to reference the origin value for array
+        # entries if not found on request - you have possibly a mutable array
+        # containing componds with some fields disabled or in display mode - a
+        # hidden field is added for such widgets in the tree on the fly in
+        # order to rerender forms correctly
+        form = factory(
+            'form',
+            name='myform',
+            props={'action': 'myaction'})
+        form['myarray'] = factory(
+            'array',
+            value=[{'f1': 'foo1', 'f2': 'foo2'}],
+            props={'label': 'My Compound Array with display children'})
+        form['myarray']['mycompound'] = factory('compound')
+        form['myarray']['mycompound']['f1'] = factory(
+            'field:label:text',
+            props={'label': 'F1'},
+            mode='display')
+        form['myarray']['mycompound']['f2'] = factory(
+            'field:label:text',
+            props={'label': 'F2', 'disabled': 'disabled'})
+        self.check_output("""
+        <form action="myaction" enctype="multipart/form-data" id="form-myform"
+              method="post" novalidate="novalidate">
+          <div class="array array-add array-remove array-sort"
+               id="array-myform-myarray">
+            <table>
               ...
-        </table>
-        ...
-    <BLANKLINE>
-
-Callable array label::
-
-    >>> form['myarray'] = factory(
-    ...     'array',
-    ...     props={'label': lambda: 'Callable label'})
-    >>> form['myarray']['f1'] = factory(
-    ...     'field:label:text',
-    ...     props={'label': 'F1'},
-    ...     mode='display')
-    
-    >>> pxml(form())
-    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
-      <div class="array array-add array-remove array-sort" id="array-myform-myarray">
-        <table>
-          <thead>
-            <tr>
-              <th>Callable label</th>
-              ...
-    <BLANKLINE>
-
-Required::
-
-    >>> form['myarray'] = factory(
-    ...     'array',
-    ...     props={'label': 'My Array'})
-    >>> form['myarray']['myfield'] = factory(
-    ...     'field:label:error:text',
-    ...     props={
-    ...         'label': 'My Field',
-    ...         'required': 'My Field is required',
-    ...     })
-    >>> request = {
-    ...     'myform.myarray.0': '0',
-    ...     'myform.myarray.1': '',
-    ... }
-    >>> data = form.extract(request=request)
-    >>> data.printtree()
-    <RuntimeData myform, value=<UNSET>, extracted=odict([('myarray', ['0', ''])]) at ...>
-      <RuntimeData myform.myarray, value=<UNSET>, extracted=['0', ''] at ...>
-        <RuntimeData myform.myarray.0, value=<UNSET>, extracted='0' at ...>
-        <RuntimeData myform.myarray.1, value=<UNSET>, extracted='', 1 error(s) at ...>
-
-    >>> pxml(form(data))
-    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
-      <div class="array array-add array-remove array-sort" id="array-myform-myarray">
-        <table>
-          ...
-          <tbody>
-            <tr>
-              ...
-            </tr>
-            <tr>
-              <td class="widget">
-                <div class="field" id="field-myform-myarray-1">
-                  <label for="input-myform-myarray-1">My Field</label>
-                  <div class="error">
-                    <div class="errormessage">My Field is required</div>
-                    <input class="required text" id="input-myform-myarray-1" name="myform.myarray.1" required="required" type="text" value=""/>
-                  </div>
-                </div>
-              </td>
-              <td class="actions">
-                ...
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="arraytemplate">
-          ...
-        </div>
-      </div>
-    </form>
-    <BLANKLINE>
-    
-    >>> del form['myarray']
-
-3-Dimensional Array::
-
-    >>> arr_1 = form['array_1'] = factory(
-    ...     'array',
-    ...     value=[
-    ...         [
-    ...             ['1'],
-    ...         ],
-    ...         [
-    ...             ['2'],
-    ...         ],
-    ...     ],
-    ...     props={
-    ...         'label': 'Array 1',
-    ...     })
-    >>> arr_2 = arr_1['array_2'] = factory(
-    ...     'array',
-    ...     props={
-    ...         'label': 'Array 2',
-    ...     })
-    >>> arr_3 = arr_2['array_3'] = factory(
-    ...     'array',
-    ...     props={
-    ...         'label': 'Array 3',
-    ...     })
-    >>> arr_3['textfield'] = factory(
-    ...     'field:error:label:text',
-    ...     props={
-    ...         'label': 'Text Field',
-    ...         'required': 'Text Field is required',
-    ...     })
-    
-    >>> form.printtree()
-    <class 'yafowil.base.Widget'>: myform
-      <class 'yafowil.base.Widget'>: array_1
-        <class 'yafowil.base.Widget'>: table
-          <class 'yafowil.base.Widget'>: head
-            <class 'yafowil.base.Widget'>: row
-              <class 'yafowil.base.Widget'>: label
-              <class 'yafowil.base.Widget'>: actions
-          <class 'yafowil.base.Widget'>: body
-        <class 'yafowil.base.Widget'>: array_2
-          <class 'yafowil.base.Widget'>: table
-            <class 'yafowil.base.Widget'>: head
-              <class 'yafowil.base.Widget'>: row
-                <class 'yafowil.base.Widget'>: label
-                <class 'yafowil.base.Widget'>: actions
-            <class 'yafowil.base.Widget'>: body
-          <class 'yafowil.base.Widget'>: array_3
-            <class 'yafowil.base.Widget'>: table
-              <class 'yafowil.base.Widget'>: head
-                <class 'yafowil.base.Widget'>: row
-                  <class 'yafowil.base.Widget'>: label
-                  <class 'yafowil.base.Widget'>: actions
-              <class 'yafowil.base.Widget'>: body
-            <class 'yafowil.base.Widget'>: textfield
-
-    >>> rendered = form()
-    >>> pxml(rendered)
-    <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
-      <div class="array array-add array-remove array-sort" id="array-myform-array_1">
-        <table>
-          <thead>
-            <tr>
-              <th>Array 1</th>
-              ...
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="widget">
-                <div class="array array-add array-remove array-sort" id="array-myform-array_1-0">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Array 2</th>
-                        ...
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td class="widget">
-                          <div class="array array-add array-remove array-sort" id="array-myform-array_1-0-0">
-                            <table>
-                              <thead>
-                                <tr>
-                                  <th>Array 3</th>
-                                  ...
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td class="widget">
-                                    <div class="field" id="field-myform-array_1-0-0-0">
-                                      <label for="input-myform-array_1-0-0-0">Text Field</label>
-                                      <input class="required text" id="input-myform-array_1-0-0-0" name="myform.array_1.0.0.0" required="required" type="text" value="1"/>
-                                    </div>
-                                  </td>
-                                  <td class="actions">
-                                    ...
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                            <div class="arraytemplate">
-                              <div class="field" id="field-myform-array_1-0-0-TEMPLATE">
-                                <label for="input-myform-array_1-0-0-TEMPLATE">Text Field</label>
-                                <input class="required text" id="input-myform-array_1-0-0-TEMPLATE" name="myform.array_1.0.0.TEMPLATE" required="required" type="text" value=""/>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td class="actions">
-                          ...
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <div class="arraytemplate">
-                    <div class="array array-add array-remove array-sort" id="array-myform-array_1-0-TEMPLATE">
-                      <table>
-                        <thead>
-                          <tr>
-                            <th>Array 3</th>
-                            ...
-                          </tr>
-                        </thead>
-                        <tbody/>
-                      </table>
-                      <div class="arraytemplate">
-                        <div class="field" id="field-myform-array_1-0-TEMPLATE-TEMPLATE">
-                          <label for="input-myform-array_1-0-TEMPLATE-TEMPLATE">Text Field</label>
-                          <input class="required text" id="input-myform-array_1-0-TEMPLATE-TEMPLATE" name="myform.array_1.0.TEMPLATE.TEMPLATE" required="required" type="text" value=""/>
-                        </div>
-                      </div>
+                  <td class="widget">
+                    <input id="input-myform-myarray-0-f1"
+                           name="myform.myarray.0.f1"
+                           type="hidden" value="foo1"/>
+                    <div class="field" id="field-myform-myarray-0-f1">
+                      <label>F1</label>
+                      <div class="display-text"
+                           id="display-myform-myarray-0-f1">foo1</div>
                     </div>
-                  </div>
-                </div>
-              </td>
-              <td class="actions">
-                ...
-              </td>
-            </tr>
-            <tr>
-              ...
-            </tr>
-          </tbody>
-        </table>
-        <div class="arraytemplate">
-          <div class="array array-add array-remove array-sort" id="array-myform-array_1-TEMPLATE">
+                    <input id="input-myform-myarray-0-f2"
+                           name="myform.myarray.0.f2"
+                           type="hidden" value="foo2"/>
+                    <div class="field" id="field-myform-myarray-0-f2">
+                      <label for="input-myform-myarray-0-f2">F2</label>
+                      <input class="text" disabled="disabled"
+                             id="input-myform-myarray-0-f2"
+                             name="myform.myarray.0.f2"
+                             type="text" value="foo2"/>
+                    </div>
+                  </td>
+                  ...
+            </table>
+            ...
+        </form>
+        """, fxml(form()))
+
+    def test_callable_array_label(self):
+        form = factory(
+            'form',
+            name='myform',
+            props={'action': 'myaction'})
+        form['myarray'] = factory(
+            'array',
+            props={'label': lambda: 'Callable label'})
+        form['myarray']['f1'] = factory(
+            'field:label:text',
+            props={'label': 'F1'},
+            mode='display')
+        self.check_output("""
+        <form action="myaction" enctype="multipart/form-data" id="form-myform"
+              method="post" novalidate="novalidate">
+          <div class="array array-add array-remove array-sort"
+               id="array-myform-myarray">
             <table>
               <thead>
                 <tr>
-                  <th>Array 2</th>
+                  <th>Callable label</th>
+                  ...
+        </form>
+        """, fxml(form()))
+
+    def test_3_dimensional_array(self):
+        form = factory(
+            'form',
+            name='myform',
+            props={'action': 'myaction'})
+        arr_1 = form['array_1'] = factory(
+            'array',
+            value=[
+                [
+                    ['1'],
+                ],
+                [
+                    ['2'],
+                ],
+            ],
+            props={
+                'label': 'Array 1',
+            })
+        arr_2 = arr_1['array_2'] = factory(
+            'array',
+            props={
+                'label': 'Array 2',
+            })
+        arr_3 = arr_2['array_3'] = factory(
+            'array',
+            props={
+                'label': 'Array 3',
+            })
+        arr_3['textfield'] = factory(
+            'field:error:label:text',
+            props={
+                'label': 'Text Field',
+                'required': 'Text Field is required',
+            })
+
+        self.assertEqual(form.treerepr().split('\n'), [
+            "<class 'yafowil.base.Widget'>: myform",
+            "  <class 'yafowil.base.Widget'>: array_1",
+            "    <class 'yafowil.base.Widget'>: table",
+            "      <class 'yafowil.base.Widget'>: head",
+            "        <class 'yafowil.base.Widget'>: row",
+            "          <class 'yafowil.base.Widget'>: label",
+            "          <class 'yafowil.base.Widget'>: actions",
+            "      <class 'yafowil.base.Widget'>: body",
+            "    <class 'yafowil.base.Widget'>: array_2",
+            "      <class 'yafowil.base.Widget'>: table",
+            "        <class 'yafowil.base.Widget'>: head",
+            "          <class 'yafowil.base.Widget'>: row",
+            "            <class 'yafowil.base.Widget'>: label",
+            "            <class 'yafowil.base.Widget'>: actions",
+            "        <class 'yafowil.base.Widget'>: body",
+            "      <class 'yafowil.base.Widget'>: array_3",
+            "        <class 'yafowil.base.Widget'>: table",
+            "          <class 'yafowil.base.Widget'>: head",
+            "            <class 'yafowil.base.Widget'>: row",
+            "              <class 'yafowil.base.Widget'>: label",
+            "              <class 'yafowil.base.Widget'>: actions",
+            "          <class 'yafowil.base.Widget'>: body",
+            "        <class 'yafowil.base.Widget'>: textfield",
+            ""
+        ])
+
+        self.check_output("""
+        <form action="myaction" enctype="multipart/form-data" id="form-myform"
+              method="post" novalidate="novalidate">
+          <div class="array array-add array-remove array-sort"
+               id="array-myform-array_1">
+            <table>
+              <thead>
+                <tr>
+                  <th>Array 1</th>
                   ...
                 </tr>
               </thead>
-              <tbody/>
+              <tbody>
+                <tr>
+                  <td class="widget">
+                    <div class="array array-add array-remove array-sort"
+                         id="array-myform-array_1-0">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>Array 2</th>
+                            ...
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="widget">
+                              <div class="array array-add array-remove array-sort"
+                                   id="array-myform-array_1-0-0">
+                                <table>
+                                  <thead>
+                                    <tr>
+                                      <th>Array 3</th>
+                                      ...
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <td class="widget">
+                                        <div class="field" id="field-myform-array_1-0-0-0">
+                                          <label for="input-myform-array_1-0-0-0">Text Field</label>
+                                          <input class="required text"
+                                                 id="input-myform-array_1-0-0-0"
+                                                 name="myform.array_1.0.0.0"
+                                                 required="required"
+                                                 type="text" value="1"/>
+                                        </div>
+                                      </td>
+                                      <td class="actions">
+                                        ...
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                                <div class="arraytemplate">
+                                  <div class="field" id="field-myform-array_1-0-0-TEMPLATE">
+                                    <label for="input-myform-array_1-0-0-TEMPLATE">Text Field</label>
+                                    <input class="required text"
+                                           id="input-myform-array_1-0-0-TEMPLATE"
+                                           name="myform.array_1.0.0.TEMPLATE"
+                                           required="required"
+                                           type="text" value=""/>
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                            <td class="actions">
+                              ...
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <div class="arraytemplate">
+                        <div class="array array-add array-remove array-sort" id="array-myform-array_1-0-TEMPLATE">
+                          <table>
+                            <thead>
+                              <tr>
+                                <th>Array 3</th>
+                                ...
+                              </tr>
+                            </thead>
+                            <tbody/>
+                          </table>
+                          <div class="arraytemplate">
+                            <div class="field"
+                                 id="field-myform-array_1-0-TEMPLATE-TEMPLATE">
+                              <label for="input-myform-array_1-0-TEMPLATE-TEMPLATE">Text Field</label>
+                              <input class="required text"
+                                     id="input-myform-array_1-0-TEMPLATE-TEMPLATE"
+                                     name="myform.array_1.0.TEMPLATE.TEMPLATE"
+                                     required="required"
+                                     type="text" value=""/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="actions">
+                    ...
+                  </td>
+                </tr>
+                <tr>
+                  ...
+                </tr>
+              </tbody>
             </table>
             <div class="arraytemplate">
-              <div class="array array-add array-remove array-sort" id="array-myform-array_1-TEMPLATE-TEMPLATE">
+              <div class="array array-add array-remove array-sort"
+                   id="array-myform-array_1-TEMPLATE">
                 <table>
                   <thead>
                     <tr>
-                      <th>Array 3</th>
+                      <th>Array 2</th>
                       ...
                     </tr>
                   </thead>
                   <tbody/>
                 </table>
                 <div class="arraytemplate">
-                  <div class="field" id="field-myform-array_1-TEMPLATE-TEMPLATE-TEMPLATE">
-                    <label for="input-myform-array_1-TEMPLATE-TEMPLATE-TEMPLATE">Text Field</label>
-                    <input class="required text" id="input-myform-array_1-TEMPLATE-TEMPLATE-TEMPLATE" name="myform.array_1.TEMPLATE.TEMPLATE.TEMPLATE" required="required" type="text" value=""/>
+                  <div class="array array-add array-remove array-sort"
+                       id="array-myform-array_1-TEMPLATE-TEMPLATE">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Array 3</th>
+                          ...
+                        </tr>
+                      </thead>
+                      <tbody/>
+                    </table>
+                    <div class="arraytemplate">
+                      <div class="field" id="field-myform-array_1-TEMPLATE-TEMPLATE-TEMPLATE">
+                        <label for="input-myform-array_1-TEMPLATE-TEMPLATE-TEMPLATE">Text Field</label>
+                        <input class="required text"
+                               id="input-myform-array_1-TEMPLATE-TEMPLATE-TEMPLATE"
+                               name="myform.array_1.TEMPLATE.TEMPLATE.TEMPLATE"
+                               required="required" type="text" value=""/>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </form>
-    <BLANKLINE>
-"""
+        </form>
+        """, fxml(form()))
 
 
 if __name__ == '__main__':
