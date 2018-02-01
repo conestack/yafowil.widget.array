@@ -1,15 +1,19 @@
-from node.tests import NodeTestCase
 from node.utils import UNSET
 from odict import odict
 from yafowil.base import ExtractionError
 from yafowil.base import factory
+from yafowil.tests import YafowilTestCase
 from yafowil.tests import fxml
 import unittest
-import yafowil.widget.array
 import yafowil.loader
 
 
-class TestArrayWidget(NodeTestCase):
+class TestArrayWidget(YafowilTestCase):
+
+    def setUp(self):
+        super(TestArrayWidget, self).setUp()
+        from yafowil.widget.array import widget
+        reload(widget)
 
     def test_array_with_missing_entry_definition(self):
         form = factory(
