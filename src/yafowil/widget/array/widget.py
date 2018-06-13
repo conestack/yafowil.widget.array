@@ -9,7 +9,8 @@ from yafowil.utils import css_managed_props
 from yafowil.utils import cssclasses
 from yafowil.utils import cssid
 from yafowil.utils import managedprops
-import types
+
+from yafowil.compat import ITER_TYPES
 
 
 @managedprops(*css_managed_props)
@@ -144,7 +145,7 @@ def create_array_children(widget, template, value):
         indices = sorted(indices)
         for i in indices:
             create_array_entry(str(i), widget, template, value[str(i)])
-    elif type(value) in [types.ListType, types.TupleType]:
+    elif type(value) in ITER_TYPES:
         indices = range(len(value))
         for i in indices:
             create_array_entry(str(i), widget, template, value[i])

@@ -1,3 +1,8 @@
+from yafowil.compat import IS_PY2
+
+if not IS_PY2:
+    from importlib import reload
+
 from node.utils import UNSET
 from odict import odict
 from yafowil.base import ExtractionError
@@ -376,12 +381,15 @@ class TestArrayWidget(YafowilTestCase):
         form['myarray']['myfield'] = factory(
             'field:label:text',
             props={'label': 'My Field'})
-        
+
         err = self.expect_error(
             ValueError,
             form
         )
-        msg = "Expected list or dict as value. Got '<type 'object'>'"
+        if IS_PY2:
+            msg = "Expected list or dict as value. Got '<type 'object'>'"
+        else:
+            msg = "Expected list or dict as value. Got '<class 'object'>'"
         self.assertEqual(str(err), msg)
 
     def test_array_with_preset_values_disable_add_action(self):
