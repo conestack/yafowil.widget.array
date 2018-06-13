@@ -139,7 +139,7 @@ def create_array_children(widget, template, value):
     if isinstance(value, dict):
         try:
             indices = [int(_) for _ in value.keys()]
-        except ValueError, e:
+        except ValueError as e:
             raise Exception(u"Array value error. %s" % str(e))
         indices = sorted(indices)
         for i in indices:
