@@ -3,13 +3,13 @@ from yafowil.base import factory
 from yafowil.base import fetch_value
 from yafowil.common import generic_extractor
 from yafowil.common import generic_required_extractor
+from yafowil.compat import ITER_TYPES
 from yafowil.compound import compound_renderer
 from yafowil.utils import attr_value
 from yafowil.utils import css_managed_props
 from yafowil.utils import cssclasses
 from yafowil.utils import cssid
 from yafowil.utils import managedprops
-import types
 
 
 @managedprops(*css_managed_props)
@@ -139,12 +139,12 @@ def create_array_children(widget, template, value):
     if isinstance(value, dict):
         try:
             indices = [int(_) for _ in value.keys()]
-        except ValueError, e:
+        except ValueError as e:
             raise Exception(u"Array value error. %s" % str(e))
         indices = sorted(indices)
         for i in indices:
             create_array_entry(str(i), widget, template, value[str(i)])
-    elif type(value) in [types.ListType, types.TupleType]:
+    elif type(value) in ITER_TYPES:
         indices = range(len(value))
         for i in indices:
             create_array_entry(str(i), widget, template, value[i])
