@@ -1,16 +1,16 @@
-from yafowil.compat import IS_PY2
-
-if not IS_PY2:
-    from importlib import reload
-
 from node.utils import UNSET
 from odict import odict
 from yafowil.base import ExtractionError
 from yafowil.base import factory
+from yafowil.compat import IS_PY2
 from yafowil.tests import YafowilTestCase
 from yafowil.tests import fxml
 import unittest
 import yafowil.loader
+
+
+if not IS_PY2:
+    from importlib import reload
 
 
 class TestArrayWidget(YafowilTestCase):

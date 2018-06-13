@@ -3,14 +3,13 @@ from yafowil.base import factory
 from yafowil.base import fetch_value
 from yafowil.common import generic_extractor
 from yafowil.common import generic_required_extractor
+from yafowil.compat import ITER_TYPES
 from yafowil.compound import compound_renderer
 from yafowil.utils import attr_value
 from yafowil.utils import css_managed_props
 from yafowil.utils import cssclasses
 from yafowil.utils import cssid
 from yafowil.utils import managedprops
-
-from yafowil.compat import ITER_TYPES
 
 
 @managedprops(*css_managed_props)
