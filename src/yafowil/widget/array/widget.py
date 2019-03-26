@@ -205,8 +205,8 @@ def hook_array_template(widget, template):
     props['class'] = 'arraytemplate'
     container = widget[CONTAINER] = factory('div', props=props)
     if template.attrs.get('structural'):
-        raise Exception(u"Compound templates for arrays must not be "
-                        u"structural.")
+        raise Exception(
+            u"Compound templates for arrays must not be structural.")
     container[TEMPLATE] = template
 
 
@@ -259,11 +259,19 @@ def check_base_name_in_request(widget, request):
     return False
 
 
+def set_display_mode(widget):
+    for child in widget.values():
+        child.mode = 'display'
+        set_display_mode(child)
+
+
 def array_display_renderer(widget, data):
-    """XXX
-    """
-    raise NotImplementedError(
-        u'yafowil.widget.array: Display mode not implemented yet')
+    array_edit_renderer(widget, data)
+    del widget['table']['head']['row']['actions']
+    for row in widget['table']['body'].values():
+        del row['actions_col']
+    del widget[CONTAINER]
+    set_display_mode(widget)
 
 
 factory.register(

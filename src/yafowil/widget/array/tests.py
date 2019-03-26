@@ -3,8 +3,8 @@ from odict import odict
 from yafowil.base import ExtractionError
 from yafowil.base import factory
 from yafowil.compat import IS_PY2
-from yafowil.tests import YafowilTestCase
 from yafowil.tests import fxml
+from yafowil.tests import YafowilTestCase
 import unittest
 import yafowil.loader
 
@@ -47,7 +47,7 @@ class TestArrayWidget(YafowilTestCase):
         form['myarray']['myfield'] = factory(
             'field:label:text',
             props={'label': 'My Field'})
-        
+
         self.assertEqual(form.treerepr().split('\n'), [
             "<class 'yafowil.base.Widget'>: myform",
             "  <class 'yafowil.base.Widget'>: myarray",
@@ -178,17 +178,45 @@ class TestArrayWidget(YafowilTestCase):
             props={'action': 'myaction'})
         form['myarray'] = factory(
             'array',
+            value=['1', '2'],
             props={
                 'label': 'My Array',
                 'class': 'specialclass',
             },
             mode='display')
-        err = self.expect_error(
-            NotImplementedError,
-            form
-        )
-        msg = 'yafowil.widget.array: Display mode not implemented yet'
-        self.assertEqual(str(err), msg)
+        form['myarray']['myfield'] = factory(
+            'field:label:text',
+            props={'label': 'My Field'})
+        self.check_output("""
+        <form action="myaction" enctype="multipart/form-data" id="form-myform"
+              method="post" novalidate="novalidate">
+          <table>
+            <thead>
+              <tr>
+                <th>My Array</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="widget">
+                  <div class="field" id="field-myform-myarray-0">
+                    <label>My Field</label>
+                    <div class="display-text" id="display-myform-myarray-0">1</div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="widget">
+                  <div class="field" id="field-myform-myarray-1">
+                    <label>My Field</label>
+                    <div class="display-text" id="display-myform-myarray-1">2</div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+        """, fxml(form()))
 
     def test_empty_static_array(self):
         form = factory(

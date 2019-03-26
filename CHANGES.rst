@@ -5,7 +5,8 @@ History
 1.6 (unreleased)
 ----------------
 
-- No changes yet.
+- Add ``array_display_renderer``.
+  [rnix]
 
 
 1.5 (2018-07-16)
