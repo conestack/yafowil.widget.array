@@ -28,10 +28,10 @@ def array_display_proxy_renderer(widget, data):
 
 
 factory.register(
-     'array_display_proxy',
-     extractors=[generic_extractor],
-     edit_renderers=[array_display_proxy_renderer],
-     display_renderers=[array_display_proxy_renderer])
+    'array_display_proxy',
+    extractors=[generic_extractor],
+    edit_renderers=[array_display_proxy_renderer],
+    display_renderers=[array_display_proxy_renderer])
 
 # do not document internal widget
 factory.doc['blueprint']['array_display_proxy'] = UNSET
@@ -43,6 +43,7 @@ ICON_CSS = {
     'up': 'icon-circle-arrow-up',
     'down': 'icon-circle-arrow-down',
 }
+
 
 def actions_renderer(widget, data):
     tag = data.tag
@@ -108,7 +109,7 @@ def array_wrapper_renderer(widget, data):
         'id': cssid(widget, 'array'),
         'class': cssclasses(widget, data) + add_css,
     }
-    if not 'array' in kw['class'].split(' '):
+    if 'array' not in kw['class'].split(' '):
         kw['class'] = 'array %s' % kw['class']
     rendered = data.rendered
     return data.tag('div', rendered, **kw)
@@ -119,9 +120,9 @@ TEMPLATE = 'TEMPLATE'
 
 
 def array_edit_renderer(widget, data):
-    if len(widget) == 1 and not widget.has_key(CONTAINER):
+    if len(widget) == 1 and CONTAINER not in widget:
         raise Exception(u"Empty array widget defined")
-    if not widget.has_key(CONTAINER):
+    if CONTAINER not in widget:
         template = widget.detach(widget.keys()[1])
         hook_array_template(widget, template)
     value = fetch_value(widget, data)
@@ -149,8 +150,9 @@ def create_array_children(widget, template, value):
         for i in indices:
             create_array_entry(str(i), widget, template, value[i])
     else:
-        raise ValueError(u"Expected list or dict as value. Got '%s'" % \
-                         str(type(value)))
+        raise ValueError(u"Expected list or dict as value. Got '{}'".format(
+            str(type(value)))
+        )
 
 
 def create_array_entry(idx, widget, template, value):
@@ -182,10 +184,10 @@ def create_array_entry(idx, widget, template, value):
         orgin = template[template.keys()[-1]]
         template = duplicate_recursiv(orgin)
         hook_array_template(child_widget, template)
-        # If array in array with compound. Compound template children get 
+        # If array in array with compound. Compound template children get
         # hooked to array widget. Remove them.
         for key in child_widget.keys():
-            if not key in ['table', CONTAINER]:
+            if key not in ['table', CONTAINER]:
                 del child_widget[key]
         return
     create_array_entry_children(child_widget, template)
@@ -213,7 +215,7 @@ def duplicate_widget(widget, value=UNSET):
     leaf = len(widget) == 0
     # B/C: use display_property widget attribute!
     if leaf and (widget.mode == 'display' or widget.attrs.get('disabled')) \
-      and not 'array_display_proxy' in blueprints:
+            and 'array_display_proxy' not in blueprints:
         if not widget.attrs.get('display_proxy'):
             blueprints.insert(0, 'array_display_proxy')
     return factory(
@@ -260,8 +262,8 @@ def check_base_name_in_request(widget, request):
 def array_display_renderer(widget, data):
     """XXX
     """
-    raise NotImplementedError(u"yafowil.widget.array: Display mode not "
-                              u"implemented yet")
+    raise NotImplementedError(
+        u'yafowil.widget.array: Display mode not implemented yet')
 
 
 factory.register(
@@ -273,7 +275,7 @@ factory.register(
     builders=[array_builder])
 
 factory.doc['blueprint']['array'] = \
-"""Add-on widget `yafowil.widget.array 
+"""Add-on widget `yafowil.widget.array
 <http://github.com/bluedynamics/yafowil.widget.array/>`_.
 """
 
