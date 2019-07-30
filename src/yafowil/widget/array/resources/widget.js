@@ -30,8 +30,11 @@ if (window.yafowil === undefined) {
             hooks: {
                 add: {},
                 remove: {},
+                before_up: {},
                 up: {},
-                down: {}
+                before_down: {},
+                down: {},
+                update: {}
             },
 
             container: function(context) {
@@ -93,8 +96,14 @@ if (window.yafowil === undefined) {
             reset_indices: function(context) {
                 var index = 0;
                 var base_id = yafowil.array.base_id(context);
+                var row;
                 context.children().each(function() {
-                    yafowil.array.set_row_index(this, base_id, index++);
+                    row = $(this);
+                    yafowil.array.set_row_index(row, base_id, index);
+                    for (var name in yafowil.array.hooks.update) {
+                        yafowil.array.hooks.update[name](row, index);
+                    }
+                    index++;
                 });
                 yafowil.array.binder(context);
             },
@@ -103,7 +112,7 @@ if (window.yafowil === undefined) {
                 var base_name = base_id.replace(/\-/g, '.');
                 var set_index = yafowil.array.set_attr_index;
                 var child;
-                $(node).children().each(function() {
+                node.children().each(function() {
                     child = $(this);
                     set_index(child, 'id', base_id, index, '-');
                     set_index(child, 'for', base_id, index, '-');
@@ -186,6 +195,9 @@ if (window.yafowil === undefined) {
                     .bind('click', function(event) {
                         event.preventDefault();
                         var row = yafowil.array.get_row(this);
+                        for (var name in yafowil.array.hooks.before_up) {
+                            yafowil.array.hooks.before_up[name](row);
+                        }
                         row.insertBefore(row.prev());
                         yafowil.array.reset_indices(row.parent());
                         for (var name in yafowil.array.hooks.up) {
@@ -198,6 +210,9 @@ if (window.yafowil === undefined) {
                     .bind('click', function(event) {
                         event.preventDefault();
                         var row = yafowil.array.get_row(this);
+                        for (var name in yafowil.array.hooks.before_down) {
+                            yafowil.array.hooks.before_down[name](row);
+                        }
                         row.insertAfter(row.next());
                         yafowil.array.reset_indices(row.parent());
                         for (var name in yafowil.array.hooks.down) {
