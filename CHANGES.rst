@@ -2,8 +2,13 @@
 History
 =======
 
-1.6 (unreleased)
+1.6 (2019-07-31)
 ----------------
+
+- Add additional JS hooks when array gets modified. Provided hooks are now
+  ``before_add``, ``add``, ``remove``, ``before_up``, ``up``, ``before_down``,
+  ``down`` and ``index``.
+  [rnix]
 
 - Add ``array_display_renderer``.
   [rnix]
