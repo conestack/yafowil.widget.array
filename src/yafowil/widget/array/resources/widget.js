@@ -28,13 +28,14 @@ if (window.yafowil === undefined) {
         array: {
 
             hooks: {
+                before_add: {},
                 add: {},
                 remove: {},
                 before_up: {},
                 up: {},
                 before_down: {},
                 down: {},
-                update: {}
+                index: {}
             },
 
             container: function(context) {
@@ -42,7 +43,7 @@ if (window.yafowil === undefined) {
             },
 
             template: function(context) {
-                var container = yafowil.array.container(context);
+                var container = this.container(context);
                 var tmpl = container.children('.arraytemplate').clone();
                 return tmpl;
             },
@@ -79,7 +80,7 @@ if (window.yafowil === undefined) {
                 }
                 row +=   '</tr>';
                 row = $(row);
-                var template = yafowil.array.template(context);
+                var template = this.template(context);
                 $('.widget', row).append(template.children());
                 return row;
             },
@@ -95,29 +96,29 @@ if (window.yafowil === undefined) {
 
             reset_indices: function(context) {
                 var index = 0;
-                var base_id = yafowil.array.base_id(context);
+                var base_id = this.base_id(context);
+                var that = this;
                 var row;
                 context.children().each(function() {
                     row = $(this);
-                    yafowil.array.set_row_index(row, base_id, index);
-                    for (var name in yafowil.array.hooks.update) {
-                        yafowil.array.hooks.update[name](row, index);
-                    }
+                    that.set_row_index(row, base_id, index);
+                    that.notify_hooks(that.hooks.index, row, index);
                     index++;
                 });
-                yafowil.array.binder(context);
+                this.binder(context);
             },
 
             set_row_index: function(node, base_id, index) {
                 var base_name = base_id.replace(/\-/g, '.');
-                var set_index = yafowil.array.set_attr_index;
+                var set_index = this.set_attr_index;
+                var that = this;
                 var child;
                 node.children().each(function() {
                     child = $(this);
                     set_index(child, 'id', base_id, index, '-');
                     set_index(child, 'for', base_id, index, '-');
                     set_index(child, 'name', base_name, index, '.');
-                    yafowil.array.set_row_index(child, base_id, index);
+                    that.set_row_index(child, base_id, index);
                 });
             },
 
@@ -145,80 +146,83 @@ if (window.yafowil === undefined) {
                 var down_sel = '> tr > td.actions a.array_row_down';
                 $('tbody:visible', context).each(function() {
                     var body = $(this);
-                    $(up_sel, body).removeClass('array_row_up_disabled')
-                                   .first()
-                                   .addClass('array_row_up_disabled');
-                    $(down_sel, body).removeClass('array_row_down_disabled')
-                                     .last()
-                                     .addClass('array_row_down_disabled');
+                    $(up_sel, body)
+                        .removeClass('array_row_up_disabled')
+                        .first()
+                        .addClass('array_row_up_disabled');
+                    $(down_sel, body)
+                        .removeClass('array_row_down_disabled')
+                        .last()
+                        .addClass('array_row_down_disabled');
                 });
             },
 
+            notify_hooks: function(hooks, ...args) {
+                var name;
+                for (name in hooks) {
+                    hooks[name].apply(null, args);
+                }
+            },
+
+            array_row_add: function(event) {
+                event.preventDefault();
+                var row = this.get_row(event.currentTarget);
+                var new_row = this.create_row(event.currentTarget);
+                this.notify_hooks(this.hooks.before_add, new_row);
+                var container = row.parent();
+                if (container.get(0).tagName.toLowerCase() === 'tbody') {
+                    row.after(new_row);
+                } else {
+                    var table = container.parent();
+                    var body = $('tbody', table).first();
+                    container = body;
+                    container.prepend(new_row);
+                }
+                this.reset_indices(container);
+                this.notify_hooks(this.hooks.add, new_row);
+            },
+
+            array_row_remove: function(event) {
+                event.preventDefault();
+                var row = this.get_row(event.currentTarget);
+                this.notify_hooks(this.hooks.remove, row);
+                var container = row.parent();
+                row.remove();
+                this.reset_indices(container);
+            },
+
+            array_row_up: function(event) {
+                event.preventDefault();
+                var row = this.get_row(event.currentTarget);
+                this.notify_hooks(this.hooks.before_up, row);
+                row.insertBefore(row.prev());
+                this.reset_indices(row.parent());
+                this.notify_hooks(this.hooks.up, row);
+            },
+
+            array_row_down: function(event) {
+                event.preventDefault();
+                var row = this.get_row(event.currentTarget);
+                this.notify_hooks(this.hooks.before_down, row);
+                row.insertAfter(row.next());
+                this.reset_indices(row.parent());
+                this.notify_hooks(this.hooks.down, row);
+            },
+
             binder: function(context) {
-                yafowil.array.mark_disabled(context);
-                $('a.array_row_add', context)
-                    .unbind()
-                    .bind('click', function(event) {
-                        event.preventDefault();
-                        var row = yafowil.array.get_row(this);
-                        var new_row = yafowil.array.create_row(this);
-                        var container = row.parent();
-                        if (container.get(0).tagName.toLowerCase() === 'tbody') {
-                            row.after(new_row);
-                        } else {
-                            var table = container.parent();
-                            var body = $('tbody', table).first();
-                            container = body;
-                            container.prepend(new_row);
-                        }
-                        yafowil.array.reset_indices(container);
-                        for (var name in yafowil.array.hooks.add) {
-                            yafowil.array.hooks.add[name](new_row);
-                        }
-                    });
-
-                $('a.array_row_remove', context)
-                    .unbind()
-                    .bind('click', function(event) {
-                        event.preventDefault();
-                        var row = yafowil.array.get_row(this);
-                        for (var name in yafowil.array.hooks.remove) {
-                            yafowil.array.hooks.remove[name](row);
-                        }
-                        var container = row.parent();
-                        row.remove();
-                        yafowil.array.reset_indices(container);
-                    });
-
-                $('a.array_row_up', context)
-                    .unbind()
-                    .bind('click', function(event) {
-                        event.preventDefault();
-                        var row = yafowil.array.get_row(this);
-                        for (var name in yafowil.array.hooks.before_up) {
-                            yafowil.array.hooks.before_up[name](row);
-                        }
-                        row.insertBefore(row.prev());
-                        yafowil.array.reset_indices(row.parent());
-                        for (var name in yafowil.array.hooks.up) {
-                            yafowil.array.hooks.up[name](row);
-                        }
-                    });
-
-                $('a.array_row_down', context)
-                    .unbind()
-                    .bind('click', function(event) {
-                        event.preventDefault();
-                        var row = yafowil.array.get_row(this);
-                        for (var name in yafowil.array.hooks.before_down) {
-                            yafowil.array.hooks.before_down[name](row);
-                        }
-                        row.insertAfter(row.next());
-                        yafowil.array.reset_indices(row.parent());
-                        for (var name in yafowil.array.hooks.down) {
-                            yafowil.array.hooks.down[name](row);
-                        }
-                    });
+                this.mark_disabled(context);
+                var add_sel = 'a.array_row_add';
+                var add_handler = this.array_row_add.bind(this)
+                $(add_sel, context).off().on('click', add_handler);
+                var remove_sel = 'a.array_row_remove';
+                var remove_handler = this.array_row_remove.bind(this);
+                $(remove_sel, context).off().on('click', remove_handler);
+                var up_sel = 'a.array_row_up';
+                var up_handler = this.array_row_up.bind(this)
+                $(up_sel, context).off().on('click', up_handler);
+                var down_sel = 'a.array_row_down';
+                var down_handler = this.array_row_down.bind(this)
+                $(down_sel, context).off().on('click', down_handler);
             }
         }
     });
