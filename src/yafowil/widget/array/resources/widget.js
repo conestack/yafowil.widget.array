@@ -158,8 +158,7 @@ if (window.yafowil === undefined) {
             },
 
             notify_hooks: function(hooks, ...args) {
-                var name;
-                for (name in hooks) {
+                for (var name in hooks) {
                     hooks[name].apply(null, args);
                 }
             },
@@ -168,14 +167,15 @@ if (window.yafowil === undefined) {
                 event.preventDefault();
                 var row = this.get_row(event.currentTarget);
                 var new_row = this.create_row(event.currentTarget);
-                this.notify_hooks(this.hooks.before_add, new_row);
                 var container = row.parent();
                 if (container.get(0).tagName.toLowerCase() === 'tbody') {
+                    this.notify_hooks(this.hooks.before_add, new_row, container);
                     row.after(new_row);
                 } else {
                     var table = container.parent();
                     var body = $('tbody', table).first();
                     container = body;
+                    this.notify_hooks(this.hooks.before_add, new_row, container);
                     container.prepend(new_row);
                 }
                 this.reset_indices(container);
