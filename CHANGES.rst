@@ -2,10 +2,11 @@
 History
 =======
 
-1.7 (unreleased)
-----------------
+1.6.1 (unreleased)
+------------------
 
-- No changes yet.
+- Use ``bdajax.register`` for registering binder function.
+  [rnix]
 
 
 1.6 (2019-07-31)

@@ -17,9 +17,7 @@ if (window.yafowil === undefined) {
         
         // add after ajax binding if bdajax present
         if (window.bdajax !== undefined) {
-            $.extend(window.bdajax.binders, {
-                arraywidget_binder: yafowil.array.binder
-            });
+            window.bdajax.register(yafowil.array.binder.bind(yafowil.array));
         }
     });
 
