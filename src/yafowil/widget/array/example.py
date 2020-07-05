@@ -22,6 +22,7 @@ Array containing single field entries. Preset value is expected as list.
     })
 """
 
+
 def array_with_leafs():
     form = factory('fieldset',
                    name='yafowil.widget.array.array_with_leafs')
@@ -69,6 +70,7 @@ dictionaries addressing array child compound fields by key.
         'required': 'Field 2 is required',
     })
 """
+
 
 def array_with_compounds():
     form = factory('fieldset',
@@ -120,6 +122,7 @@ list
     })
 """
 
+
 def array_with_array_with_leafs():
     form = factory('fieldset',
                    name='yafowil.widget.array_with_array_with_leafs')
@@ -147,7 +150,7 @@ DOC_ARRAY_WITH_ARRAY_WITH_COMPOUNDS = """\
 Array in array with compounds as array entries
 ----------------------------------------------
 
-Array in array containing compound entries. Preset value is lists in list 
+Array in array containing compound entries. Preset value is lists in list
 containing dictionaries addressing inner array child compound fields by key.
 
 .. code-block:: python
@@ -182,6 +185,7 @@ containing dictionaries addressing inner array child compound fields by key.
         'required': 'F2 is required',
     })
 """
+
 
 def array_with_array_with_compounds():
     form = factory('fieldset',
@@ -254,6 +258,7 @@ DOC_ARRAY_WITH_ARRAY_WITH_ARRAY_WITH_LEAFS = """\
     })
 """
 
+
 def array_with_array_with_array_with_leafs():
     form = factory(
         'fieldset',
@@ -323,6 +328,7 @@ compound fields by key.
         'required': 'F2 is required',
     })
 """
+
 
 def array_with_array_with_array_with_compounds():
     form = factory(

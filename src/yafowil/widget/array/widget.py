@@ -282,8 +282,8 @@ factory.register(
     display_renderers=[array_display_renderer, compound_renderer],
     builders=[array_builder])
 
-factory.doc['blueprint']['array'] = \
-"""Add-on widget `yafowil.widget.array
+factory.doc['blueprint']['array'] = """\
+Add-on widget `yafowil.widget.array
 <http://github.com/bluedynamics/yafowil.widget.array/>`_.
 """
 
@@ -296,27 +296,27 @@ factory.defaults['array.error_class'] = 'error'
 factory.defaults['array.message_class'] = 'errormessage'
 
 factory.defaults['array.table_class'] = None
-factory.doc['props']['array.table_class'] = \
-"""CSS classes rendered on array table.
+factory.doc['props']['array.table_class'] = """\
+CSS classes rendered on array table.
 """
 
 factory.defaults['array.static'] = False
-factory.doc['props']['array.static'] = \
-"""Array is immutable. No Array actions are rendered. If True, ``add``,
+factory.doc['props']['array.static'] = """\
+Array is immutable. No Array actions are rendered. If True, ``add``,
 ``remove`` and ``sort`` properties are ignored.
 """
 
 factory.defaults['array.add'] = True
-factory.doc['props']['array.add'] = \
-"""Render ``add`` action.
+factory.doc['props']['array.add'] = """\
+Render ``add`` action.
 """
 
 factory.defaults['array.remove'] = True
-factory.doc['props']['array.remove'] = \
-"""Render ``remove`` action.
+factory.doc['props']['array.remove'] = """\
+Render ``remove`` action.
 """
 
 factory.defaults['array.sort'] = True
-factory.doc['props']['array.sort'] = \
-"""Render ``move up`` and ``move down`` actions.
+factory.doc['props']['array.sort'] = """\
+Render ``move up`` and ``move down`` actions.
 """

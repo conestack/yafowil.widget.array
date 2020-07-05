@@ -6,7 +6,7 @@ from yafowil.compat import IS_PY2
 from yafowil.tests import fxml
 from yafowil.tests import YafowilTestCase
 import unittest
-import yafowil.loader
+import yafowil.loader  # noqa
 
 
 if not IS_PY2:
@@ -1008,12 +1008,12 @@ class TestArrayWidget(YafowilTestCase):
 
         # default values as dict
         form['myarray'] = factory(
-        'array',
-        value={
-            '0': {'0': '1', '1': '2'},
-            '1': {'0': '4', '1': '5'},
-        },
-        props={'label': 'My Array Array'})
+            'array',
+            value={
+                '0': {'0': '1', '1': '2'},
+                '1': {'0': '4', '1': '5'},
+            },
+            props={'label': 'My Array Array'})
         form['myarray']['subarray'] = factory(
             'array',
             props={'label': 'Subrray'})
@@ -1304,22 +1304,22 @@ class TestArrayWidget(YafowilTestCase):
         arrd0 = data['myarray']['0']
         self.assertEqual(
             [arrd0.name, arrd0.value, arrd0.extracted, arrd0.errors],
-            [ '0', UNSET, '1', []]
+            ['0', UNSET, '1', []]
         )
         arrd1 = data['myarray']['1']
         self.assertEqual(
             [arrd1.name, arrd1.value, arrd1.extracted, arrd1.errors],
-            [ '1', UNSET, '2', []]
+            ['1', UNSET, '2', []]
         )
         arrd2 = data['myarray']['2']
         self.assertEqual(
             [arrd2.name, arrd2.value, arrd2.extracted, arrd2.errors],
-            [ '2', UNSET, '3', []]
+            ['2', UNSET, '3', []]
         )
         arrd3 = data['myarray']['3']
         self.assertEqual(
             [arrd3.name, arrd3.value, arrd3.extracted, arrd3.errors],
-            [ '3', UNSET, '4', []]
+            ['3', UNSET, '4', []]
         )
 
         # with preset values
@@ -1350,22 +1350,22 @@ class TestArrayWidget(YafowilTestCase):
         arrd0 = data['myarray']['0']
         self.assertEqual(
             [arrd0.name, arrd0.value, arrd0.extracted, arrd0.errors],
-            [ '0', UNSET, '41', []]
+            ['0', UNSET, '41', []]
         )
         arrd1 = data['myarray']['1']
         self.assertEqual(
             [arrd1.name, arrd1.value, arrd1.extracted, arrd1.errors],
-            [ '1', UNSET, '31', []]
+            ['1', UNSET, '31', []]
         )
         arrd2 = data['myarray']['2']
         self.assertEqual(
             [arrd2.name, arrd2.value, arrd2.extracted, arrd2.errors],
-            [ '2', UNSET, '21', []]
+            ['2', UNSET, '21', []]
         )
         arrd3 = data['myarray']['3']
         self.assertEqual(
             [arrd3.name, arrd3.value, arrd3.extracted, arrd3.errors],
-            [ '3', UNSET, '11', []]
+            ['3', UNSET, '11', []]
         )
 
         # entries increased in UI
@@ -1390,27 +1390,27 @@ class TestArrayWidget(YafowilTestCase):
         arrd0 = data['myarray']['0']
         self.assertEqual(
             [arrd0.name, arrd0.value, arrd0.extracted, arrd0.errors],
-            [ '0', UNSET, 'a', []]
+            ['0', UNSET, 'a', []]
         )
         arrd1 = data['myarray']['1']
         self.assertEqual(
             [arrd1.name, arrd1.value, arrd1.extracted, arrd1.errors],
-            [ '1', UNSET, 'b', []]
+            ['1', UNSET, 'b', []]
         )
         arrd2 = data['myarray']['2']
         self.assertEqual(
             [arrd2.name, arrd2.value, arrd2.extracted, arrd2.errors],
-            [ '2', UNSET, 'c', []]
+            ['2', UNSET, 'c', []]
         )
         arrd3 = data['myarray']['3']
         self.assertEqual(
             [arrd3.name, arrd3.value, arrd3.extracted, arrd3.errors],
-            [ '3', UNSET, 'd', []]
+            ['3', UNSET, 'd', []]
         )
         arrd4 = data['myarray']['4']
         self.assertEqual(
             [arrd4.name, arrd4.value, arrd4.extracted, arrd4.errors],
-            [ '4', UNSET, 'e', []]
+            ['4', UNSET, 'e', []]
         )
 
         # entries decreased in UI
@@ -1433,17 +1433,17 @@ class TestArrayWidget(YafowilTestCase):
         arrd0 = data['myarray']['0']
         self.assertEqual(
             [arrd0.name, arrd0.value, arrd0.extracted, arrd0.errors],
-            [ '0', UNSET, 'x', []]
+            ['0', UNSET, 'x', []]
         )
         arrd1 = data['myarray']['1']
         self.assertEqual(
             [arrd1.name, arrd1.value, arrd1.extracted, arrd1.errors],
-            [ '1', UNSET, 'y', []]
+            ['1', UNSET, 'y', []]
         )
         arrd2 = data['myarray']['2']
         self.assertEqual(
             [arrd2.name, arrd2.value, arrd2.extracted, arrd2.errors],
-            [ '2', UNSET, 'z', []]
+            ['2', UNSET, 'z', []]
         )
 
     def test_array_required_extraction(self):
