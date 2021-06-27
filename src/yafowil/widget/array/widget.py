@@ -284,7 +284,7 @@ factory.register(
 
 factory.doc['blueprint']['array'] = """\
 Add-on widget `yafowil.widget.array
-<http://github.com/bluedynamics/yafowil.widget.array/>`_.
+<http://github.com/conestack/yafowil.widget.array/>`_.
 """
 
 factory.defaults['array.class'] = 'array'
