@@ -14,7 +14,10 @@
     class ArrayWidget {
         static initialize(context) {
             $('div.array', context).each(function() {
-                new ArrayWidget($(this));
+                let wrapper = $(this);
+                if (wrapper.attr('id').indexOf('-TEMPLATE') === -1) {
+                    new ArrayWidget(wrapper);
+                }
             });
         }
         constructor(wrapper) {
@@ -109,15 +112,14 @@
         set_row_index(node, base_id, index) {
             let base_name = base_id.replace(/\-/g, '.'),
                 set_index = this.set_attr_index,
+                that = this,
                 child;
             node.children().each(function() {
                 child = $(this);
                 set_index(child, 'id', base_id, index, '-');
                 set_index(child, 'for', base_id, index, '-');
                 set_index(child, 'name', base_name, index, '.');
-                if (child.attr('class').indexOf('array') > -1) {
-                    child.data('array').set_row_index(child, base_id, index);
-                }
+                that.set_row_index(child, base_id, index);
             });
         }
         set_attr_index(node, attr, base, index, delim) {
@@ -138,15 +140,18 @@
                 hooks[name].apply(null, args);
             }
         }
+        init_row(container, row) {
+            this.reset_indices(container);
+            ArrayWidget.initialize(row);
+            this.notify_hooks(hooks.add, row);
+        }
         add_first_handle(evt) {
             evt.preventDefault();
             let new_row = this.create_row(),
                 container = $('> tbody', this.table);
             this.notify_hooks(hooks.before_add, new_row, container);
             container.prepend(new_row);
-            ArrayWidget.initialize(new_row);
-            this.reset_indices(container);
-            this.notify_hooks(hooks.add, new_row);
+            this.init_row(container, new_row);
         }
         add_handle(evt) {
             evt.preventDefault();
@@ -155,8 +160,7 @@
                 container = row.parent();
             this.notify_hooks(hooks.before_add, new_row, container);
             row.after(new_row);
-            this.reset_indices(container);
-            this.notify_hooks(hooks.add, new_row);
+            this.init_row(container, new_row);
         }
         remove_handle(evt) {
             evt.preventDefault();
