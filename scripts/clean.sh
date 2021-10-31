@@ -5,7 +5,7 @@
 set -e
 
 to_remove=(
-    bin build bundle dist include karma lib lib64 node_modules
+    bin build bundle dist include karma lib64 lib node_modules
     package-lock.json pyvenv.cfg share
 )
 
