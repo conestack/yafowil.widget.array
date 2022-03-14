@@ -29,9 +29,24 @@ plone5_css = [{
 @entry_point(order=10)
 def register():
     from yafowil.widget.array import widget  # noqa
-    factory.register_theme('default', 'yafowil.widget.array',
-                           resourcedir, js=js, css=default_css)
-    factory.register_theme('bootstrap', 'yafowil.widget.array',
-                           resourcedir, js=js, css=bootstrap_css)
-    factory.register_theme('plone5', 'yafowil.widget.array',
-                           resourcedir, js=js, css=plone5_css)
+    factory.register_theme(
+        'default',
+        'yafowil.widget.array',
+        resourcedir,
+        js=js,
+        css=default_css
+    )
+    factory.register_theme(
+        'bootstrap',
+        'yafowil.widget.array',
+        resourcedir,
+        js=js,
+        css=bootstrap_css
+    )
+    factory.register_theme(
+        'plone5',
+        'yafowil.widget.array',
+        resourcedir,
+        js=js,
+        css=plone5_css
+    )

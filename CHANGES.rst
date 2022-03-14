@@ -1,10 +1,11 @@
 Changes
 =======
 
-1.7 (unreleased)
+2.0 (unreleased)
 ----------------
 
-- No changes yet.
+- Rewrite JavaScript using ES6.
+  [rnix]
 
 
 1.6.1 (2019-11-20)
