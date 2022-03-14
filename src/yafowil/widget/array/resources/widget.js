@@ -1,4 +1,4 @@
-(function (exports, $) {
+var yafowil_array = (function (exports, $) {
     'use strict';
 
     let hooks = {
@@ -211,4 +211,3 @@
     return exports;
 
 })({}, jQuery);
-//# sourceMappingURL=widget.js.map
