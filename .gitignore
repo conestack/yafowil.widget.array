@@ -3,6 +3,7 @@
 *.pyc
 *#*
 *~
+/.coverage
 /.DS_Store
 /.installed.cfg
 /.mr.developer.cfg
