@@ -1,7 +1,9 @@
-name: Test array
+name: PY Test array
 
 on:
   push:
+    paths:
+    - '**.py'
 
 jobs:
   test:
