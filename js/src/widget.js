@@ -23,8 +23,8 @@ export class ArrayWidget {
     }
 
     constructor(wrapper) {
+        wrapper.data('yafowil-array', this);
         this.wrapper = wrapper;
-        wrapper.data('array', this);
         let table = $('> table', wrapper),
             head_actions = $('> thead .array_actions', table),
             add_handle = this.add_first_handle.bind(this);
