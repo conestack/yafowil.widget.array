@@ -21,8 +21,8 @@ var yafowil_array = (function (exports, $) {
             });
         }
         constructor(wrapper) {
+            wrapper.data('yafowil-array', this);
             this.wrapper = wrapper;
-            wrapper.data('array', this);
             let table = $('> table', wrapper),
                 head_actions = $('> thead .array_actions', table),
                 add_handle = this.add_first_handle.bind(this);
@@ -191,6 +191,8 @@ var yafowil_array = (function (exports, $) {
     $(function() {
         if (window.ts !== undefined) {
             ts.ajax.register(ArrayWidget.initialize, true);
+        } else if (window.bdajax !== undefined) {
+            bdajax.register(ArrayWidget.initialize, true);
         } else {
             ArrayWidget.initialize();
         }
@@ -202,9 +204,7 @@ var yafowil_array = (function (exports, $) {
     Object.defineProperty(exports, '__esModule', { value: true });
 
 
-    if (window.yafowil === undefined) {
-        window.yafowil = {};
-    }
+    window.yafowil = window.yafowil || {};
     window.yafowil.array = exports;
 
 
