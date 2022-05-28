@@ -13,17 +13,12 @@ resources_dir = os.path.join(os.path.dirname(__file__), 'resources')
 
 # webresource ################################################################
 
-scripts = wr.ResourceGroup(
-    name='yafowil-array-scripts',
-    path='yafowil.widget.array'
-)
-scripts.add(wr.ScriptResource(
+array_js = wr.ScriptResource(
     name='yafowil-array-js',
     depends='jquery-js',
-    directory=resources_dir,
     resource='widget.js',
     compressed='widget.min.js'
-))
+)
 
 # B/C resources ##############################################################
 
@@ -40,13 +35,16 @@ js = [{
 
 # webresource ################################################################
 
-default_styles = wr.ResourceGroup(
-    name='yafowil-array-styles',
-    path='yafowil.widget.array'
+default_resources = wr.ResourceGroup(
+    name='yafowil-array-default-resources',
+    directory=resources_dir,
+    path='yafowil-array'
 )
-default_styles.add(wr.StyleResource(
+default_resources.add(array_js)
+default_resources.add(wr.StyleResource(
     name='yafowil-array-css',
     directory=os.path.join(resources_dir, 'default'),
+    path='yafowil-array/default',
     resource='widget.css'
 ))
 
@@ -65,13 +63,16 @@ default_css = [{
 
 # webresource ################################################################
 
-bootstrap_styles = wr.ResourceGroup(
-    name='yafowil-array-styles',
-    path='yafowil.widget.array'
+bootstrap_resources = wr.ResourceGroup(
+    name='yafowil-array-bootstrap-resources',
+    directory=resources_dir,
+    path='yafowil-array'
 )
-bootstrap_styles.add(wr.StyleResource(
+bootstrap_resources.add(array_js)
+bootstrap_resources.add(wr.StyleResource(
     name='yafowil-array-css',
     directory=os.path.join(resources_dir, 'bootstrap'),
+    path='yafowil-array/bootstrap',
     resource='widget.css'
 ))
 
@@ -90,13 +91,16 @@ bootstrap_css = [{
 
 # webresource ################################################################
 
-plone5_styles = wr.ResourceGroup(
-    name='yafowil-array-styles',
-    path='yafowil.widget.array'
+plone5_resources = wr.ResourceGroup(
+    name='yafowil-array-plone5-resources',
+    directory=resources_dir,
+    path='yafowil-array'
 )
-plone5_styles.add(wr.StyleResource(
+plone5_resources.add(array_js)
+plone5_resources.add(wr.StyleResource(
     name='yafowil-array-css',
     directory=os.path.join(resources_dir, 'plone5'),
+    path='yafowil-array/plone5',
     resource='widget.css'
 ))
 
@@ -117,34 +121,38 @@ plone5_css = [{
 def register():
     from yafowil.widget.array import widget  # noqa
 
+    widget_name = 'yafowil.widget.array'
+
     # Default
     factory.register_theme(
-        'default', 'yafowil.widget.array', resources_dir,
-        js=js, css=default_css
+        'default',
+        widget_name,
+        resources_dir,
+        js=js,
+        css=default_css
     )
-    factory.register_scripts('default', 'yafowil.widget.array', scripts)
-    factory.register_styles('default', 'yafowil.widget.array', default_styles)
+    factory.register_resources('default', widget_name, default_resources)
 
     # Bootstrap
     factory.register_theme(
-        ['bootstrap', 'bootstrap3'], 'yafowil.widget.array', resources_dir,
-        js=js, css=bootstrap_css
-    )
-    factory.register_scripts(
         ['bootstrap', 'bootstrap3'],
-        'yafowil.widget.array',
-        scripts
+        widget_name,
+        resources_dir,
+        js=js,
+        css=bootstrap_css
     )
-    factory.register_styles(
+    factory.register_resources(
         ['bootstrap', 'bootstrap3'],
-        'yafowil.widget.array',
-        bootstrap_styles
+        widget_name,
+        bootstrap_resources
     )
 
     # Plone 5
     factory.register_theme(
-        'plone5', 'yafowil.widget.array', resources_dir,
-        js=js, css=plone5_css
+        'plone5',
+        widget_name,
+        resources_dir,
+        js=js,
+        css=plone5_css
     )
-    factory.register_scripts('plone5', 'yafowil.widget.array', scripts)
-    factory.register_styles('plone5', 'yafowil.widget.array', plone5_styles)
+    factory.register_resources('plone5', widget_name, plone5_resources)
