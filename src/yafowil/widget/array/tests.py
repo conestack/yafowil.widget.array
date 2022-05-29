@@ -28,12 +28,10 @@ class TestArrayWidget(YafowilTestCase):
         form['myarray'] = factory(
             'array',
             props={'label': 'My Array'})
-        err = self.expect_error(
-            Exception,
-            form
-        )
+        with self.assertRaises(Exception) as arc:
+            form()
         msg = 'Empty array widget defined'
-        self.assertEqual(str(err), msg)
+        self.assertEqual(str(arc.exception), msg)
 
     def test_empty_array(self):
         # Create empty array widget
@@ -61,7 +59,7 @@ class TestArrayWidget(YafowilTestCase):
             ""
         ])
 
-        self.check_output("""
+        self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data"
               id="form-myform" method="post" novalidate="novalidate">
           <div class="array array-add array-remove array-sort"
@@ -120,7 +118,7 @@ class TestArrayWidget(YafowilTestCase):
             ""
         ])
 
-        self.check_output("""
+        self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
           <div class="array array-remove array-sort" id="array-myform-myarray">
@@ -155,7 +153,7 @@ class TestArrayWidget(YafowilTestCase):
         form['myarray']['myfield'] = factory(
             'field:label:text',
             props={'label': 'My Field'})
-        self.check_output("""
+        self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
           <div class="array specialclass array-add array-remove array-sort"
@@ -187,7 +185,7 @@ class TestArrayWidget(YafowilTestCase):
         form['myarray']['myfield'] = factory(
             'field:label:text',
             props={'label': 'My Field'})
-        self.check_output("""
+        self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
           <table>
@@ -245,7 +243,7 @@ class TestArrayWidget(YafowilTestCase):
             ""
         ])
 
-        self.check_output("""
+        self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
           <div class="array array-static" id="array-myform-myarray">
@@ -275,12 +273,10 @@ class TestArrayWidget(YafowilTestCase):
             'compound',
             props={'structural': True})
 
-        err = self.expect_error(
-            Exception,
-            form
-        )
+        with self.assertRaises(Exception) as arc:
+            form()
         msg = 'Compound templates for arrays must not be structural.'
-        self.assertEqual(str(err), msg)
+        self.assertEqual(str(arc.exception), msg)
 
         # Now with valid compound template
         form['myarray'] = factory(
@@ -309,7 +305,7 @@ class TestArrayWidget(YafowilTestCase):
             ""
         ])
 
-        self.check_output("""
+        self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
           <div class="array array-add array-remove array-sort"
@@ -368,7 +364,7 @@ class TestArrayWidget(YafowilTestCase):
             ""
         ])
 
-        self.check_output("""
+        self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
           <div class="array array-add array-remove array-sort"
@@ -410,15 +406,14 @@ class TestArrayWidget(YafowilTestCase):
             'field:label:text',
             props={'label': 'My Field'})
 
-        err = self.expect_error(
-            ValueError,
-            form
+        with self.assertRaises(ValueError) as arc:
+            form()
+        msg = (
+            "Expected list or dict as value. Got '<type 'object'>'"
+            if IS_PY2
+            else "Expected list or dict as value. Got '<class 'object'>'"
         )
-        if IS_PY2:
-            msg = "Expected list or dict as value. Got '<type 'object'>'"
-        else:
-            msg = "Expected list or dict as value. Got '<class 'object'>'"
-        self.assertEqual(str(err), msg)
+        self.assertEqual(str(arc.exception), msg)
 
     def test_array_with_preset_values_disable_add_action(self):
         # Value as list. Disable ``add``
@@ -437,7 +432,7 @@ class TestArrayWidget(YafowilTestCase):
             'field:label:text',
             props={'label': 'My Field'})
 
-        self.check_output("""
+        self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
           <div class="array array-remove array-sort" id="array-myform-myarray">
@@ -499,7 +494,7 @@ class TestArrayWidget(YafowilTestCase):
             'field:label:text',
             props={'label': 'My Field'})
 
-        self.check_output("""
+        self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
           <div class="array array-add array-remove" id="array-myform-myarray">
@@ -563,7 +558,7 @@ class TestArrayWidget(YafowilTestCase):
             'field:label:text',
             props={'label': 'My Field'})
 
-        self.check_output("""
+        self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
           <div class="array" id="array-myform-myarray">
@@ -626,7 +621,7 @@ class TestArrayWidget(YafowilTestCase):
             ""
         ])
 
-        self.check_output("""
+        self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
           <div class="array array-static" id="array-myform-myarray">
@@ -674,7 +669,7 @@ class TestArrayWidget(YafowilTestCase):
             'field:label:text',
             props={'label': 'My Field'})
 
-        self.check_output("""
+        self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
           <div class="array array-add array-remove array-sort"
@@ -746,12 +741,10 @@ class TestArrayWidget(YafowilTestCase):
             'field:label:text',
             props={'label': 'My Field'})
 
-        err = self.expect_error(
-            Exception,
-            form
-        )
+        with self.assertRaises(Exception) as arc:
+            form()
         msg = "Array value error. invalid literal for int() with base 10: 'a'"
-        self.assertEqual(str(err), msg)
+        self.assertEqual(str(arc.exception), msg)
 
     def test_array_with_preset_value_as_dict(self):
         # Valid dict value
@@ -770,7 +763,7 @@ class TestArrayWidget(YafowilTestCase):
             'field:label:text',
             props={'label': 'My Field'})
 
-        self.check_output("""
+        self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
           <div class="array array-add array-remove array-sort"
@@ -830,7 +823,7 @@ class TestArrayWidget(YafowilTestCase):
             'field:label:text',
             props={'label': 'F2'})
 
-        self.check_output("""
+        self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
           <div class="array array-add array-remove array-sort"
@@ -907,7 +900,7 @@ class TestArrayWidget(YafowilTestCase):
             'field:label:text',
             props={'label': 'My Field'})
         rendered = form()
-        self.check_output("""
+        self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
           <div class="array array-add array-remove array-sort"
@@ -1108,7 +1101,7 @@ class TestArrayWidget(YafowilTestCase):
         ])
 
         rendered = form()
-        self.check_output("""
+        self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
           <div class="array array-add array-remove array-sort"
@@ -1479,7 +1472,7 @@ class TestArrayWidget(YafowilTestCase):
             ]
         )
 
-        self.check_output("""
+        self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
           <div class="error">
             <div class="errormessage">Array is required</div>
@@ -1530,7 +1523,7 @@ class TestArrayWidget(YafowilTestCase):
             ['1', UNSET, '', [ExtractionError('My Field is required')]]
         )
 
-        self.check_output("""
+        self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
           <div class="array array-add array-remove array-sort"
@@ -1863,7 +1856,7 @@ class TestArrayWidget(YafowilTestCase):
         form['myarray']['mycompound']['f2'] = factory(
             'field:label:text',
             props={'label': 'F2', 'disabled': 'disabled'})
-        self.check_output("""
+        self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
           <div class="array array-add array-remove array-sort"
@@ -1908,7 +1901,7 @@ class TestArrayWidget(YafowilTestCase):
             'field:label:text',
             props={'label': 'F1'},
             mode='display')
-        self.check_output("""
+        self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
           <div class="array array-add array-remove array-sort"
@@ -1983,7 +1976,7 @@ class TestArrayWidget(YafowilTestCase):
             ""
         ])
 
-        self.check_output("""
+        self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
           <div class="array array-add array-remove array-sort"
