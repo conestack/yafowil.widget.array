@@ -2134,6 +2134,7 @@ class TestArrayWidget(YafowilTestCase):
         factory.theme = 'default'
         resources = factory.get_resources('yafowil.widget.array')
         self.assertTrue(resources.directory.endswith(np('/array/resources')))
+        self.assertEqual(resources.name, 'yafowil.widget.array')
         self.assertEqual(resources.path, 'yafowil-array')
 
         scripts = resources.scripts
@@ -2157,6 +2158,7 @@ class TestArrayWidget(YafowilTestCase):
         factory.theme = 'bootstrap3'
         resources = factory.get_resources('yafowil.widget.array')
         self.assertTrue(resources.directory.endswith(np('/array/resources')))
+        self.assertEqual(resources.name, 'yafowil.widget.array')
         self.assertEqual(resources.path, 'yafowil-array')
 
         scripts = resources.scripts
@@ -2180,6 +2182,7 @@ class TestArrayWidget(YafowilTestCase):
         factory.theme = 'plone5'
         resources = factory.get_resources('yafowil.widget.array')
         self.assertTrue(resources.directory.endswith(np('/array/resources')))
+        self.assertEqual(resources.name, 'yafowil.widget.array')
         self.assertEqual(resources.path, 'yafowil-array')
 
         scripts = resources.scripts
