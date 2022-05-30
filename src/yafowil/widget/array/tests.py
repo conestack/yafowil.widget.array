@@ -22,7 +22,8 @@ class TestArrayWidget(YafowilTestCase):
     def setUp(self):
         super(TestArrayWidget, self).setUp()
         from yafowil.widget import array
-        reload(array.widget)
+        from yafowil.widget.array import widget
+        reload(widget)
         array.register()
 
     def test_array_with_missing_entry_definition(self):
