@@ -4,7 +4,10 @@ Changes
 1.7 (unreleased)
 ----------------
 
-- No changes yet.
+- Move part of ``set_attr_index`` into new method ``set_value_index``
+  to allow correct indexing of data-attributes from
+  ``yafowil.referencebrowser``.
+  [lenadax]
 
 
 1.6.1 (2019-11-20)

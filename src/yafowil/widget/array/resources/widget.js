@@ -108,7 +108,7 @@ if (window.yafowil === undefined) {
 
             set_row_index: function(node, base_id, index) {
                 var base_name = base_id.replace(/\-/g, '.');
-                var set_index = this.set_attr_index;
+                var set_index = this.set_attr_index.bind(this);
                 var that = this;
                 var child;
                 node.children().each(function() {
@@ -123,15 +123,22 @@ if (window.yafowil === undefined) {
             set_attr_index: function(node, attr, base, index, delim) {
                 var value = node.attr(attr);
                 if (value && value.indexOf(base) > -1) {
-                    var idx_0 = value.indexOf(base) + base.length + 1;
-                    var idx_1 = value.indexOf(delim, idx_0);
-                    var pre = value.substring(0, idx_0);
-                    var post = '';
-                    if (idx_1 > -1) {
-                        post = value.substring(idx_1, value.length);
-                    }
-                    node.attr(attr, pre + index + post);
+                    node.attr(
+                        attr,
+                        this.set_value_index(value, base, index, delim)
+                    );
                 }
+            },
+
+            set_value_index: function(value, base, index, delim) {
+                var idx_0 = value.indexOf(base) + base.length + 1;
+                var idx_1 = value.indexOf(delim, idx_0);
+                var pre = value.substring(0, idx_0);
+                var post = '';
+                if (idx_1 > -1) {
+                    post = value.substring(idx_1, value.length);
+                }
+                return pre + index + post;
             },
 
             mark_disabled: function(context) {
