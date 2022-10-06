@@ -4,9 +4,8 @@ Changes
 1.7 (unreleased)
 ----------------
 
-- Move part of ``set_attr_index`` into new method ``set_value_index``
-  to allow correct indexing of data-attributes from
-  ``yafowil.referencebrowser``.
+- Introduce new method ``set_value_index`` to allow correct custom indexing
+  in index hooks.
   [lenadax]
 
 
