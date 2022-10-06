@@ -1,7 +1,7 @@
 Changes
 =======
 
-1.7 (unreleased)
+1.7 (2022-10-06)
 ----------------
 
 - Introduce new method ``set_value_index`` to allow correct custom indexing
