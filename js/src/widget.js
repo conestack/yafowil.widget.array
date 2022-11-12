@@ -1,5 +1,6 @@
 import $ from 'jquery';
 
+// B/C. Deprecated. Use ``on_array_event``
 export let hooks = {
     before_add: {},
     add: {},
@@ -10,6 +11,22 @@ export let hooks = {
     down: {},
     index: {}
 };
+
+// global array subscribers, gets called from every array instance
+let _array_subscribers = {
+    on_before_add: [],
+    on_add: [],
+    on_remove: [],
+    on_before_up: [],
+    on_up: [],
+    on_before_down: [],
+    on_down: [],
+    on_index: []
+}
+
+export function on_array_event(event, subscriber) {
+    _array_subscribers[event].push(subscriber)
+}
 
 export class ArrayWidget {
 
@@ -104,6 +121,22 @@ export class ArrayWidget {
         return id.substring(6, id.length);
     }
 
+    trigger(event, ...args) {
+        let event_hooks = hooks[event.substring(3, event.length)];
+        if (Object.entries(event_hooks).length) {
+            console.log(
+                'Array hooks are deprecated. Use ``on_array_event`` instead.'
+            );
+            for (let hook_name in event_hooks) {
+                hooks[hook_name].apply(null, args);
+            }
+        }
+        args.splice(0, 0, this);
+        for (let subscriber of _array_subscribers[event]) {
+            subscriber.apply(null, args);
+        }
+    }
+
     reset_indices(context) {
         let index = 0,
             base_id = this.base_id,
@@ -112,7 +145,7 @@ export class ArrayWidget {
         context.children().each(function() {
             row = $(this);
             that.set_row_index(row, base_id, index);
-            that.notify_hooks(hooks.index, row, index);
+            that.trigger('on_index', row, index);
             index++;
         });
         this.bind_actions();
@@ -135,34 +168,35 @@ export class ArrayWidget {
     set_attr_index(node, attr, base, index, delim) {
         let value = node.attr(attr);
         if (value && value.indexOf(base) > -1) {
-            let idx_0 = value.indexOf(base) + base.length + 1,
-                idx_1 = value.indexOf(delim, idx_0),
-                pre = value.substring(0, idx_0),
-                post = '';
-            if (idx_1 > -1) {
-                post = value.substring(idx_1, value.length);
-            }
-            node.attr(attr, pre + index + post);
+            node.attr(
+                attr,
+                this.set_value_index(value, base, index, delim)
+            );
         }
     }
 
-    notify_hooks(hooks, ...args) {
-        for (let name in hooks) {
-            hooks[name].apply(null, args);
+    set_value_index(value, base, index, delim) {
+        let idx_0 = value.indexOf(base) + base.length + 1,
+            idx_1 = value.indexOf(delim, idx_0),
+            pre = value.substring(0, idx_0),
+            post = '';
+        if (idx_1 > -1) {
+            post = value.substring(idx_1, value.length);
         }
+        return pre + index + post;
     }
 
     init_row(container, row) {
         this.reset_indices(container);
         ArrayWidget.initialize(row);
-        this.notify_hooks(hooks.add, row);
+        this.trigger('on_add', row);
     }
 
     add_first_handle(evt) {
         evt.preventDefault();
         let new_row = this.create_row(),
             container = $('> tbody', this.table);
-        this.notify_hooks(hooks.before_add, new_row, container);
+        this.trigger('on_before_add', new_row, container);
         container.prepend(new_row);
         this.init_row(container, new_row);
     }
@@ -172,7 +206,7 @@ export class ArrayWidget {
         let row = this.get_row(evt.currentTarget),
             new_row = this.create_row(),
             container = row.parent();
-        this.notify_hooks(hooks.before_add, new_row, container);
+        this.trigger('on_before_add', new_row, container);
         row.after(new_row);
         this.init_row(container, new_row);
     }
@@ -180,7 +214,7 @@ export class ArrayWidget {
     remove_handle(evt) {
         evt.preventDefault();
         let row = this.get_row(evt.currentTarget);
-        this.notify_hooks(hooks.remove, row);
+        this.trigger('on_remove', row);
         let container = row.parent();
         row.remove();
         this.reset_indices(container);
@@ -189,18 +223,18 @@ export class ArrayWidget {
     up_handle(evt) {
         evt.preventDefault();
         let row = this.get_row(evt.currentTarget);
-        this.notify_hooks(hooks.before_up, row);
+        this.trigger('on_before_up', row);
         row.insertBefore(row.prev());
         this.reset_indices(row.parent());
-        this.notify_hooks(hooks.up, row);
+        this.trigger('on_up', row);
     }
 
     down_handle(evt) {
         evt.preventDefault();
         let row = this.get_row(evt.currentTarget);
-        this.notify_hooks(hooks.before_down, row);
+        this.trigger('on_before_down', row);
         row.insertAfter(row.next());
         this.reset_indices(row.parent());
-        this.notify_hooks(hooks.down, row);
+        this.trigger('on_down', row);
     }
 }

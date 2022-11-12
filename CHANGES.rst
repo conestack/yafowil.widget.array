@@ -4,8 +4,18 @@ Changes
 2.0 (unreleased)
 ----------------
 
+- ``array.hooks`` are deprecated. Use ``on_array_event`` instead.
+
 - Rewrite JavaScript using ES6.
   [rnix]
+
+
+1.7 (2022-10-06)
+----------------
+
+- Introduce new method ``set_value_index`` to allow correct custom indexing
+  in index hooks.
+  [lenadax]
 
 
 1.6.1 (2019-11-20)
