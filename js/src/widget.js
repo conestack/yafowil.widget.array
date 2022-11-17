@@ -128,7 +128,8 @@ export class ArrayWidget {
                 'Array hooks are deprecated. Use ``on_array_event`` instead.'
             );
             for (let hook_name in event_hooks) {
-                hooks[hook_name].apply(null, args);
+                console.log(`    - ${hook_name}`);
+                event_hooks[hook_name].apply(null, args);
             }
         }
         args.splice(0, 0, this);
@@ -153,7 +154,7 @@ export class ArrayWidget {
 
     set_row_index(node, base_id, index) {
         let base_name = base_id.replace(/\-/g, '.'),
-            set_index = this.set_attr_index,
+            set_index = this.set_attr_index.bind(this),
             that = this,
             child;
         node.children().each(function() {
