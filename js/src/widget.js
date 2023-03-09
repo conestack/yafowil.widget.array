@@ -28,6 +28,10 @@ export function on_array_event(event, subscriber) {
     _array_subscribers[event].push(subscriber)
 }
 
+export function inside_template(elem) {
+    return elem.parents('.arraytemplate').length > 0
+}
+
 export class ArrayWidget {
 
     static initialize(context) {

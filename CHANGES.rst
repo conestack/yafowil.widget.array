@@ -4,6 +4,8 @@ Changes
 2.0 (unreleased)
 ----------------
 
+- Add ``inside_template`` JS utility function.
+
 - ``array.hooks`` are deprecated. Use ``on_array_event`` instead.
 
 - Rewrite JavaScript using ES6.

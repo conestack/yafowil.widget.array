@@ -24,6 +24,9 @@ var yafowil_array = (function (exports, $) {
     function on_array_event(event, subscriber) {
         _array_subscribers[event].push(subscriber);
     }
+    function inside_template(elem) {
+        return elem.parents('.arraytemplate').length > 0
+    }
     class ArrayWidget {
         static initialize(context) {
             $('div.array', context).each(function() {
@@ -230,6 +233,7 @@ var yafowil_array = (function (exports, $) {
 
     exports.ArrayWidget = ArrayWidget;
     exports.hooks = hooks;
+    exports.inside_template = inside_template;
     exports.on_array_event = on_array_event;
 
     Object.defineProperty(exports, '__esModule', { value: true });
