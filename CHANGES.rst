@@ -1,12 +1,17 @@
 Changes
 =======
 
-2.0 (unreleased)
-----------------
+2.0a1 (unreleased)
+------------------
+
+- Add ``webresource`` support.
+  [rnix]
 
 - Add ``inside_template`` JS utility function.
+  [rnix]
 
 - ``array.hooks`` are deprecated. Use ``on_array_event`` instead.
+  [rnix]
 
 - Rewrite JavaScript using ES6.
   [rnix]
