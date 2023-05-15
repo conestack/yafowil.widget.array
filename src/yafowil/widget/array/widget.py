@@ -31,7 +31,8 @@ factory.register(
     'array_display_proxy',
     extractors=[generic_extractor],
     edit_renderers=[array_display_proxy_renderer],
-    display_renderers=[array_display_proxy_renderer])
+    display_renderers=[array_display_proxy_renderer]
+)
 
 # do not document internal widget
 factory.doc['blueprint']['array_display_proxy'] = UNSET
@@ -60,7 +61,8 @@ def actions_renderer(widget, data):
 
 factory.register(
     'array_actions',
-    edit_renderers=[actions_renderer])
+    edit_renderers=[actions_renderer]
+)
 
 # do not document internal widget
 factory.doc['blueprint']['array_actions'] = UNSET
@@ -276,11 +278,21 @@ def array_display_renderer(widget, data):
 
 factory.register(
     'array',
-    extractors=[array_extractor, generic_required_extractor],
+    extractors=[
+        array_extractor,
+        generic_required_extractor
+    ],
     edit_renderers=[
-        array_edit_renderer, compound_renderer, array_wrapper_renderer],
-    display_renderers=[array_display_renderer, compound_renderer],
-    builders=[array_builder])
+        array_edit_renderer,
+        compound_renderer,
+        array_wrapper_renderer
+    ],
+    display_renderers=[
+        array_display_renderer,
+        compound_renderer
+    ],
+    builders=[array_builder]
+)
 
 factory.doc['blueprint']['array'] = """\
 Add-on widget `yafowil.widget.array
