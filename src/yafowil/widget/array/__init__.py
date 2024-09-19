@@ -90,13 +90,18 @@ bootstrap_css = [{
 ##############################################################################
 
 # webresource ################################################################
-
+bootstrap5_js = wr.ScriptResource(
+    name='yafowil-array-js',
+    depends='jquery-js',
+    resource='bootstrap5/widget.js',
+    compressed='bootstrap5/widget.min.js'
+)
 bootstrap5_resources = wr.ResourceGroup(
     name='yafowil.widget.array',
     directory=resources_dir,
     path='yafowil-array'
 )
-bootstrap5_resources.add(array_js)
+bootstrap5_resources.add(bootstrap5_js)
 bootstrap5_resources.add(wr.StyleResource(
     name='yafowil-array-css',
     directory=os.path.join(resources_dir, 'bootstrap5'),
@@ -111,6 +116,7 @@ bootstrap5_css = [{
     'resource': 'bootstrap5/widget.css',
     'order': 20,
 }]
+
 
 
 ##############################################################################
@@ -180,7 +186,7 @@ def register():
         ['bootstrap5'],
         widget_name,
         resources_dir,
-        js=js,
+        js=bootstrap5_js,
         css=bootstrap5_css
     )
 

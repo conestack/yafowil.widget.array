@@ -1,77 +1,59 @@
-/* yafowil.widget.array - bootstrap theme styles
+/* yafowil.widget.array - bootstrap theme styles */
 .arraytemplate {
-    display: none;
+  display: none;
+}
+
+.array table {
+  margin-bottom: 0;
+}
+.array table td.widget {
+  padding: 6px 0px 10px 10px;
+}
+.array table td.widget .form-group {
+  margin: 0;
+}
+.array table tr:last-of-type > td {
+  border: 0;
+}
+.array table th {
+  vertical-align: middle;
+}
+.array table thead {
+  height: 30px;
+  background-color: rgba(0, 128, 255, 0.1019607843);
+}
+.array table thead tr th {
+  padding-left: 10px;
+  border: 0;
+}
+.array table th.head_actions,
+.array table td.actions {
+  width: 5.5em;
+}
+.array table .field ~ .field {
+  margin-top: 10px;
+}
+.array .array_actions {
+  display: inline-block;
+  width: 5.5em;
+}
+.array .array_actions a {
+  float: right;
+  background: none;
+}
+.array .array_actions a.array_row_up_disabled, .array .array_actions a.array_row_down_disabled {
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+}
+.array .array_actions span {
+  color: var(--yafowil-accent-color, #0d6efd);
+}
+
+@keyframes boxShadowAnimation {
+  30% {
+    background: rgba(0, 128, 255, 0.1019607843);
   }
-  
-  .icon-plus-sign,
-  .icon-minus-sign,
-  .icon-circle-arrow-up,
-  .icon-circle-arrow-down {
-    display: inline-block;
-    font-family: "Glyphicons Halflings";
-    font-style: normal;
-    font-weight: 400;
-    line-height: 1;
-    margin-left: 2px;
-    position: relative;
-    top: 1px;
-  }
-  
-  .icon-plus-sign:before {
-    content: "\e081";
-  }
-  
-  .icon-minus-sign:before {
-    content: "\e082";
-  }
-  
-  .icon-circle-arrow-up:before {
-    content: "\e133";
-  }
-  
-  .icon-circle-arrow-down:before {
-    content: "\e134";
-  }
-  
-  .array table {
-    border-radius: 4px;
-    margin-bottom: 0;
-  }
-  .array table table {
-    border-right: #ddd 1px solid;
-    margin-top: 10px;
-  }
-  .array table table th {
-    padding-left: 0;
-  }
-  .array table td.widget {
-    padding: 0 0 10px 0;
-  }
-  .array table td.widget .form-group {
-    margin: 0;
-  }
-  .array table th {
-    vertical-align: middle;
-  }
-  .array table th.head_actions,
-  .array table td.actions {
-    width: 5.5em;
-  }
-  .array .array_actions {
-    display: inline-block;
-    margin-top: 0.6em;
-    padding-right: 0.45em;
-    width: 5.5em;
-  }
-  .array .array_actions a {
-    float: right;
-    background: none;
-  }
-  .array .array_actions a.array_row_up_disabled, .array .array_actions a.array_row_down_disabled {
-    opacity: 0.4;
-    filter: alpha(opacity=40);
-  }
-  .array .array_actions span {
-    color: var(--yafowil-accent-color, #0d6efd);
-  }
-   */
+}
+.row-moved {
+  animation: boxShadowAnimation 1000ms;
+}

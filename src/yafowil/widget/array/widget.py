@@ -10,7 +10,7 @@ from yafowil.utils import css_managed_props
 from yafowil.utils import cssclasses
 from yafowil.utils import cssid
 from yafowil.utils import managedprops
-
+from yafowil.base import factory
 
 @managedprops(*css_managed_props)
 def array_display_proxy_renderer(widget, data):
@@ -44,15 +44,22 @@ ICON_CSS = {
     'up': 'icon-circle-arrow-up',
     'down': 'icon-circle-arrow-down',
 }
+BS_ICON = {
+    'add': 'bi-plus-circle-fill',
+    'remove': 'bi-dash-circle-fill',
+    'up': 'bi-arrow-up-circle-fill',
+    'down': 'bi-arrow-down-circle-fill',
+}
 
 
 def actions_renderer(widget, data):
     tag = data.tag
     actions = list()
+    icons = BS_ICON if factory.theme == 'bootstrap5' else ICON_CSS
     for key in ['add', 'remove', 'up', 'down']:
         if widget.attrs.get(key):
             class_ = 'array_row_%s' % key
-            icon = tag('span', ' ', class_=ICON_CSS[key])
+            icon = tag('span', ' ', class_=icons[key])
             action = tag('a', icon, href='#', class_=class_)
             actions.append(action)
     kw = dict(class_='array_actions')
@@ -299,7 +306,7 @@ Add-on widget `yafowil.widget.array
 <http://github.com/conestack/yafowil.widget.array/>`_.
 """
 
-factory.defaults['array.class'] = 'array'
+factory.defaults['array.class'] = 'array card'
 
 factory.defaults['array.required'] = False
 
