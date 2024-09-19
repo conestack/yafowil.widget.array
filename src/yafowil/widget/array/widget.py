@@ -78,7 +78,7 @@ factory.doc['blueprint']['array_actions'] = UNSET
 def array_builder(widget, factory):
     table = widget['table'] = factory('table', props={
         'structural': True,
-        'class': widget.attrs['table_class'],
+        'class': 'table table-sm ' + widget.attrs['table_class'],
     })
     head = table['head'] = factory('thead', props={
         'structural': True,

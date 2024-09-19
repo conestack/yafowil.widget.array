@@ -17,6 +17,10 @@
 }
 .array table th {
   vertical-align: middle;
+  background: none;
+}
+.array table td {
+  background: none;
 }
 .array table thead {
   height: 30px;
