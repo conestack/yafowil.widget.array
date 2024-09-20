@@ -41,11 +41,12 @@
   display: inline-block;
   width: 5.5em;
 }
-.array .array_actions a {
+.array .array_actions > a {
   float: right;
   background: none;
+  margin-left: 2px;
 }
-.array .array_actions a.array_row_up_disabled, .array .array_actions a.array_row_down_disabled {
+.array .array_actions > a.array_row_up_disabled, .array .array_actions > a.array_row_down_disabled {
   opacity: 0.4;
   filter: alpha(opacity=40);
 }
