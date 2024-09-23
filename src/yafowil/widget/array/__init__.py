@@ -16,15 +16,15 @@ resources_dir = os.path.join(os.path.dirname(__file__), 'resources')
 array_js = wr.ScriptResource(
     name='yafowil-array-js',
     depends='jquery-js',
-    resource='widget.js',
-    compressed='widget.min.js'
+    resource='default/widget.js',
+    compressed='default/widget.min.js'
 )
 
 # B/C resources ##############################################################
 
 js = [{
     'group': 'yafowil.widget.array.common',
-    'resource': 'widget.js',
+    'resource': 'default/widget.js',
     'order': 20,
 }]
 
@@ -195,7 +195,6 @@ def register():
         widget_name,
         bootstrap5_resources
     )
-
 
     # Plone 5
     factory.register_theme(

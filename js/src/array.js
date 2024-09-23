@@ -1,47 +1,6 @@
 import $ from 'jquery';
 
-// B/C. Deprecated. Use ``on_array_event``
-export let hooks = {
-    before_add: {},
-    add: {},
-    remove: {},
-    before_up: {},
-    up: {},
-    before_down: {},
-    down: {},
-    index: {}
-};
-
-// global array subscribers, gets called from every array instance
-let _array_subscribers = {
-    on_before_add: [],
-    on_add: [],
-    on_remove: [],
-    on_before_up: [],
-    on_up: [],
-    on_before_down: [],
-    on_down: [],
-    on_index: []
-}
-
-export function on_array_event(event, subscriber) {
-    _array_subscribers[event].push(subscriber)
-}
-
-export function inside_template(elem) {
-    return elem.parents('.arraytemplate').length > 0
-}
-
-export class ArrayWidget {
-
-    static initialize(context) {
-        $('div.array', context).each(function() {
-            let wrapper = $(this);
-            if (wrapper.attr('id').indexOf('-TEMPLATE') === -1) {
-                new ArrayWidget(wrapper);
-            }
-        });
-    }
+export class ArrayBase {
 
     constructor(wrapper) {
         wrapper.data('yafowil-array', this);
@@ -90,20 +49,20 @@ export class ArrayWidget {
             row +=   '<div class="array_actions">';
             if (css.indexOf('array-add') > -1) {
                 row += '<a class="array_row_add" href="#">';
-                row +=   '<span class="bi-plus-circle-fill"> </span>';
+                row +=   `<span class="${this.icon_add}"> </span>`;
                 row += '</a>';
             }
             if (css.indexOf('array-remove') > -1) {
                 row += '<a class="array_row_remove" href="#">';
-                row +=   '<span class="bi-dash-circle-fill"> </span>';
+                row +=   `<span class="${this.icon_remove}"> </span>`;
                 row += '</a>';
             }
             if (css.indexOf('array-sort') > -1) {
                 row += '<a class="array_row_up" href="#">';
-                row +=   '<span class="bi-arrow-up-circle-fill"> </span>';
+                row +=   `<span class="${this.icon_up}"> </span>`;
                 row += '</a>';
                 row += '<a class="array_row_down" href="#">';
-                row +=   '<span class="bi-arrow-down-circle-fill"> </span>';
+                row +=   `<span class="${this.icon_down}"> </span>`;
                 row += '</a>';
             }
             row +=   '</div>';
@@ -126,7 +85,7 @@ export class ArrayWidget {
     }
 
     trigger(event, ...args) {
-        let event_hooks = hooks[event.substring(3, event.length)];
+        let event_hooks = this.hooks[event.substring(3, event.length)];
         if (Object.entries(event_hooks).length) {
             console.log(
                 'Array hooks are deprecated. Use ``on_array_event`` instead.'
@@ -137,7 +96,7 @@ export class ArrayWidget {
             }
         }
         args.splice(0, 0, this);
-        for (let subscriber of _array_subscribers[event]) {
+        for (let subscriber of this._array_subscribers[event]) {
             subscriber.apply(null, args);
         }
     }
@@ -193,7 +152,7 @@ export class ArrayWidget {
 
     init_row(container, row) {
         this.reset_indices(container);
-        ArrayWidget.initialize(row);
+        this.array_widget.initialize(row);
         this.trigger('on_add', row);
     }
 
@@ -231,12 +190,6 @@ export class ArrayWidget {
         this.trigger('on_before_up', row);
         row.insertBefore(row.prev());
         this.reset_indices(row.parent());
-
-        row.addClass('row-moved');
-        setTimeout(function() {
-            row.removeClass('row-moved');
-        }, 1000);
-
         this.trigger('on_up', row);
     }
 
@@ -246,12 +199,6 @@ export class ArrayWidget {
         this.trigger('on_before_down', row);
         row.insertAfter(row.next());
         this.reset_indices(row.parent());
-
-        row.addClass('row-moved');
-        setTimeout(function() {
-            row.removeClass('row-moved');
-        }, 1000);
-
         this.trigger('on_down', row);
     }
 }

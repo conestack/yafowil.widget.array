@@ -1,8 +1,8 @@
 import $ from 'jquery';
 
-import {ArrayWidget} from './widget_bs5.js';
+import {ArrayWidget} from './widget.js';
 
-export * from './widget_bs5.js';
+export * from './widget.js';
 
 $(function() {
     if (window.ts !== undefined) {
