@@ -1,9 +1,6 @@
 name: PY Test array
 
-on:
-  push:
-    paths:
-    - '**.py'
+on: [push]
 
 jobs:
   test:
@@ -24,6 +21,9 @@ jobs:
           - "3.8"
           - "3.9"
           - "3.10"
+          - "3.11"
+          - "3.12"
+          - "3.13"
 
     steps:
       - uses: actions/checkout@v2
@@ -37,16 +37,16 @@ jobs:
         run: |
           pip install wheel
           pip install coverage
-          pip install lxml
-          pip install zope.testrunner
           pip install https://github.com/conestack/webresource/archive/master.zip
           pip install https://github.com/conestack/yafowil/archive/master.zip
           pip install -e .[test]
+
       - name: Run tests
         run: |
           python --version
-          python -m yafowil.widget.array.tests
+          python -m pytest src/yafowil/widget/array/tests
+
       - name: Run coverage
         run: |
-          coverage run --source=src/yafowil/widget/array --omit=src/yafowil/widget/array/example.py -m yafowil.widget.array.tests
+          coverage run --source=src/yafowil/widget/array --omit=src/yafowil/widget/array/example.py -m pytest src/yafowil/widget/array/tests
           coverage report --fail-under=99
