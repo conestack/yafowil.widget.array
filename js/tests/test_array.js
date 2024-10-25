@@ -1,4 +1,5 @@
 import { ArrayWidget } from "../src/widget";
+import $ from 'jquery';
 
 QUnit.test('Initialize', assert => {
     let el = $('<div class="array" id="test" />').appendTo('body');

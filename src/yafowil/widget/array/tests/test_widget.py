@@ -6,7 +6,6 @@ from yafowil.compat import IS_PY2
 from yafowil.tests import fxml
 from yafowil.tests import YafowilTestCase
 import os
-import unittest
 
 
 if not IS_PY2:
@@ -2202,7 +2201,3 @@ class TestArrayWidget(YafowilTestCase):
         self.assertEqual(styles[0].path, 'yafowil-array/plone5')
         self.assertEqual(styles[0].file_name, 'widget.css')
         self.assertTrue(os.path.exists(styles[0].file_path))
-
-
-if __name__ == '__main__':
-    unittest.main()                                          # pragma: no cover
