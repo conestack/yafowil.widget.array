@@ -1,5 +1,6 @@
 import cleanup from 'rollup-plugin-cleanup';
-import {terser} from 'rollup-plugin-terser';
+import postcss from 'rollup-plugin-postcss';
+import terser from '@rollup/plugin-terser';
 
 const out_dir = 'src/yafowil/widget/array/resources';
 
@@ -43,5 +44,62 @@ export default args => {
             interop: 'default'
         });
     }
-    return conf;
+    let scss_default = {
+        input: ['scss/widget_default.scss'],
+        output: [
+          {
+            file: `${out_dir}/default/widget.css`,
+            format: 'es',
+            plugins: [terser()],
+          },
+        ],
+        plugins: [
+          postcss({
+            extract: true,
+            minimize: true,
+            use: [
+              ['sass', { outputStyle: 'compressed' }],
+            ],
+          }),
+        ],
+    };
+    let scss_bootstrap = {
+        input: ['scss/widget_bootstrap.scss'],
+        output: [
+          {
+            file: `${out_dir}/bootstrap/widget.css`,
+            format: 'es',
+            plugins: [terser()],
+          },
+        ],
+        plugins: [
+          postcss({
+            extract: true,
+            minimize: true,
+            use: [
+              ['sass', { outputStyle: 'compressed' }],
+            ],
+          }),
+        ],
+    };
+    let scss_plone5 = {
+        input: ['scss/widget_plone5.scss'],
+        output: [
+          {
+            file: `${out_dir}/plone5/widget.css`,
+            format: 'es',
+            plugins: [terser()],
+          },
+        ],
+        plugins: [
+          postcss({
+            extract: true,
+            minimize: true,
+            use: [
+              ['sass', { outputStyle: 'compressed' }],
+            ],
+          }),
+        ],
+    };
+    return [conf, scss_default, scss_bootstrap, scss_plone5];
 };
