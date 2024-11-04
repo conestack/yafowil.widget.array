@@ -16,6 +16,7 @@ resources_dir = os.path.join(os.path.dirname(__file__), 'resources')
 array_js = wr.ScriptResource(
     name='yafowil-array-js',
     directory=os.path.join(resources_dir, 'default'),
+    path='yafowil-array/default',
     depends='jquery-js',
     resource='widget.js',
     compressed='widget.min.js'

@@ -2140,7 +2140,7 @@ class TestArrayWidget(YafowilTestCase):
         self.assertEqual(len(scripts), 1)
 
         self.assertTrue(scripts[0].directory.endswith(np('/array/resources/default')))
-        self.assertEqual(scripts[0].path, 'yafowil-array')
+        self.assertEqual(scripts[0].path, 'yafowil-array/default')
         self.assertEqual(scripts[0].file_name, 'widget.min.js')
         self.assertTrue(os.path.exists(scripts[0].file_path))
 
@@ -2164,7 +2164,7 @@ class TestArrayWidget(YafowilTestCase):
         self.assertEqual(len(scripts), 1)
 
         self.assertTrue(scripts[0].directory.endswith(np('/array/resources/default')))
-        self.assertEqual(scripts[0].path, 'yafowil-array')
+        self.assertEqual(scripts[0].path, 'yafowil-array/default')
         self.assertEqual(scripts[0].file_name, 'widget.min.js')
         self.assertTrue(os.path.exists(scripts[0].file_path))
 
@@ -2188,7 +2188,7 @@ class TestArrayWidget(YafowilTestCase):
         self.assertEqual(len(scripts), 1)
 
         self.assertTrue(scripts[0].directory.endswith(np('/array/resources/default')))
-        self.assertEqual(scripts[0].path, 'yafowil-array')
+        self.assertEqual(scripts[0].path, 'yafowil-array/default')
         self.assertEqual(scripts[0].file_name, 'widget.min.js')
         self.assertTrue(os.path.exists(scripts[0].file_path))
 
