@@ -2139,9 +2139,9 @@ class TestArrayWidget(YafowilTestCase):
         scripts = resources.scripts
         self.assertEqual(len(scripts), 1)
 
-        self.assertTrue(scripts[0].directory.endswith(np('/array/resources')))
+        self.assertTrue(scripts[0].directory.endswith(np('/array/resources/default')))
         self.assertEqual(scripts[0].path, 'yafowil-array')
-        self.assertEqual(scripts[0].file_name, 'default/widget.min.js')
+        self.assertEqual(scripts[0].file_name, 'widget.min.js')
         self.assertTrue(os.path.exists(scripts[0].file_path))
 
         styles = resources.styles
@@ -2151,7 +2151,7 @@ class TestArrayWidget(YafowilTestCase):
             styles[0].directory.endswith(np('/array/resources/default'))
         )
         self.assertEqual(styles[0].path, 'yafowil-array/default')
-        self.assertEqual(styles[0].file_name, 'widget.css')
+        self.assertEqual(styles[0].file_name, 'widget.min.css')
         self.assertTrue(os.path.exists(styles[0].file_path))
 
         factory.theme = 'bootstrap3'
@@ -2163,9 +2163,9 @@ class TestArrayWidget(YafowilTestCase):
         scripts = resources.scripts
         self.assertEqual(len(scripts), 1)
 
-        self.assertTrue(scripts[0].directory.endswith(np('/array/resources')))
+        self.assertTrue(scripts[0].directory.endswith(np('/array/resources/default')))
         self.assertEqual(scripts[0].path, 'yafowil-array')
-        self.assertEqual(scripts[0].file_name, 'default/widget.min.js')
+        self.assertEqual(scripts[0].file_name, 'widget.min.js')
         self.assertTrue(os.path.exists(scripts[0].file_path))
 
         styles = resources.styles
@@ -2175,7 +2175,7 @@ class TestArrayWidget(YafowilTestCase):
             styles[0].directory.endswith(np('/array/resources/bootstrap'))
         )
         self.assertEqual(styles[0].path, 'yafowil-array/bootstrap')
-        self.assertEqual(styles[0].file_name, 'widget.css')
+        self.assertEqual(styles[0].file_name, 'widget.min.css')
         self.assertTrue(os.path.exists(styles[0].file_path))
 
         factory.theme = 'plone5'
@@ -2187,9 +2187,9 @@ class TestArrayWidget(YafowilTestCase):
         scripts = resources.scripts
         self.assertEqual(len(scripts), 1)
 
-        self.assertTrue(scripts[0].directory.endswith(np('/array/resources')))
+        self.assertTrue(scripts[0].directory.endswith(np('/array/resources/default')))
         self.assertEqual(scripts[0].path, 'yafowil-array')
-        self.assertEqual(scripts[0].file_name, 'default/widget.min.js')
+        self.assertEqual(scripts[0].file_name, 'widget.min.js')
         self.assertTrue(os.path.exists(scripts[0].file_path))
 
         styles = resources.styles
@@ -2199,5 +2199,5 @@ class TestArrayWidget(YafowilTestCase):
             styles[0].directory.endswith(np('/array/resources/plone5'))
         )
         self.assertEqual(styles[0].path, 'yafowil-array/plone5')
-        self.assertEqual(styles[0].file_name, 'widget.css')
+        self.assertEqual(styles[0].file_name, 'widget.min.css')
         self.assertTrue(os.path.exists(styles[0].file_path))

@@ -10,6 +10,7 @@ window.yafowil.array = exports;
 `;
 
 export default args => {
+    let conf = [];
 
     ////////////////////////////////////////////////////////////////////////////
     // DEFAULT
@@ -53,7 +54,7 @@ export default args => {
         input: ['scss/default/widget.scss'],
         output: [
           {
-            file: `${out_dir}/default/widget.css`,
+            file: `${out_dir}/default/widget.min.css`,
             format: 'es',
             plugins: [terser()],
           },
@@ -68,6 +69,7 @@ export default args => {
           }),
         ],
     };
+    conf.push(bundle_default, scss_default);
 
     ////////////////////////////////////////////////////////////////////////////
     // BOOTSTRAP
@@ -77,7 +79,7 @@ export default args => {
         input: ['scss/bootstrap/widget.scss'],
         output: [
           {
-            file: `${out_dir}/bootstrap/widget.css`,
+            file: `${out_dir}/bootstrap/widget.min.css`,
             format: 'es',
             plugins: [terser()],
           },
@@ -92,6 +94,7 @@ export default args => {
           }),
         ],
     };
+    conf.push(scss_bootstrap);
 
     ////////////////////////////////////////////////////////////////////////////
     // PLONE5
@@ -101,7 +104,7 @@ export default args => {
         input: ['scss/plone5/widget.scss'],
         output: [
           {
-            file: `${out_dir}/plone5/widget.css`,
+            file: `${out_dir}/plone5/widget.min.css`,
             format: 'es',
             plugins: [terser()],
           },
@@ -116,6 +119,7 @@ export default args => {
           }),
         ],
     };
+    conf.push(scss_plone5);
 
     ////////////////////////////////////////////////////////////////////////////
     // BOOTSTRAP5
@@ -158,7 +162,7 @@ export default args => {
     let scss_bs5 = {
         input: ['scss/bootstrap5/widget.scss'],
         output: [{
-            file: `${out_dir}/bootstrap5/widget.css`,
+            file: `${out_dir}/bootstrap5/widget.min.css`,
             format: 'es',
             plugins: [terser()],
         }],
@@ -172,6 +176,7 @@ export default args => {
             }),
         ],
     };
+    conf.push(bundle_bs5, scss_bs5);
 
-    return [bundle_default, scss_default, scss_bootstrap, scss_plone5, bundle_bs5, scss_bs5];
+    return conf;
 };
