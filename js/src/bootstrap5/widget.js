@@ -1,7 +1,9 @@
 import $ from 'jquery';
-import {ArrayBase} from '../array.js';
+import { ArrayBase } from '../array.js';
 
-// B/C. Deprecated. Use ``on_array_event``
+/**
+ * Legacy hooks object for backward compatibility, providing deprecated event hooks.
+ */
 export let hooks = {
     before_add: {},
     add: {},
@@ -13,7 +15,9 @@ export let hooks = {
     index: {}
 };
 
-// global array subscribers, gets called from every array instance
+/**
+ * Global subscribers for array events, called by each array instance.
+ */
 let _array_subscribers = {
     on_before_add: [],
     on_add: [],
@@ -23,18 +27,27 @@ let _array_subscribers = {
     on_before_down: [],
     on_down: [],
     on_index: []
-}
+};
 
+/**
+ * Registers a subscriber to a specified array event.
+ */
 export function on_array_event(event, subscriber) {
-    _array_subscribers[event].push(subscriber)
+    _array_subscribers[event].push(subscriber);
 }
 
+/**
+ * Checks if the specified element is within an array template.
+ */
 export function inside_template(elem) {
-    return elem.parents('.arraytemplate').length > 0
+    return elem.parents('.arraytemplate').length > 0;
 }
 
 export class ArrayWidget extends ArrayBase {
 
+    /**
+     * @param {HTMLElement} context - DOM context for widget initialization.
+     */
     static initialize(context) {
         $('div.array', context).each(function() {
             let wrapper = $(this);
@@ -44,6 +57,9 @@ export class ArrayWidget extends ArrayBase {
         });
     }
 
+    /**
+     * @param {jQuery} wrapper - The jQuery-wrapped element to initialize.
+     */
     constructor(wrapper) {
         super(wrapper);
         this.hooks = hooks;
@@ -55,28 +71,43 @@ export class ArrayWidget extends ArrayBase {
         this.icon_down = 'bi-arrow-down-circle-fill';
     }
 
+    /**
+     * Handles the event for moving a row up and applies a visual effect.
+     * 
+     * @param {Event} evt
+     */
     up_handle(evt) {
         super.up_handle(evt);
         const row = this.get_row(evt.currentTarget);
         row.addClass('row-moved');
-        setTimeout(function() {
+        setTimeout(() => {
             row.removeClass('row-moved');
         }, 1000);
     }
 
+    /**
+     * Handles the event for moving a row down and applies a visual effect.
+     * 
+     * @param {Event} evt
+     */
     down_handle(evt) {
         super.down_handle(evt);
         const row = this.get_row(evt.currentTarget);
         row.addClass('row-moved');
-        setTimeout(function() {
+        setTimeout(() => {
             row.removeClass('row-moved');
         }, 1000);
     }
 
+    /**
+     * Creates a new row with a visual effect.
+     * 
+     * @returns {jQuery} - The created row element.
+     */
     create_row() {
         const row = super.create_row();
         row.addClass('row-moved');
-        setTimeout(function() {
+        setTimeout(() => {
             row.removeClass('row-moved');
         }, 1000);
         return row;
