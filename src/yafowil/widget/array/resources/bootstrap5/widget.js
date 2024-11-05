@@ -234,7 +234,7 @@ var yafowil_array = (function (exports, $) {
         }
         up_handle(evt) {
             super.up_handle(evt);
-            let row = this.get_row(evt.currentTarget);
+            const row = this.get_row(evt.currentTarget);
             row.addClass('row-moved');
             setTimeout(function() {
                 row.removeClass('row-moved');
@@ -242,11 +242,19 @@ var yafowil_array = (function (exports, $) {
         }
         down_handle(evt) {
             super.down_handle(evt);
-            let row = this.get_row(evt.currentTarget);
+            const row = this.get_row(evt.currentTarget);
             row.addClass('row-moved');
             setTimeout(function() {
                 row.removeClass('row-moved');
             }, 1000);
+        }
+        create_row() {
+            const row = super.create_row();
+            row.addClass('row-moved');
+            setTimeout(function() {
+                row.removeClass('row-moved');
+            }, 1000);
+            return row;
         }
     }
 
