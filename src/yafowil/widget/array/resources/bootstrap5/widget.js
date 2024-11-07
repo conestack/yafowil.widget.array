@@ -211,7 +211,7 @@ var yafowil_array = (function (exports, $) {
         _array_subscribers[event].push(subscriber);
     }
     function inside_template(elem) {
-        return elem.parents('.arraytemplate').length > 0
+        return elem.parents('.arraytemplate').length > 0;
     }
     class ArrayWidget extends ArrayBase {
         static initialize(context) {
@@ -235,26 +235,23 @@ var yafowil_array = (function (exports, $) {
         up_handle(evt) {
             super.up_handle(evt);
             const row = this.get_row(evt.currentTarget);
-            row.addClass('row-moved');
-            setTimeout(function() {
-                row.removeClass('row-moved');
-            }, 1000);
+            this.highlight(row);
         }
         down_handle(evt) {
             super.down_handle(evt);
             const row = this.get_row(evt.currentTarget);
-            row.addClass('row-moved');
-            setTimeout(function() {
-                row.removeClass('row-moved');
-            }, 1000);
+            this.highlight(row);
         }
         create_row() {
             const row = super.create_row();
+            this.highlight(row);
+            return row;
+        }
+        highlight(row) {
             row.addClass('row-moved');
-            setTimeout(function() {
+            setTimeout(() => {
                 row.removeClass('row-moved');
             }, 1000);
-            return row;
         }
     }
 

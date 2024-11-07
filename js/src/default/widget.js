@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import {ArrayBase} from '../array.js';
+import {ArrayBase} from '../base/array.js';
 
 // B/C. Deprecated. Use ``on_array_event``
 export let hooks = {

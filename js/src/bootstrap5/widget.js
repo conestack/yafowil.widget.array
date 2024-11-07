@@ -1,8 +1,8 @@
 import $ from 'jquery';
-import { ArrayBase } from '../array.js';
+import { ArrayBase } from '../base/array.js';
 
 /**
- * Legacy hooks object for backward compatibility, providing deprecated event hooks.
+ * Legacy hooks for backward compatibility, providing deprecated event hooks.
  */
 export let hooks = {
     before_add: {},
@@ -46,7 +46,9 @@ export function inside_template(elem) {
 export class ArrayWidget extends ArrayBase {
 
     /**
-     * @param {HTMLElement} context - DOM context for widget initialization.
+     * Initializes each widget in the given DOM context.
+     * 
+     * @param {HTMLElement} context - DOM context for initialization.
      */
     static initialize(context) {
         $('div.array', context).each(function() {
@@ -72,44 +74,47 @@ export class ArrayWidget extends ArrayBase {
     }
 
     /**
-     * Handles the event for moving a row up and applies a visual effect.
+     * Handles the event for moving a row up.
      * 
      * @param {Event} evt
      */
     up_handle(evt) {
         super.up_handle(evt);
         const row = this.get_row(evt.currentTarget);
-        row.addClass('row-moved');
-        setTimeout(() => {
-            row.removeClass('row-moved');
-        }, 1000);
+        this.highlight(row);
     }
 
     /**
-     * Handles the event for moving a row down and applies a visual effect.
+     * Handles the event for moving a row down.
      * 
      * @param {Event} evt
      */
     down_handle(evt) {
         super.down_handle(evt);
         const row = this.get_row(evt.currentTarget);
-        row.addClass('row-moved');
-        setTimeout(() => {
-            row.removeClass('row-moved');
-        }, 1000);
+        this.highlight(row);
     }
 
     /**
-     * Creates a new row with a visual effect.
+     * Creates a new row.
      * 
      * @returns {jQuery} - The created row element.
      */
     create_row() {
         const row = super.create_row();
+        this.highlight(row);
+        return row;
+    }
+
+    /**
+     * Briefly highlights a row to indicate movement.
+     * 
+     * @param {jQuery} row - The row to apply the effect to.
+     */
+    highlight(row) {
         row.addClass('row-moved');
         setTimeout(() => {
             row.removeClass('row-moved');
         }, 1000);
-        return row;
     }
 }
