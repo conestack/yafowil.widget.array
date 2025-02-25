@@ -19,6 +19,12 @@ Changes
 - Use rollup for bundling scss. Use ``make rollup`` to compile js and scss.
   [lenadax]
 
+- Use ``webtestrunner`` instead of ``karma`` for js tests. Use ``make wtr`` to run tests.
+  [lenadax]
+
+- Use ``pnpm`` as package manager.
+  [lenadax]
+
 - Create Bootstrap5 widget version.
   [lenadax]
 
