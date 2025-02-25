@@ -4,7 +4,23 @@ Changes
 2.0a2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Update jQuery to version ``4.0.0-beta.2``.
+  [lenadax]
+
+- Use ``bootstrap-icons`` font instead of glyphicons.
+  [lenadax]
+
+- Add visual effects to distinguish rows that have been moved or created.
+  [lenadax]
+
+- Implement dark theme for ``Bootstrap5`` dark theme mode.
+  [lenadax]
+
+- Use rollup for bundling scss. Use ``make rollup`` to compile js and scss.
+  [lenadax]
+
+- Create Bootstrap5 widget version.
+  [lenadax]
 
 
 2.0a1 (2023-05-15)

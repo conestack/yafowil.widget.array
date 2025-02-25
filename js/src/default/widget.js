@@ -30,7 +30,7 @@ export function on_array_event(event, subscriber) {
 }
 
 export function inside_template(elem) {
-    return elem.parents('.arraytemplate').length > 0
+    return elem.parents('.arraytemplate').length > 0;
 }
 
 export class ArrayWidget extends ArrayBase {
