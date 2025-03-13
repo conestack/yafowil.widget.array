@@ -5,6 +5,12 @@
 }
 
 .array {
+    &.is-valid {
+        border-color: var(--bs-form-valid-border-color);
+    }
+    &.is-invalid {
+        border-color: var(--bs-form-invalid-border-color);
+    }
     table {
         margin-bottom: 0;
 
