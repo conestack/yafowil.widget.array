@@ -24,27 +24,27 @@ jobs:
           - "3.13"
 
     steps:
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python }}
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python }}
 
-      - name: Install
-        run: |
-          pip install wheel
-          pip install coverage
-          pip install https://github.com/conestack/webresource/archive/master.zip
-          pip install https://github.com/conestack/yafowil/archive/master.zip
-          pip install -e .[test]
+    - name: Install
+      run: |
+        pip install wheel
+        pip install coverage
+        pip install https://github.com/conestack/webresource/archive/master.zip
+        pip install https://github.com/conestack/yafowil/archive/master.zip
+        pip install -e .[test]
 
-      - name: Run tests
-        run: |
-          python --version
-          python -m pytest src/yafowil/widget/array/tests
+    - name: Run tests
+      run: |
+        python --version
+        python -m pytest src/yafowil/widget/array/tests
 
-      - name: Run coverage
-        run: |
-          coverage run --source=src/yafowil/widget/array --omit=src/yafowil/widget/array/example.py -m pytest src/yafowil/widget/array/tests
-          coverage report --fail-under=99
+    - name: Run coverage
+      run: |
+        coverage run --source=src/yafowil/widget/array --omit=src/yafowil/widget/array/example.py -m pytest src/yafowil/widget/array/tests
+        coverage report --fail-under=99
