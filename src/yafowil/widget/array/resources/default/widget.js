@@ -1,41 +1,7 @@
 var yafowil_array = (function (exports, $) {
     'use strict';
 
-    let hooks = {
-        before_add: {},
-        add: {},
-        remove: {},
-        before_up: {},
-        up: {},
-        before_down: {},
-        down: {},
-        index: {}
-    };
-    let _array_subscribers = {
-        on_before_add: [],
-        on_add: [],
-        on_remove: [],
-        on_before_up: [],
-        on_up: [],
-        on_before_down: [],
-        on_down: [],
-        on_index: []
-    };
-    function on_array_event(event, subscriber) {
-        _array_subscribers[event].push(subscriber);
-    }
-    function inside_template(elem) {
-        return elem.parents('.arraytemplate').length > 0
-    }
-    class ArrayWidget {
-        static initialize(context) {
-            $('div.array', context).each(function() {
-                let wrapper = $(this);
-                if (wrapper.attr('id').indexOf('-TEMPLATE') === -1) {
-                    new ArrayWidget(wrapper);
-                }
-            });
-        }
+    class ArrayBase {
         constructor(wrapper) {
             wrapper.data('yafowil-array', this);
             this.wrapper = wrapper;
@@ -80,20 +46,20 @@ var yafowil_array = (function (exports, $) {
                 row +=   '<div class="array_actions">';
                 if (css.indexOf('array-add') > -1) {
                     row += '<a class="array_row_add" href="#">';
-                    row +=   '<span class="icon-plus-sign"> </span>';
+                    row +=   `<span class="${this.icon_add}"> </span>`;
                     row += '</a>';
                 }
                 if (css.indexOf('array-remove') > -1) {
                     row += '<a class="array_row_remove" href="#">';
-                    row +=   '<span class="icon-minus-sign"> </span>';
+                    row +=   `<span class="${this.icon_remove}"> </span>`;
                     row += '</a>';
                 }
                 if (css.indexOf('array-sort') > -1) {
                     row += '<a class="array_row_up" href="#">';
-                    row +=   '<span class="icon-circle-arrow-up"> </span>';
+                    row +=   `<span class="${this.icon_up}"> </span>`;
                     row += '</a>';
                     row += '<a class="array_row_down" href="#">';
-                    row +=   '<span class="icon-circle-arrow-down"> </span>';
+                    row +=   `<span class="${this.icon_down}"> </span>`;
                     row += '</a>';
                 }
                 row +=   '</div>';
@@ -113,7 +79,7 @@ var yafowil_array = (function (exports, $) {
             return id.substring(6, id.length);
         }
         trigger(event, ...args) {
-            let event_hooks = hooks[event.substring(3, event.length)];
+            let event_hooks = this.hooks[event.substring(3, event.length)];
             if (Object.entries(event_hooks).length) {
                 console.log(
                     'Array hooks are deprecated. Use ``on_array_event`` instead.'
@@ -124,7 +90,7 @@ var yafowil_array = (function (exports, $) {
                 }
             }
             args.splice(0, 0, this);
-            for (let subscriber of _array_subscribers[event]) {
+            for (let subscriber of this._array_subscribers[event]) {
                 subscriber.apply(null, args);
             }
         }
@@ -175,7 +141,7 @@ var yafowil_array = (function (exports, $) {
         }
         init_row(container, row) {
             this.reset_indices(container);
-            ArrayWidget.initialize(row);
+            this.array_widget.initialize(row);
             this.trigger('on_add', row);
         }
         add_first_handle(evt) {
@@ -218,6 +184,53 @@ var yafowil_array = (function (exports, $) {
             row.insertAfter(row.next());
             this.reset_indices(row.parent());
             this.trigger('on_down', row);
+        }
+    }
+
+    let hooks = {
+        before_add: {},
+        add: {},
+        remove: {},
+        before_up: {},
+        up: {},
+        before_down: {},
+        down: {},
+        index: {}
+    };
+    let _array_subscribers = {
+        on_before_add: [],
+        on_add: [],
+        on_remove: [],
+        on_before_up: [],
+        on_up: [],
+        on_before_down: [],
+        on_down: [],
+        on_index: []
+    };
+    function on_array_event(event, subscriber) {
+        _array_subscribers[event].push(subscriber);
+    }
+    function inside_template(elem) {
+        return elem.parents('.arraytemplate').length > 0;
+    }
+    class ArrayWidget extends ArrayBase {
+        static initialize(context) {
+            $('div.array', context).each(function() {
+                let wrapper = $(this);
+                if (wrapper.attr('id').indexOf('-TEMPLATE') === -1) {
+                    new ArrayWidget(wrapper);
+                }
+            });
+        }
+        constructor(wrapper) {
+            super(wrapper);
+            this.hooks = hooks;
+            this._array_subscribers = _array_subscribers;
+            this.array_widget = ArrayWidget;
+            this.icon_add = 'icon-plus-sign';
+            this.icon_remove = 'icon-minus-sign';
+            this.icon_up = 'icon-circle-arrow-up';
+            this.icon_down = 'icon-circle-arrow-down';
         }
     }
 

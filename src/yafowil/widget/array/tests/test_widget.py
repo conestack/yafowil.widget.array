@@ -67,7 +67,7 @@ class TestArrayWidget(YafowilTestCase):
         self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data"
               id="form-myform" method="post" novalidate="novalidate">
-          <div class="array array-add array-remove array-sort"
+          <div class="array card array-add array-remove array-sort"
                id="array-myform-myarray">
             <table>
               <thead>
@@ -126,7 +126,7 @@ class TestArrayWidget(YafowilTestCase):
         self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
-          <div class="array array-remove array-sort" id="array-myform-myarray">
+          <div class="array card array-remove array-sort" id="array-myform-myarray">
             <table>
               <thead>
                 <tr>
@@ -249,19 +249,19 @@ class TestArrayWidget(YafowilTestCase):
         ])
 
         self.checkOutput("""
-        <form action="myaction" enctype="multipart/form-data" id="form-myform"
-              method="post" novalidate="novalidate">
-          <div class="array array-static" id="array-myform-myarray">
-            <table>
-              <thead>
-                <tr>
-                  <th>My Array</th>
-                </tr>
-              </thead>
-              <tbody/>
-            </table>
-          </div>
-        </form>
+            <form action="myaction" enctype="multipart/form-data" id="form-myform"
+                  method="post" novalidate="novalidate">
+              <div class="array card array-static" id="array-myform-myarray">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>My Array</th>
+                    </tr>
+                  </thead>
+                  <tbody/>
+                </table>
+              </div>
+            </form>
         """, fxml(form()))
 
     def test_empty_array_with_compound_as_template(self):
@@ -313,7 +313,7 @@ class TestArrayWidget(YafowilTestCase):
         self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
-          <div class="array array-add array-remove array-sort"
+          <div class="array card array-add array-remove array-sort"
                id="array-myform-myarray">
             <table>
               ...
@@ -372,13 +372,13 @@ class TestArrayWidget(YafowilTestCase):
         self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
-          <div class="array array-add array-remove array-sort"
+          <div class="array card array-add array-remove array-sort"
                id="array-myform-myarrayarray">
             <table>
             ...
             </table>
             <div class="arraytemplate">
-              <div class="array array-add array-remove array-sort"
+              <div class="array card array-add array-remove array-sort"
                    id="array-myform-myarrayarray-TEMPLATE">
                 <table>
                 ...
@@ -440,7 +440,7 @@ class TestArrayWidget(YafowilTestCase):
         self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
-          <div class="array array-remove array-sort" id="array-myform-myarray">
+          <div class="array card array-remove array-sort" id="array-myform-myarray">
             <table>
               <thead>
                 <tr>
@@ -502,7 +502,7 @@ class TestArrayWidget(YafowilTestCase):
         self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
-          <div class="array array-add array-remove" id="array-myform-myarray">
+          <div class="array card array-add array-remove" id="array-myform-myarray">
             <table>
               <thead>
                 <tr>
@@ -566,7 +566,7 @@ class TestArrayWidget(YafowilTestCase):
         self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
-          <div class="array" id="array-myform-myarray">
+          <div class="array card" id="array-myform-myarray">
             <table>
               <thead>
                 <tr>
@@ -627,38 +627,38 @@ class TestArrayWidget(YafowilTestCase):
         ])
 
         self.checkOutput("""
-        <form action="myaction" enctype="multipart/form-data" id="form-myform"
-              method="post" novalidate="novalidate">
-          <div class="array array-static" id="array-myform-myarray">
-            <table>
-              <thead>
-                <tr>
-                  <th>My Array</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="widget">
-                    <div class="field" id="field-myform-myarray-0">
-                      <label for="input-myform-myarray-0">My Field</label>
-                      <input class="text" id="input-myform-myarray-0"
-                             name="myform.myarray.0" type="text" value="1"/>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="widget">
-                    <div class="field" id="field-myform-myarray-1">
-                      <label for="input-myform-myarray-1">My Field</label>
-                      <input class="text" id="input-myform-myarray-1"
-                             name="myform.myarray.1" type="text" value="2"/>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </form>
+            <form action="myaction" enctype="multipart/form-data" id="form-myform"
+                  method="post" novalidate="novalidate">
+              <div class="array card array-static" id="array-myform-myarray">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>My Array</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="widget">
+                        <div class="field" id="field-myform-myarray-0">
+                          <label for="input-myform-myarray-0">My Field</label>
+                          <input class="text" id="input-myform-myarray-0"
+                                 name="myform.myarray.0" type="text" value="1"/>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="widget">
+                        <div class="field" id="field-myform-myarray-1">
+                          <label for="input-myform-myarray-1">My Field</label>
+                          <input class="text" id="input-myform-myarray-1"
+                                 name="myform.myarray.1" type="text" value="2"/>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </form>
         """, fxml(form()))
 
     def test_array_with_preset_value_as_list(self):
@@ -677,7 +677,7 @@ class TestArrayWidget(YafowilTestCase):
         self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
-          <div class="array array-add array-remove array-sort"
+          <div class="array card array-add array-remove array-sort"
                id="array-myform-myarray">
             <table>
               <thead>
@@ -771,7 +771,7 @@ class TestArrayWidget(YafowilTestCase):
         self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
-          <div class="array array-add array-remove array-sort"
+          <div class="array card array-add array-remove array-sort"
                id="array-myform-myarray">
             <table>
               <thead>
@@ -831,7 +831,7 @@ class TestArrayWidget(YafowilTestCase):
         self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
-          <div class="array array-add array-remove array-sort"
+          <div class="array card array-add array-remove array-sort"
                id="array-myform-myarray">
             <table>
               <thead>
@@ -908,7 +908,7 @@ class TestArrayWidget(YafowilTestCase):
         self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
-          <div class="array array-add array-remove array-sort"
+          <div class="array card array-add array-remove array-sort"
                id="array-myform-myarray">
             <table>
               <thead>
@@ -917,7 +917,7 @@ class TestArrayWidget(YafowilTestCase):
               <tbody>
                 <tr>
                   <td class="widget">
-                    <div class="array array-add array-remove array-sort"
+                    <div class="array card array-add array-remove array-sort"
                          id="array-myform-myarray-0">
                       <table>
                         <thead>
@@ -972,7 +972,7 @@ class TestArrayWidget(YafowilTestCase):
                 </tr>
                 <tr>
                   <td class="widget">
-                    <div class="array array-add array-remove array-sort"
+                    <div class="array card array-add array-remove array-sort"
                          id="array-myform-myarray-1">
                       ...
                     </div>
@@ -984,7 +984,7 @@ class TestArrayWidget(YafowilTestCase):
               </tbody>
             </table>
             <div class="arraytemplate">
-              <div class="array array-add array-remove array-sort"
+              <div class="array card array-add array-remove array-sort"
                    id="array-myform-myarray-TEMPLATE">
                 <table>
                   <thead>
@@ -1109,7 +1109,7 @@ class TestArrayWidget(YafowilTestCase):
         self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
-          <div class="array array-add array-remove array-sort"
+          <div class="array card array-add array-remove array-sort"
                id="array-myform-myarray">
             <table>
               <thead>
@@ -1121,7 +1121,7 @@ class TestArrayWidget(YafowilTestCase):
               <tbody>
                 <tr>
                   <td class="widget">
-                    <div class="array array-add array-remove array-sort"
+                    <div class="array card array-add array-remove array-sort"
                          id="array-myform-myarray-0">
                       <table>
                         <thead>
@@ -1183,7 +1183,7 @@ class TestArrayWidget(YafowilTestCase):
               </tbody>
             </table>
             <div class="arraytemplate">
-              <div class="array array-add array-remove array-sort"
+              <div class="array card array-add array-remove array-sort"
                    id="array-myform-myarray-TEMPLATE">
                 <table>
                   <thead>
@@ -1481,7 +1481,7 @@ class TestArrayWidget(YafowilTestCase):
         <form action="myaction" enctype="multipart/form-data" id="form-myform" method="post" novalidate="novalidate">
           <div class="error">
             <div class="errormessage">Array is required</div>
-            <div class="array error array-add array-remove array-sort" id="array-myform-myarray">
+            <div class="array card error array-add array-remove array-sort" id="array-myform-myarray">
               ...
             </div>
           </div>
@@ -1531,7 +1531,7 @@ class TestArrayWidget(YafowilTestCase):
         self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
-          <div class="array array-add array-remove array-sort"
+          <div class="array card array-add array-remove array-sort"
                id="array-myform-myarray">
             <table>
               ...
@@ -1864,7 +1864,7 @@ class TestArrayWidget(YafowilTestCase):
         self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
-          <div class="array array-add array-remove array-sort"
+          <div class="array card array-add array-remove array-sort"
                id="array-myform-myarray">
             <table>
               ...
@@ -1909,7 +1909,7 @@ class TestArrayWidget(YafowilTestCase):
         self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
-          <div class="array array-add array-remove array-sort"
+          <div class="array card array-add array-remove array-sort"
                id="array-myform-myarray">
             <table>
               <thead>
@@ -1984,7 +1984,7 @@ class TestArrayWidget(YafowilTestCase):
         self.checkOutput("""
         <form action="myaction" enctype="multipart/form-data" id="form-myform"
               method="post" novalidate="novalidate">
-          <div class="array array-add array-remove array-sort"
+          <div class="array card array-add array-remove array-sort"
                id="array-myform-array_1">
             <table>
               <thead>
@@ -1996,7 +1996,7 @@ class TestArrayWidget(YafowilTestCase):
               <tbody>
                 <tr>
                   <td class="widget">
-                    <div class="array array-add array-remove array-sort"
+                    <div class="array card array-add array-remove array-sort"
                          id="array-myform-array_1-0">
                       <table>
                         <thead>
@@ -2008,7 +2008,7 @@ class TestArrayWidget(YafowilTestCase):
                         <tbody>
                           <tr>
                             <td class="widget">
-                              <div class="array array-add array-remove array-sort"
+                              <div class="array card array-add array-remove array-sort"
                                    id="array-myform-array_1-0-0">
                                 <table>
                                   <thead>
@@ -2054,7 +2054,7 @@ class TestArrayWidget(YafowilTestCase):
                         </tbody>
                       </table>
                       <div class="arraytemplate">
-                        <div class="array array-add array-remove array-sort" id="array-myform-array_1-0-TEMPLATE">
+                        <div class="array card array-add array-remove array-sort" id="array-myform-array_1-0-TEMPLATE">
                           <table>
                             <thead>
                               <tr>
@@ -2089,7 +2089,7 @@ class TestArrayWidget(YafowilTestCase):
               </tbody>
             </table>
             <div class="arraytemplate">
-              <div class="array array-add array-remove array-sort"
+              <div class="array card array-add array-remove array-sort"
                    id="array-myform-array_1-TEMPLATE">
                 <table>
                   <thead>
@@ -2101,7 +2101,7 @@ class TestArrayWidget(YafowilTestCase):
                   <tbody/>
                 </table>
                 <div class="arraytemplate">
-                  <div class="array array-add array-remove array-sort"
+                  <div class="array card array-add array-remove array-sort"
                        id="array-myform-array_1-TEMPLATE-TEMPLATE">
                     <table>
                       <thead>
@@ -2139,8 +2139,8 @@ class TestArrayWidget(YafowilTestCase):
         scripts = resources.scripts
         self.assertEqual(len(scripts), 1)
 
-        self.assertTrue(scripts[0].directory.endswith(np('/array/resources')))
-        self.assertEqual(scripts[0].path, 'yafowil-array')
+        self.assertTrue(scripts[0].directory.endswith(np('/array/resources/default')))
+        self.assertEqual(scripts[0].path, 'yafowil-array/default')
         self.assertEqual(scripts[0].file_name, 'widget.min.js')
         self.assertTrue(os.path.exists(scripts[0].file_path))
 
@@ -2151,7 +2151,7 @@ class TestArrayWidget(YafowilTestCase):
             styles[0].directory.endswith(np('/array/resources/default'))
         )
         self.assertEqual(styles[0].path, 'yafowil-array/default')
-        self.assertEqual(styles[0].file_name, 'widget.css')
+        self.assertEqual(styles[0].file_name, 'widget.min.css')
         self.assertTrue(os.path.exists(styles[0].file_path))
 
         factory.theme = 'bootstrap3'
@@ -2163,8 +2163,8 @@ class TestArrayWidget(YafowilTestCase):
         scripts = resources.scripts
         self.assertEqual(len(scripts), 1)
 
-        self.assertTrue(scripts[0].directory.endswith(np('/array/resources')))
-        self.assertEqual(scripts[0].path, 'yafowil-array')
+        self.assertTrue(scripts[0].directory.endswith(np('/array/resources/default')))
+        self.assertEqual(scripts[0].path, 'yafowil-array/default')
         self.assertEqual(scripts[0].file_name, 'widget.min.js')
         self.assertTrue(os.path.exists(scripts[0].file_path))
 
@@ -2175,7 +2175,7 @@ class TestArrayWidget(YafowilTestCase):
             styles[0].directory.endswith(np('/array/resources/bootstrap'))
         )
         self.assertEqual(styles[0].path, 'yafowil-array/bootstrap')
-        self.assertEqual(styles[0].file_name, 'widget.css')
+        self.assertEqual(styles[0].file_name, 'widget.min.css')
         self.assertTrue(os.path.exists(styles[0].file_path))
 
         factory.theme = 'plone5'
@@ -2187,8 +2187,8 @@ class TestArrayWidget(YafowilTestCase):
         scripts = resources.scripts
         self.assertEqual(len(scripts), 1)
 
-        self.assertTrue(scripts[0].directory.endswith(np('/array/resources')))
-        self.assertEqual(scripts[0].path, 'yafowil-array')
+        self.assertTrue(scripts[0].directory.endswith(np('/array/resources/default')))
+        self.assertEqual(scripts[0].path, 'yafowil-array/default')
         self.assertEqual(scripts[0].file_name, 'widget.min.js')
         self.assertTrue(os.path.exists(scripts[0].file_path))
 
@@ -2199,5 +2199,5 @@ class TestArrayWidget(YafowilTestCase):
             styles[0].directory.endswith(np('/array/resources/plone5'))
         )
         self.assertEqual(styles[0].path, 'yafowil-array/plone5')
-        self.assertEqual(styles[0].file_name, 'widget.css')
+        self.assertEqual(styles[0].file_name, 'widget.min.css')
         self.assertTrue(os.path.exists(styles[0].file_path))
