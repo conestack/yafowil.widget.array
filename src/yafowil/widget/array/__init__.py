@@ -15,6 +15,8 @@ resources_dir = os.path.join(os.path.dirname(__file__), 'resources')
 
 array_js = wr.ScriptResource(
     name='yafowil-array-js',
+    directory=os.path.join(resources_dir, 'default'),
+    path='yafowil-array/default',
     depends='jquery-js',
     resource='widget.js',
     compressed='widget.min.js'
@@ -24,7 +26,7 @@ array_js = wr.ScriptResource(
 
 js = [{
     'group': 'yafowil.widget.array.common',
-    'resource': 'widget.js',
+    'resource': 'default/widget.js',
     'order': 20,
 }]
 
@@ -45,14 +47,14 @@ default_resources.add(wr.StyleResource(
     name='yafowil-array-css',
     directory=os.path.join(resources_dir, 'default'),
     path='yafowil-array/default',
-    resource='widget.css'
+    resource='widget.min.css'
 ))
 
 # B/C resources ##############################################################
 
 default_css = [{
     'group': 'yafowil.widget.array.common',
-    'resource': 'default/widget.css',
+    'resource': 'default/widget.min.css',
     'order': 20,
 }]
 
@@ -73,16 +75,52 @@ bootstrap_resources.add(wr.StyleResource(
     name='yafowil-array-css',
     directory=os.path.join(resources_dir, 'bootstrap'),
     path='yafowil-array/bootstrap',
-    resource='widget.css'
+    resource='widget.min.css'
 ))
 
 # B/C resources ##############################################################
 
 bootstrap_css = [{
     'group': 'yafowil.widget.array.common',
-    'resource': 'bootstrap/widget.css',
+    'resource': 'bootstrap/widget.min.css',
     'order': 20,
 }]
+
+
+##############################################################################
+# Bootstrap 5
+##############################################################################
+
+# webresource ################################################################
+bootstrap5_resources = wr.ResourceGroup(
+    name='yafowil.widget.array',
+    directory=resources_dir,
+    path='yafowil-array'
+)
+bootstrap5_js = wr.ScriptResource(
+    name='yafowil-array-js',
+    directory=os.path.join(resources_dir, 'bootstrap5'),
+    path='yafowil-array/bootstrap5',
+    depends='jquery-js',
+    resource='widget.js',
+    compressed='widget.min.js'
+)
+bootstrap5_resources.add(bootstrap5_js)
+bootstrap5_resources.add(wr.StyleResource(
+    name='yafowil-array-css',
+    directory=os.path.join(resources_dir, 'bootstrap5'),
+    path='yafowil-array/bootstrap5',
+    resource='widget.min.css'
+))
+
+# B/C resources ##############################################################
+
+bootstrap5_css = [{
+    'group': 'yafowil.widget.array.common',
+    'resource': 'bootstrap5/widget.min.css',
+    'order': 20,
+}]
+
 
 
 ##############################################################################
@@ -101,14 +139,14 @@ plone5_resources.add(wr.StyleResource(
     name='yafowil-array-css',
     directory=os.path.join(resources_dir, 'plone5'),
     path='yafowil-array/plone5',
-    resource='widget.css'
+    resource='widget.min.css'
 ))
 
 # B/C resources ##############################################################
 
 plone5_css = [{
     'group': 'yafowil.widget.array.common',
-    'resource': 'plone5/widget.css',
+    'resource': 'plone5/widget.min.css',
     'order': 20,
 }]
 
@@ -145,6 +183,21 @@ def register():
         ['bootstrap', 'bootstrap3'],
         widget_name,
         bootstrap_resources
+    )
+
+    # Bootstrap 5
+    factory.register_theme(
+        ['bootstrap5'],
+        widget_name,
+        resources_dir,
+        js=bootstrap5_js,
+        css=bootstrap5_css
+    )
+
+    factory.register_resources(
+        ['bootstrap5'],
+        widget_name,
+        bootstrap5_resources
     )
 
     # Plone 5

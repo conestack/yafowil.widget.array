@@ -366,6 +366,46 @@ def array_with_array_with_array_with_compounds():
     }
 
 
+DOC_ARRAY_DISPLAY = """\
+Display Mode
+------------
+
+Display mode renders the widget and its children uneditable.
+
+.. code-block:: python
+
+    value = ['1', '2', '3', '4']
+    array = factory('#array', value=value, mode='display', props={
+        'label': 'An Array in display mode',
+        'help': 'I am an array',
+    })
+    array['field'] = factory('#arrayfield:text', props={
+        'label': 'Entry in display mode',
+        'help': 'I am an array entry',
+    })
+"""
+
+
+def array_display():
+    form = factory(
+        'fieldset',
+        name='yafowil.widget.array_display')
+    value = ['I am not editable.', 'Me neither!']
+    array = form['array'] = factory('#array', mode='display', value=value, props={
+        'label': 'An Array in display mode',
+        'help': 'I am an array'
+    })
+    array['field'] = factory('#arrayfield:text', props={
+        'label': 'Entry in display mode',
+        'help': 'I am an array entry',
+    })
+    return {
+        'widget': form,
+        'doc': DOC_ARRAY_DISPLAY,
+        'title': 'Display Mode',
+    }
+
+
 def get_example():
     return [
         array_with_leafs(),
@@ -374,4 +414,5 @@ def get_example():
         array_with_array_with_compounds(),
         array_with_array_with_array_with_leafs(),
         array_with_array_with_array_with_compounds(),
+        array_display(),
     ]
