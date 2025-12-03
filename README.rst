@@ -1,5 +1,21 @@
+.. image:: https://img.shields.io/pypi/v/yafowil.widget.array.svg
+    :target: https://pypi.python.org/pypi/yafowil.widget.array
+    :alt: Latest PyPI version
+
+.. image:: https://img.shields.io/pypi/dm/yafowil.widget.array.svg
+    :target: https://pypi.python.org/pypi/yafowil.widget.array
+    :alt: Number of PyPI downloads
+
+.. image:: https://github.com/conestack/yafowil.widget.array/actions/workflows/test_py.yaml/badge.svg
+    :target: https://github.com/conestack/yafowil.widget.array/actions/workflows/test_py.yaml
+    :alt: Test yafowil.widget.array Python
+
+.. image:: https://github.com/conestack/yafowil.widget.array/actions/workflows/test_js.yaml/badge.svg
+    :target: https://github.com/conestack/yafowil.widget.array/actions/workflows/test_js.yaml
+    :alt: Test yafowil.widget.array JS
+
 This is an **array widget** for for `YAFOWIL
-<http://pypi.python.org/pypi/yafowil>`_ .
+<http://pypi.python.org/pypi/yafowil>`_.
 
 - `Documentation <http://docs.yafowil.info/en/latest/blueprints.html#array>`_
 - `DEMO - see it Live <http://demo.yafowil.info/++widget++yafowil.widget.array/index.html>`_
