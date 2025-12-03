@@ -45,6 +45,13 @@ Changes
   [rnix]
 
 
+1.8 (2025-11-03)
+----------------
+
+- Pin upper versions of dependencies.
+  [lenadax]
+
+
 1.7 (2022-10-06)
 ----------------
 
