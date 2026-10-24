@@ -9,19 +9,18 @@ from yafowil.utils import css_managed_props
 from yafowil.utils import cssclasses
 from yafowil.utils import cssid
 from yafowil.utils import managedprops
-from yafowil.base import factory
+
 
 @managedprops(*css_managed_props)
 def array_display_proxy_renderer(widget, data):
-    """B/C. Use ``display_proxy`` widget attribute.
-    """
+    """B/C. Use ``display_proxy`` widget attribute."""
     input_attrs = {
         'type': 'hidden',
         'value': fetch_value(widget, data),
         'name_': widget.dottedpath,
         'id': cssid(widget, 'input'),
         'class_': cssclasses(widget, data),
-        'required': attr_value('required', widget, data) and 'required' or None
+        'required': attr_value('required', widget, data) and 'required' or None,
     }
     return data.tag('input', **input_attrs) + data.rendered
 
@@ -30,7 +29,7 @@ factory.register(
     'array_display_proxy',
     extractors=[generic_extractor],
     edit_renderers=[array_display_proxy_renderer],
-    display_renderers=[array_display_proxy_renderer]
+    display_renderers=[array_display_proxy_renderer],
 )
 
 # do not document internal widget
@@ -65,33 +64,42 @@ def actions_renderer(widget, data):
     return tag('div', *actions, **kw)
 
 
-factory.register(
-    'array_actions',
-    edit_renderers=[actions_renderer]
-)
+factory.register('array_actions', edit_renderers=[actions_renderer])
 
 # do not document internal widget
 factory.doc['blueprint']['array_actions'] = UNSET
 
 
 def array_builder(widget, factory):
-    table = widget['table'] = factory('table', props={
-        'structural': True,
-        'class': widget.attrs['table_class'],
-    })
-    head = table['head'] = factory('thead', props={
-        'structural': True,
-    })
-    row = head['row'] = factory('tr', props={
-        'structural': True,
-    })
-    label = widget.attrs.get('label', u' ')
+    table = widget['table'] = factory(
+        'table',
+        props={
+            'structural': True,
+            'class': widget.attrs['table_class'],
+        },
+    )
+    head = table['head'] = factory(
+        'thead',
+        props={
+            'structural': True,
+        },
+    )
+    row = head['row'] = factory(
+        'tr',
+        props={
+            'structural': True,
+        },
+    )
+    label = widget.attrs.get('label', ' ')
     if callable(label):
         label = label()
-    row['label'] = factory('th', props={
-        'structural': True,
-        'label': label,
-    })
+    row['label'] = factory(
+        'th',
+        props={
+            'structural': True,
+            'label': label,
+        },
+    )
     if not widget.attrs['static']:
         props = dict()
         props['structural'] = True
@@ -99,9 +107,12 @@ def array_builder(widget, factory):
         if widget.attrs['add']:
             props['add'] = True
         row['actions'] = factory('th:array_actions', props=props)
-    table['body'] = factory('tbody', props={
-        'structural': True,
-    })
+    table['body'] = factory(
+        'tbody',
+        props={
+            'structural': True,
+        },
+    )
 
 
 @managedprops('add', 'remove', 'sort', 'static', 'table_class', *css_managed_props)
@@ -129,7 +140,7 @@ TEMPLATE = 'TEMPLATE'
 
 def array_edit_renderer(widget, data):
     if len(widget) == 1 and CONTAINER not in widget:
-        raise Exception(u"Empty array widget defined")
+        raise Exception('Empty array widget defined')
     if CONTAINER not in widget:
         template = widget.detach(widget.keys()[1])
         hook_array_template(widget, template)
@@ -149,7 +160,7 @@ def create_array_children(widget, template, value):
         try:
             indices = [int(_) for _ in value.keys()]
         except ValueError as e:
-            raise Exception(u"Array value error. %s" % str(e))
+            raise Exception('Array value error. %s' % str(e))
         indices = sorted(indices)
         for i in indices:
             create_array_entry(str(i), widget, template, value[str(i)])
@@ -158,9 +169,7 @@ def create_array_children(widget, template, value):
         for i in indices:
             create_array_entry(str(i), widget, template, value[i])
     else:
-        raise ValueError(u"Expected list or dict as value. Got '{}'".format(
-            str(type(value)))
-        )
+        raise ValueError(f"Expected list or dict as value. Got '{str(type(value))}'")
 
 
 def create_array_entry(idx, widget, template, value):
@@ -213,8 +222,7 @@ def hook_array_template(widget, template):
     props['class'] = 'arraytemplate'
     container = widget[CONTAINER] = factory('div', props=props)
     if template.attrs.get('structural'):
-        raise Exception(
-            u"Compound templates for arrays must not be structural.")
+        raise Exception('Compound templates for arrays must not be structural.')
     container[TEMPLATE] = template
 
 
@@ -222,8 +230,11 @@ def duplicate_widget(widget, value=UNSET):
     blueprints = widget.blueprints
     leaf = len(widget) == 0
     # B/C: use display_property widget attribute!
-    if leaf and (widget.mode == 'display' or widget.attrs.get('disabled')) \
-            and 'array_display_proxy' not in blueprints:
+    if (
+        leaf
+        and (widget.mode == 'display' or widget.attrs.get('disabled'))
+        and 'array_display_proxy' not in blueprints
+    ):
         if not widget.attrs.get('display_proxy'):
             blueprints.insert(0, 'array_display_proxy')
     return factory(
@@ -231,7 +242,8 @@ def duplicate_widget(widget, value=UNSET):
         value=value,
         props=widget.properties,
         custom=widget.custom,
-        mode=widget.mode)
+        mode=widget.mode,
+    )
 
 
 def duplicate_recursiv(widget):
@@ -284,20 +296,10 @@ def array_display_renderer(widget, data):
 
 factory.register(
     'array',
-    extractors=[
-        array_extractor,
-        generic_required_extractor
-    ],
-    edit_renderers=[
-        array_edit_renderer,
-        compound_renderer,
-        array_wrapper_renderer
-    ],
-    display_renderers=[
-        array_display_renderer,
-        compound_renderer
-    ],
-    builders=[array_builder]
+    extractors=[array_extractor, generic_required_extractor],
+    edit_renderers=[array_edit_renderer, compound_renderer, array_wrapper_renderer],
+    display_renderers=[array_display_renderer, compound_renderer],
+    builders=[array_builder],
 )
 
 factory.doc['blueprint']['array'] = """\
