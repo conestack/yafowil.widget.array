@@ -1,8 +1,8 @@
 import $ from 'jquery';
-import {ArrayBase} from '../base/array.js';
+import { ArrayBase } from '../base/array.js';
 
 // B/C. Deprecated. Use ``on_array_event``
-export let hooks = {
+export const hooks = {
     before_add: {},
     add: {},
     remove: {},
@@ -10,11 +10,11 @@ export let hooks = {
     up: {},
     before_down: {},
     down: {},
-    index: {}
+    index: {},
 };
 
 // global array subscribers, gets called from every array instance
-let _array_subscribers = {
+const _array_subscribers = {
     on_before_add: [],
     on_add: [],
     on_remove: [],
@@ -22,11 +22,11 @@ let _array_subscribers = {
     on_up: [],
     on_before_down: [],
     on_down: [],
-    on_index: []
-}
+    on_index: [],
+};
 
 export function on_array_event(event, subscriber) {
-    _array_subscribers[event].push(subscriber)
+    _array_subscribers[event].push(subscriber);
 }
 
 export function inside_template(elem) {
@@ -34,10 +34,9 @@ export function inside_template(elem) {
 }
 
 export class ArrayWidget extends ArrayBase {
-
     static initialize(context) {
-        $('div.array', context).each(function() {
-            let wrapper = $(this);
+        $('div.array', context).each(function () {
+            const wrapper = $(this);
             if (wrapper.attr('id').indexOf('-TEMPLATE') === -1) {
                 new ArrayWidget(wrapper);
             }

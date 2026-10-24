@@ -4,7 +4,7 @@ import { ArrayBase } from '../base/array.js';
 /**
  * Legacy hooks for backward compatibility, providing deprecated event hooks.
  */
-export let hooks = {
+export const hooks = {
     before_add: {},
     add: {},
     remove: {},
@@ -12,13 +12,13 @@ export let hooks = {
     up: {},
     before_down: {},
     down: {},
-    index: {}
+    index: {},
 };
 
 /**
  * Global subscribers for array events, called by each array instance.
  */
-let _array_subscribers = {
+const _array_subscribers = {
     on_before_add: [],
     on_add: [],
     on_remove: [],
@@ -26,7 +26,7 @@ let _array_subscribers = {
     on_up: [],
     on_before_down: [],
     on_down: [],
-    on_index: []
+    on_index: [],
 };
 
 /**
@@ -44,15 +44,14 @@ export function inside_template(elem) {
 }
 
 export class ArrayWidget extends ArrayBase {
-
     /**
      * Initializes each widget in the given DOM context.
-     * 
+     *
      * @param {HTMLElement} context - DOM context for initialization.
      */
     static initialize(context) {
-        $('div.array', context).each(function() {
-            let wrapper = $(this);
+        $('div.array', context).each(function () {
+            const wrapper = $(this);
             if (wrapper.attr('id').indexOf('-TEMPLATE') === -1) {
                 new ArrayWidget(wrapper);
             }
@@ -75,7 +74,7 @@ export class ArrayWidget extends ArrayBase {
 
     /**
      * Handles the event for moving a row up.
-     * 
+     *
      * @param {Event} evt
      */
     up_handle(evt) {
@@ -86,7 +85,7 @@ export class ArrayWidget extends ArrayBase {
 
     /**
      * Handles the event for moving a row down.
-     * 
+     *
      * @param {Event} evt
      */
     down_handle(evt) {
@@ -97,7 +96,7 @@ export class ArrayWidget extends ArrayBase {
 
     /**
      * Creates a new row.
-     * 
+     *
      * @returns {jQuery} - The created row element.
      */
     create_row() {
@@ -108,7 +107,7 @@ export class ArrayWidget extends ArrayBase {
 
     /**
      * Briefly highlights a row to indicate movement.
-     * 
+     *
      * @param {jQuery} row - The row to apply the effect to.
      */
     highlight(row) {

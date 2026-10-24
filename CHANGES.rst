@@ -4,6 +4,23 @@ Changes
 2.0.1 (unreleased)
 ------------------
 
+- Extend the JS tests to 100 % coverage, all modules including bundles are
+  loaded by the tests now.
+  [rnix]
+
+- Lint and format the JS code with biome. ``make check`` runs ``biome check``,
+  ``make format`` runs ``biome check --write`` (see ``include.mk``). Behavior
+  unchanged.
+  [rnix]
+
+- JS tooling: Use ``pnpm-lock.yaml`` instead of ``package-lock.json``. Upgrade
+  ``@web/test-runner`` to 1.0 and run the JS tests headless in Chromium via
+  Playwright, installed in the JS CI workflow. Replace the unmaintained
+  ``rollup-plugin-terser`` with ``@rollup/plugin-terser``. Drop the accidental
+  ``install`` dev dependency. Pin patched versions of vulnerable transitive
+  dependencies via ``pnpm.overrides``.
+  [rnix]
+
 - Modernise the code ruff flags as outdated: ``u''`` prefixes and ``.format()``
   over f-strings. Behaviour unchanged. ``super(Class, self)`` is kept, see
   ``cone.app``.

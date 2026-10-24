@@ -1,11 +1,10 @@
 import $ from 'jquery';
 
 export class ArrayBase {
-
     constructor(wrapper) {
         wrapper.data('yafowil-array', this);
         this.wrapper = wrapper;
-        let table = $('> table', wrapper),
+        const table = $('> table', wrapper),
             head_actions = $('> thead .array_actions', table),
             add_handle = this.add_first_handle.bind(this);
         this.table = table;
@@ -14,7 +13,7 @@ export class ArrayBase {
     }
 
     bind_actions() {
-        let actions_sel = '> tbody > tr > td.actions .array_actions',
+        const actions_sel = '> tbody > tr > td.actions .array_actions',
             row_actions = $(actions_sel, this.table),
             add_handle = this.add_handle.bind(this),
             remove_handle = this.remove_handle.bind(this),
@@ -39,38 +38,38 @@ export class ArrayBase {
     }
 
     create_row() {
-        let css = this.wrapper.attr('class');
+        const css = this.wrapper.attr('class');
         let row = '';
-        row +=   '<tr>';
-        row +=     '<td class="widget">';
-        row +=     '</td>';
+        row += '<tr>';
+        row += '<td class="widget">';
+        row += '</td>';
         if (css.indexOf('array-static') === -1) {
             row += '<td class="actions">';
-            row +=   '<div class="array_actions">';
+            row += '<div class="array_actions">';
             if (css.indexOf('array-add') > -1) {
                 row += '<a class="array_row_add" href="#">';
-                row +=   `<span class="${this.icon_add}"> </span>`;
+                row += `<span class="${this.icon_add}"> </span>`;
                 row += '</a>';
             }
             if (css.indexOf('array-remove') > -1) {
                 row += '<a class="array_row_remove" href="#">';
-                row +=   `<span class="${this.icon_remove}"> </span>`;
+                row += `<span class="${this.icon_remove}"> </span>`;
                 row += '</a>';
             }
             if (css.indexOf('array-sort') > -1) {
                 row += '<a class="array_row_up" href="#">';
-                row +=   `<span class="${this.icon_up}"> </span>`;
+                row += `<span class="${this.icon_up}"> </span>`;
                 row += '</a>';
                 row += '<a class="array_row_down" href="#">';
-                row +=   `<span class="${this.icon_down}"> </span>`;
+                row += `<span class="${this.icon_down}"> </span>`;
                 row += '</a>';
             }
-            row +=   '</div>';
+            row += '</div>';
             row += '</td>';
         }
-        row +=   '</tr>';
+        row += '</tr>';
         row = $(row);
-        let template = $('> .arraytemplate', this.wrapper).clone();
+        const template = $('> .arraytemplate', this.wrapper).clone();
         $('.widget', row).append(template.children());
         return row;
     }
@@ -80,23 +79,21 @@ export class ArrayBase {
     }
 
     get base_id() {
-        let id = this.wrapper.attr('id');
+        const id = this.wrapper.attr('id');
         return id.substring(6, id.length);
     }
 
     trigger(event, ...args) {
-        let event_hooks = this.hooks[event.substring(3, event.length)];
+        const event_hooks = this.hooks[event.substring(3, event.length)];
         if (Object.entries(event_hooks).length) {
-            console.log(
-                'Array hooks are deprecated. Use ``on_array_event`` instead.'
-            );
-            for (let hook_name in event_hooks) {
+            console.log('Array hooks are deprecated. Use ``on_array_event`` instead.');
+            for (const hook_name in event_hooks) {
                 console.log(`    - ${hook_name}`);
                 event_hooks[hook_name].apply(null, args);
             }
         }
         args.splice(0, 0, this);
-        for (let subscriber of this._array_subscribers[event]) {
+        for (const subscriber of this._array_subscribers[event]) {
             subscriber.apply(null, args);
         }
     }
@@ -106,7 +103,7 @@ export class ArrayBase {
             base_id = this.base_id,
             that = this,
             row;
-        context.children().each(function() {
+        context.children().each(function () {
             row = $(this);
             that.set_row_index(row, base_id, index);
             that.trigger('on_index', row, index);
@@ -116,11 +113,11 @@ export class ArrayBase {
     }
 
     set_row_index(node, base_id, index) {
-        let base_name = base_id.replace(/\-/g, '.'),
+        let base_name = base_id.replace(/-/g, '.'),
             set_index = this.set_attr_index.bind(this),
             that = this,
             child;
-        node.children().each(function() {
+        node.children().each(function () {
             child = $(this);
             set_index(child, 'id', base_id, index, '-');
             set_index(child, 'for', base_id, index, '-');
@@ -130,12 +127,9 @@ export class ArrayBase {
     }
 
     set_attr_index(node, attr, base, index, delim) {
-        let value = node.attr(attr);
+        const value = node.attr(attr);
         if (value && value.indexOf(base) > -1) {
-            node.attr(
-                attr,
-                this.set_value_index(value, base, index, delim)
-            );
+            node.attr(attr, this.set_value_index(value, base, index, delim));
         }
     }
 
@@ -158,7 +152,7 @@ export class ArrayBase {
 
     add_first_handle(evt) {
         evt.preventDefault();
-        let new_row = this.create_row(),
+        const new_row = this.create_row(),
             container = $('> tbody', this.table);
         this.trigger('on_before_add', new_row, container);
         container.prepend(new_row);
@@ -167,7 +161,7 @@ export class ArrayBase {
 
     add_handle(evt) {
         evt.preventDefault();
-        let row = this.get_row(evt.currentTarget),
+        const row = this.get_row(evt.currentTarget),
             new_row = this.create_row(),
             container = row.parent();
         this.trigger('on_before_add', new_row, container);
@@ -177,16 +171,16 @@ export class ArrayBase {
 
     remove_handle(evt) {
         evt.preventDefault();
-        let row = this.get_row(evt.currentTarget);
+        const row = this.get_row(evt.currentTarget);
         this.trigger('on_remove', row);
-        let container = row.parent();
+        const container = row.parent();
         row.remove();
         this.reset_indices(container);
     }
 
     up_handle(evt) {
         evt.preventDefault();
-        let row = this.get_row(evt.currentTarget);
+        const row = this.get_row(evt.currentTarget);
         this.trigger('on_before_up', row);
         row.insertBefore(row.prev());
         this.reset_indices(row.parent());
@@ -195,7 +189,7 @@ export class ArrayBase {
 
     down_handle(evt) {
         evt.preventDefault();
-        let row = this.get_row(evt.currentTarget);
+        const row = this.get_row(evt.currentTarget);
         this.trigger('on_before_down', row);
         row.insertAfter(row.next());
         this.reset_indices(row.parent());
