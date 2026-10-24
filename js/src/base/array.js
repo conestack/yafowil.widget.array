@@ -1,5 +1,9 @@
 import $ from 'jquery';
 
+function escape_regexp(value) {
+    return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 export class ArrayBase {
     constructor(wrapper) {
         wrapper.data('yafowil-array', this);
@@ -119,8 +123,12 @@ export class ArrayBase {
             child;
         node.children().each(function () {
             child = $(this);
-            set_index(child, 'id', base_id, index, '-');
-            set_index(child, 'for', base_id, index, '-');
+            // Ids mostly contain the path as css id, but some contain the
+            // dotted path, e.g. the yafowil.widget.dict table id.
+            for (const attr of ['id', 'for']) {
+                set_index(child, attr, base_id, index, '-');
+                set_index(child, attr, base_name, index, '.');
+            }
             set_index(child, 'name', base_name, index, '.');
             that.set_row_index(child, base_id, index);
         });
@@ -134,14 +142,13 @@ export class ArrayBase {
     }
 
     set_value_index(value, base, index, delim) {
-        let idx_0 = value.indexOf(base) + base.length + 1,
-            idx_1 = value.indexOf(delim, idx_0),
-            pre = value.substring(0, idx_0),
-            post = '';
-        if (idx_1 > -1) {
-            post = value.substring(idx_1, value.length);
-        }
-        return pre + index + post;
+        // ``base`` must start at a delimiter to not match inside other names,
+        // e.g. base ``arr`` in ``array-arr-0``. The index may be followed by
+        // either delimiter, e.g. ``dictwidget_arr.0.entry`` or ``arr.0-exists``.
+        const pattern = new RegExp(
+            `((?:^|[-._])${escape_regexp(base + delim)})(?:\\d+|TEMPLATE)(?=[-.]|$)`,
+        );
+        return value.replace(pattern, (_match, head) => head + index);
     }
 
     init_row(container, row) {

@@ -7,17 +7,41 @@ on_array_event('on_add', (inst, row) => {
     subscribed.push([inst, row]);
 });
 
-function create_array(entries) {
+function input_widget(index) {
+    const value = index === 'TEMPLATE' ? '' : index;
+    return `<input id="input-myform-myarray-${index}" name="myform.myarray.${index}"
+                   value="${value}" />`;
+}
+
+// Markup of yafowil.widget.dict as array entry. The table id contains the
+// dotted path of the widget.
+function dict_widget(index) {
+    const key = index === 'TEMPLATE' ? '' : index;
+    return `
+        <fieldset>
+          <table id="dictwidget_myform.myarray.${index}.entry">
+            <tbody>
+              <tr>
+                <td class="key">
+                  <input id="input-myform-myarray-${index}-entry0-key"
+                         name="myform.myarray.${index}.entry.0.key" value="${key}" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </fieldset>`;
+}
+
+function create_array(entries, widget = input_widget) {
     let body = '';
     for (let i = 0; i < entries; i++) {
         body += `
             <tr>
-              <td class="widget">
-                <input id="input-myform-myarray-${i}" name="myform.myarray.${i}" value="${i}" />
-              </td>
+              <td class="widget">${widget(i)}</td>
               <td class="actions">
                 <div class="array_actions">
                   <a class="array_row_add" href="#"></a>
+                  <a class="array_row_remove" href="#"></a>
                   <a class="array_row_up" href="#"></a>
                   <a class="array_row_down" href="#"></a>
                 </div>
@@ -36,9 +60,7 @@ function create_array(entries) {
             </thead>
             <tbody>${body}</tbody>
           </table>
-          <div class="arraytemplate">
-            <input id="input-myform-myarray-TEMPLATE" name="myform.myarray.TEMPLATE" value="" />
-          </div>
+          <div class="arraytemplate">${widget('TEMPLATE')}</div>
         </div>`).appendTo('body');
 }
 
@@ -154,6 +176,39 @@ QUnit.module('bootstrap5 ArrayWidget', (test_hooks) => {
         assert.true(row.hasClass('row-moved'));
         run_timeouts(assert);
         assert.false(row.hasClass('row-moved'));
+    });
+
+    QUnit.test('dict table id inside row survives add, remove and move', (assert) => {
+        wrapper = create_array(2, dict_widget);
+        new ArrayWidget(wrapper);
+
+        function assert_rows(keys) {
+            assert.deepEqual(
+                $('td.key input', rows(wrapper))
+                    .map((_, el) => el.value)
+                    .get(),
+                keys,
+            );
+            rows(wrapper).each(function (index) {
+                const key = $('td.key input', this);
+                assert.strictEqual(
+                    $('table', this).attr('id'),
+                    `dictwidget_myform.myarray.${index}.entry`,
+                );
+                assert.strictEqual(key.attr('id'), `input-myform-myarray-${index}-entry0-key`);
+                assert.strictEqual(key.attr('name'), `myform.myarray.${index}.entry.0.key`);
+            });
+        }
+
+        $('a.array_row_add', rows(wrapper).first()).trigger('click');
+        assert_rows(['0', '', '1']);
+        $('a.array_row_remove', rows(wrapper).first()).trigger('click');
+        assert_rows(['', '1']);
+        $('a.array_row_up', rows(wrapper).last()).trigger('click');
+        assert_rows(['1', '']);
+        $('a.array_row_down', rows(wrapper).first()).trigger('click');
+        assert_rows(['', '1']);
+        run_timeouts(assert);
     });
 
     QUnit.test('inside_template', (assert) => {

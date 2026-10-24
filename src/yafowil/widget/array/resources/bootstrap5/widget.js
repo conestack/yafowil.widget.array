@@ -1,6 +1,9 @@
 var yafowil_array = (function (exports, $) {
     'use strict';
 
+    function escape_regexp(value) {
+        return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
     class ArrayBase {
         constructor(wrapper) {
             wrapper.data('yafowil-array', this);
@@ -112,8 +115,10 @@ var yafowil_array = (function (exports, $) {
                 child;
             node.children().each(function () {
                 child = $(this);
-                set_index(child, 'id', base_id, index, '-');
-                set_index(child, 'for', base_id, index, '-');
+                for (const attr of ['id', 'for']) {
+                    set_index(child, attr, base_id, index, '-');
+                    set_index(child, attr, base_name, index, '.');
+                }
                 set_index(child, 'name', base_name, index, '.');
                 that.set_row_index(child, base_id, index);
             });
@@ -125,14 +130,10 @@ var yafowil_array = (function (exports, $) {
             }
         }
         set_value_index(value, base, index, delim) {
-            let idx_0 = value.indexOf(base) + base.length + 1,
-                idx_1 = value.indexOf(delim, idx_0),
-                pre = value.substring(0, idx_0),
-                post = '';
-            if (idx_1 > -1) {
-                post = value.substring(idx_1, value.length);
-            }
-            return pre + index + post;
+            const pattern = new RegExp(
+                `((?:^|[-._])${escape_regexp(base + delim)})(?:\\d+|TEMPLATE)(?=[-.]|$)`,
+            );
+            return value.replace(pattern, (_match, head) => head + index);
         }
         init_row(container, row) {
             this.reset_indices(container);

@@ -32,37 +32,57 @@ const all_actions =
     '<a class="array_row_up" href="#"><span class="icon-circle-arrow-up"> </span></a>' +
     '<a class="array_row_down" href="#"><span class="icon-circle-arrow-down"> </span></a>';
 
-function create_entry(index) {
+function field_widget(index) {
+    const value = index === 'TEMPLATE' ? '' : index;
+    return `
+        <div class="field" id="field-myform-myarray-${index}">
+          <label for="input-myform-myarray-${index}">My Field</label>
+          <input class="text" id="input-myform-myarray-${index}"
+                 name="myform.myarray.${index}" type="text" value="${value}" />
+        </div>`;
+}
+
+// Markup of yafowil.widget.dict as array entry. The table id contains the
+// dotted path of the widget.
+function dict_widget(index, path = 'myform.myarray') {
+    const id_path = path.replace(/\./g, '-'),
+        key = index === 'TEMPLATE' ? '' : index;
+    return `
+        <input id="input-${id_path}-${index}-exists" name="${path}.${index}.exists"
+               type="hidden" value="1" />
+        <fieldset>
+          <table id="dictwidget_${path}.${index}.entry">
+            <tbody>
+              <tr>
+                <td class="key">
+                  <input id="input-${id_path}-${index}-entry0-key"
+                         name="${path}.${index}.entry.0.key" value="${key}" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </fieldset>`;
+}
+
+function create_entry(index, widget) {
     return `
         <tr>
-          <td class="widget">
-            <div class="field" id="field-myform-myarray-${index}">
-              <label for="input-myform-myarray-${index}">My Field</label>
-              <input class="text" id="input-myform-myarray-${index}"
-                     name="myform.myarray.${index}" type="text" value="${index}" />
-            </div>
-          </td>
+          <td class="widget">${widget(index)}</td>
           <td class="actions">
             <div class="array_actions">${all_actions}</div>
           </td>
         </tr>`;
 }
 
-const template = `
-    <div class="field" id="field-myform-myarray-TEMPLATE">
-      <label for="input-myform-myarray-TEMPLATE">My Field</label>
-      <input class="text" id="input-myform-myarray-TEMPLATE"
-             name="myform.myarray.TEMPLATE" type="text" value="" />
-    </div>`;
-
 function create_array(opts = {}) {
-    const css = opts.css ?? 'array-add array-remove array-sort';
+    const css = opts.css ?? 'array-add array-remove array-sort',
+        widget = opts.widget ?? field_widget;
     let entries = '';
     for (let i = 0; i < (opts.entries ?? 0); i++) {
-        entries += create_entry(i);
+        entries += create_entry(i, widget);
     }
     return $(`
-        <div class="array ${css}" id="array-myform-myarray">
+        <div class="array ${css}" id="${opts.id ?? 'array-myform-myarray'}">
           <table>
             <thead>
               <tr>
@@ -78,7 +98,7 @@ function create_array(opts = {}) {
             </thead>
             <tbody>${entries}</tbody>
           </table>
-          <div class="arraytemplate">${opts.template ?? template}</div>
+          <div class="arraytemplate">${opts.template ?? widget('TEMPLATE')}</div>
         </div>`).appendTo('body');
 }
 
@@ -101,6 +121,20 @@ function assert_indices(assert, wrapper) {
         assert.strictEqual($('label', field).attr('for'), `input-myform-myarray-${index}`);
         assert.strictEqual($('input', field).attr('id'), `input-myform-myarray-${index}`);
         assert.strictEqual($('input', field).attr('name'), `myform.myarray.${index}`);
+    });
+}
+
+function assert_dict_rows(assert, wrapper, keys) {
+    const key_inputs = $('td.key input', rows(wrapper));
+    assert.deepEqual(key_inputs.map((_, el) => el.value).get(), keys);
+    rows(wrapper).each(function (index) {
+        const exists = $('input[type="hidden"]', this),
+            key = $('td.key input', this);
+        assert.strictEqual($('table', this).attr('id'), `dictwidget_myform.myarray.${index}.entry`);
+        assert.strictEqual(exists.attr('id'), `input-myform-myarray-${index}-exists`);
+        assert.strictEqual(exists.attr('name'), `myform.myarray.${index}.exists`);
+        assert.strictEqual(key.attr('id'), `input-myform-myarray-${index}-entry0-key`);
+        assert.strictEqual(key.attr('name'), `myform.myarray.${index}.entry.0.key`);
     });
 }
 
@@ -347,6 +381,131 @@ QUnit.module('ArrayWidget', (test_hooks) => {
         assert.strictEqual(
             wid.set_value_index('myform.myarray.1.sub', 'myform.myarray', 0, '.'),
             'myform.myarray.0.sub',
+        );
+    });
+
+    QUnit.test('set_value_index keeps the rest of the value', (assert) => {
+        wrapper = create_array();
+        const wid = new ArrayWidget(wrapper);
+        assert.strictEqual(
+            wid.set_value_index('dictwidget_arr.0.entry', 'arr', 3, '.'),
+            'dictwidget_arr.3.entry',
+        );
+        assert.strictEqual(
+            wid.set_value_index('myform.myarray.TEMPLATE-exists', 'myform.myarray', 3, '.'),
+            'myform.myarray.3-exists',
+        );
+        assert.strictEqual(
+            wid.set_value_index('myform.myarray.TEMPLATE.lat', 'myform.myarray', 3, '.'),
+            'myform.myarray.3.lat',
+        );
+        assert.strictEqual(
+            wid.set_value_index('input-myform-myarray-1-entry0-key', 'myform-myarray', 3, '-'),
+            'input-myform-myarray-3-entry0-key',
+        );
+    });
+
+    QUnit.test('set_value_index matches base at delimiters only', (assert) => {
+        wrapper = create_array();
+        const wid = new ArrayWidget(wrapper);
+        // base inside the id prefix
+        assert.strictEqual(
+            wid.set_value_index('array-arr-TEMPLATE-sub', 'arr', 3, '-'),
+            'array-arr-3-sub',
+        );
+        // base equals the id prefix
+        assert.strictEqual(wid.set_value_index('input-input-0', 'input', 3, '-'), 'input-input-3');
+        // base at the end of another name
+        assert.strictEqual(wid.set_value_index('input-myarr-0', 'arr', 3, '-'), 'input-myarr-0');
+        // base at the start of another name
+        assert.strictEqual(
+            wid.set_value_index('dictwidget_arr2.0.entry', 'arr', 3, '.'),
+            'dictwidget_arr2.0.entry',
+        );
+        // base followed by a name which is not an index
+        assert.strictEqual(
+            wid.set_value_index('input-arr-sub-0', 'arr', 3, '-'),
+            'input-arr-sub-0',
+        );
+        assert.strictEqual(wid.set_value_index('input-arr', 'arr', 3, '-'), 'input-arr');
+    });
+
+    QUnit.test('dict table id inside row survives add, remove and move', (assert) => {
+        wrapper = create_array({ entries: 3, widget: dict_widget });
+        new ArrayWidget(wrapper);
+        click($('> table > thead a.array_row_add', wrapper));
+        assert_dict_rows(assert, wrapper, ['', '0', '1', '2']);
+        click($('a.array_row_add', rows(wrapper).eq(1)));
+        assert_dict_rows(assert, wrapper, ['', '0', '', '1', '2']);
+        click($('a.array_row_remove', rows(wrapper).eq(0)));
+        assert_dict_rows(assert, wrapper, ['0', '', '1', '2']);
+        click($('a.array_row_up', rows(wrapper).eq(3)));
+        assert_dict_rows(assert, wrapper, ['0', '', '2', '1']);
+        click($('a.array_row_down', rows(wrapper).eq(0)));
+        assert_dict_rows(assert, wrapper, ['', '0', '2', '1']);
+    });
+
+    QUnit.test('dict table id inside row of root array keeps its suffix', (assert) => {
+        wrapper = create_array({
+            id: 'array-arr',
+            entries: 2,
+            widget: (index) => dict_widget(index, 'arr'),
+        });
+        new ArrayWidget(wrapper);
+        click($('a.array_row_down', rows(wrapper).eq(0)));
+        assert.deepEqual(
+            $('table', rows(wrapper))
+                .map((_, el) => el.id)
+                .get(),
+            ['dictwidget_arr.0.entry', 'dictwidget_arr.1.entry'],
+        );
+        assert.deepEqual(
+            $('td.key input', rows(wrapper))
+                .map((_, el) => el.value)
+                .get(),
+            ['1', '0'],
+        );
+    });
+
+    QUnit.test('nested array id inside row of root array', (assert) => {
+        // the root array name is part of the ``array-`` id prefix
+        wrapper = create_array({
+            id: 'array-arr',
+            template: `
+                <div class="array array-add" id="array-arr-TEMPLATE-sub">
+                  <table><thead></thead><tbody></tbody></table>
+                </div>`,
+        });
+        new ArrayWidget(wrapper);
+        click($('> table > thead a.array_row_add', wrapper));
+        assert.strictEqual($('div.array', rows(wrapper)).attr('id'), 'array-arr-0-sub');
+    });
+
+    QUnit.test('name suffix after index is kept', (assert) => {
+        // markup of a checkbox as array entry
+        wrapper = create_array({
+            entries: 1,
+            widget: (index) => `
+                <input id="input-myform-myarray-${index}" name="myform.myarray.${index}"
+                       type="checkbox" />
+                <input id="checkboxexists-myform-myarray-${index}"
+                       name="myform.myarray.${index}-exists" type="hidden"
+                       value="checkboxexists" />`,
+        });
+        new ArrayWidget(wrapper);
+        click($('> table > thead a.array_row_add', wrapper));
+        const names = $('input', rows(wrapper))
+            .map((_, el) => el.name)
+            .get();
+        assert.deepEqual(names, [
+            'myform.myarray.0',
+            'myform.myarray.0-exists',
+            'myform.myarray.1',
+            'myform.myarray.1-exists',
+        ]);
+        assert.strictEqual(
+            $('input[type="hidden"]', rows(wrapper).last()).attr('id'),
+            'checkboxexists-myform-myarray-1',
         );
     });
 

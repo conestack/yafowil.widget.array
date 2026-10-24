@@ -4,6 +4,23 @@ Changes
 2.0.1 (unreleased)
 ------------------
 
+- Fix ids containing the dotted path of an array entry on adding, removing or
+  moving rows, e.g. the ``yafowil.widget.dict`` table id
+  ``dictwidget_myform.myarray.0.entry``. Such ids kept the template or old
+  index, or lost their ``.entry`` suffix.
+  [rnix]
+
+- Fix names with a suffix after the index losing the suffix on adding, removing
+  or moving rows, e.g. the ``myform.myarray.0-exists`` marker of checkbox and
+  select widgets inside arrays.
+  [rnix]
+
+- Fix the array path matching inside other names on adding, removing or moving
+  rows. E.g. the id ``array-arr-0-sub`` of an array inside the root array
+  ``arr`` became ``arra1-arr-0-sub``. The path now matches only at a name
+  delimiter and followed by an index.
+  [rnix]
+
 - Extend the JS tests to 100 % coverage, all modules including bundles are
   loaded by the tests now.
   [rnix]
