@@ -1,15 +1,11 @@
+from importlib import reload
 from node.utils import UNSET
 from odict import odict
 from yafowil.base import ExtractionError
 from yafowil.base import factory
-from yafowil.compat import IS_PY2
 from yafowil.tests import fxml
 from yafowil.tests import YafowilTestCase
 import os
-
-
-if not IS_PY2:
-    from importlib import reload
 
 
 def np(path):
@@ -413,12 +409,10 @@ class TestArrayWidget(YafowilTestCase):
 
         with self.assertRaises(ValueError) as arc:
             form()
-        msg = (
-            "Expected list or dict as value. Got '<type 'object'>'"
-            if IS_PY2
-            else "Expected list or dict as value. Got '<class 'object'>'"
+        self.assertEqual(
+            str(arc.exception),
+            "Expected list or dict as value. Got '<class 'object'>'"
         )
-        self.assertEqual(str(arc.exception), msg)
 
     def test_array_with_preset_values_disable_add_action(self):
         # Value as list. Disable ``add``

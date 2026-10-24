@@ -3,7 +3,6 @@ from yafowil.base import factory
 from yafowil.base import fetch_value
 from yafowil.common import generic_extractor
 from yafowil.common import generic_required_extractor
-from yafowil.compat import ITER_TYPES
 from yafowil.compound import compound_renderer
 from yafowil.utils import attr_value
 from yafowil.utils import css_managed_props
@@ -154,7 +153,7 @@ def create_array_children(widget, template, value):
         indices = sorted(indices)
         for i in indices:
             create_array_entry(str(i), widget, template, value[str(i)])
-    elif type(value) in ITER_TYPES:
+    elif type(value) in (list, tuple):
         indices = range(len(value))
         for i in indices:
             create_array_entry(str(i), widget, template, value[i])
